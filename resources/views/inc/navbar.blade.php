@@ -23,6 +23,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">KONTAKT</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/login">PRIHLÁSENIE</a>
+            </li>
         </ul>
     </div>
 </nav>
