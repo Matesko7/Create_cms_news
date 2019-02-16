@@ -1,0 +1,397 @@
+Dobry den,
+ 
+posielam ako sme sa dohodli, najprv ide zadanie projektu ako sme ho dostali
+a potom moja sumarizacia:
+ 
+POVODNE ZADANIE KLIENTA
+-----------------------
+V rámci riešenia treba myslieť a riešiť nasledovné:
+
+1. Používatelia - viac úrovni: admin, redaktor, návštevník
+    admin - môže robiť všetko
+    redaktor - môže meniť obsah, ale nemôže meniť nastavenia, ani pridávať /
+meniť používateľov
+    návštevník - prihlásený návštevník: môžeme mať na webe obsah dostupný po
+prihlásení. Návštevník nemôže na webe nič meniť
+
+2. Role obsahu
+    public - obsah dostupný každému
+    po prihlásení - obsah sa zobrazí až po prihlásení
+    redaktor - obsah sa zobrazí pre redaktora / admina
+
+3. Nastavenia
+    doména - resp. domény. Na jeden web môže smerovať viac domén. Jedna by
+mala byť hlavná, ale nemalo by vadiť, ak na stránku nasmerujeme rôzne
+domény.
+    keywords
+    copyright
+    email from/to - odkiaľ a kam sa budú odosielať emaily zo stránky v
+prípade, že sa budú (napríklad formulár)
+    nadpis - možnosť definovať aj premenné - napríklad [subpagename], čo
+umožní definovať title napríklad takto: www.nws.sk - [subpagename]
+    sociálne siete - nastavenia komunikácie SC. OG prvky, zdieľané prvky
+článkov, atd.
+    farby/obrázky/pozadia - nastavenia pre základné farby, pozadie, text,
+nadpisy, orámovania obrázkov, obrázky do pozadia, hlavičky, päty
+    ikonky, fonty - favicon, ikony nadpisov, piktogramy, fonty textov, fonty
+nadpisov
+    facebook, twitter atď. - nastavenia vlastných sociálnych sietí
+    google analytics
+    možnosť definovať dynamické skupiny parametrov v hlavičke a následne do
+nich definovať parametre (napríklad opengraph, twitter, atď.)
+    RSS - feeds
+
+4. možnosť definovať hlavičku - obsahové časti, menu, atď.
+
+5. možnosť definovať pätu stránky - rozdelenie na časti + obsah jednotlivých
+častí
+
+6. možnosť definovať nové stránky
+        ich poradie (presúvanie drag-and-drop) + priradenie k roli obsahu
+        SEO obsah stránky
+        typ zobrazenia
+            - full size - bez okrajov, stránka bude na plnú šírku
+prehliadača
+            - banner style - scrolovanie obsahu ako slider, články sú vedľa
+seba a dajú sa listovať zo strany na stranu
+            - články pod sebou - klasické zobrazenie
+            - záložky - články budú zobrazene akoby v záložkách, prepínanie
+na vrchu/spodku stránky
+            - rozdelenie na definovaný počet boxov vedľa seba/pod sebou -
+obsahujúce články
+
+7. Články - sú súčasťou niektorej stránky. Viaceré druhy + priradenie k roli
+obsahu. Jedna stránka môže mať na sebe viac článkov rôzneho druhu.
+        - článok - klasicky formátovaný text, WYSIWYG editor.
+        - zoznam odkazov - list externých aj interných liniek, usporiadané
+do "tabuľky"
+        - fotogaléria - zobrazenie obrázkov ako galérie. Možnosti nastavenia
+zobrazenia. Koľko krát koľko obrázkov zobraziť, ako sa obrázky otvárajú,
+listujú, či majú alebo nemajú popis.
+        - zoznam súborov - podobne ako zoznam odkazov, usporiadané
+prehľadné, zobrazenie veľkosti súboru, ikona podľa typu., možnosť nahrávania
+súborov.
+        - zoznam uzlov - uzol je zlučujúci bod článkov / stránok, čiže môžem
+vytvoriť stránku, ktorá obsahuje podstránky cez ktoré sa potrebujeme
+navigovať a nie sú v menu.
+        - kategórie článkov
+        - formulár - možnosť vytvoriť si vlastné formuláre
+    možnosť definovať pagination a po akom počte záznamov sa má listovať a
+či vôbec má byť
+    možnosť definovať dĺžku obsahu po ktorom sa pridá možnosť zobraziť viac
+    priradenie ku kategórii - manuálne definovaná, slúži hlavne na
+filtrovanie
+    SEO obsah článku
+
+8. Moduly
+    Hlasovanie - možnosť definovať otázky a počítať na ne hlas návštevníka.
+Modul sa musí dať ľubovolne vložiť do stránky. Ošetriť opakované hlasovanie.
+    newsletter - zbieranie emailov pre newsletter.
+    SocialPlugin - zobrazovanie rôznych typov pluginov sociálnych sietí.
+Napr. facebook taký ten like box v päte stránky.
+    Google maps - zobrazenie mapy v stránke s vyznačeným miestom napríklad
+sídla.
+    aktuality - názov, dátum aktívna / neaktívna, popis, odkaz na externý
+link, kategorizovanie aktualít - aktuality môžu byť v rôznych kategóriách
+    fotogaléria
+    presúvateľný box - do boxu je možné definovať článok. Box je umiestnený
+do stránky ako samostatná časť napr. vložením [box-ID] - vhodné na
+vytiahnutie špecifického obsahu na ľubovolné miesto
+
+9. Menu - definovateľné administrátorom
+
+10. Kostra / šablóna stránky - možnosť zadefinovať šablónu stránky a obsah
+do jednotlivých častí
+        viac rozdelení
+            (Hlavička, päta, pravá, ľavá časť, stred)
+            (Hlavička, päta, stred)
+            (Hlavička, päta, stred, ľavá časť)
+            atď.
+ 
+V prihlásenom režime (redaktor/admin) možnosť meniť obsah stránky priamo na
+stránke samotnej, nie len v administrácii.
+Do formulárov vždy vkladať overovací prvok [captcha] (ak nie je návštevník
+prihlásený).
+Všetky časti majú byť responzívne a nie definované na pixel. Využívať
+bootstrap, aby sa obsah prispôsoboval zobrazovacej ploche.
+Možnosť definovať mobilný obsah [definovať viditeľnosť články/stránky pre
+rôzne zobrazenia], [definovať poradie obsahu pre rôzne zobrazenia]
+Dbať na jednoduchosť a prehľadnosť nasadzovania grafického frontendu a
+správu obsahu.
+Myslieť na sledovanie / implementáciu sledovanie návštevnosti.
+Koncipovať celé riešenie tak aby sa čo najjednoduchšie a najrýchlejšie dala
+na predmetné CMS nasadiť nová / ďalšia webstránka.
+
+
+MOJA SUMARIZACIA + ODHADY
+-------------------------
+
+1. ZAKLAD "core" CMS
+
+- zakladne struktury portalu
+
+- integracia REDIS a DB
+
+- cache manazment (hlavna sablona, temaplte jednotlivych casti, stranky)
+
+ 
+
+odhad: 40 hodin
+
+ 
+
+2. MODUL POUZIVATELIA
+
+- DB model pre pouzivatela
+
+- prihlasenie/odhlasenie pouzivatela
+
+- zmena hesla (vyzadovane pravidla hesla)
+
+- registracia pouzivatela + vygenerovanie a poslanie potvrdzovacieho mailu,
+nasledne potvrdenie linky zaslanej v maily (platnost potvrdzovacieho tokenu)
+
+- ADMIN cast: manazment pouzivatelov (povolenie/zakazanie pouzivatela) +
+zmena pouzivatelskej role z "normalneho" prihlaseneho pouzivatela na
+"vyssiu" rolu (redaktor, administrator)
+
+- kazdy pouzivatel moze mat jednu rolu, "prihlaseny" -> "redaktor" ->
+"administrator" (pripadne dalsie)
+
+- profil pouzivatela - upravenie profilu + avatar (crop funkcia)
+
+- zobrazenie clankov daneho autora-pouzivatela (cez profil pouzivatela)
+
+ 
+
+odhad: 48 hodin
+
+ 
+
+3. MODUL NASTAVENIA CMS (ADMIN cast)
+
+- DB model pre ulozenie nastaveni (email, domena(y), klucove slova-keywords,
+copyright, e-mail, platnost prihlasovacieho tokenu (v min.), dalsie
+parametre
+
+- vsetky globalne nastavenia pre portal
+
+- definovanie hlavnej template portalu, do ktorej sa budu vkladat ostatne
+casti (pravy a lavy stlpec a ich jednotlive casti (box, reklama, formular,
+galeria, specialne casti - login form, atd), streda cast, header a footer a
+ich casti)
+
+ 
+
+odhad: 16 hodin
+
+ 
+
+4. MODUL DEFINOVANIA STRANOK
+
+- DB model pre stranky + parameter + obsah stranky (specialne znacky pre
+vlozenie konkretneho obsahu)
+
+- manazment stranok (ADMIN cast)
+
+ 
+
+odhad: 32 hodin
+
+ 
+
+5. MODUL PUBLIKOVANIA CLANKOV
+
+- DB model pre clanky
+
+- DB model pre tags (stitky), kazdy clanok moze mat viac stitkov
+
+- DB model pre kategorie - stromova struktura, hlavne kategorie nemaju
+parent-id, kazda podkategoria patri k jednej nad-radenej kategorii
+(parent-id)
+
+- hlavna stranka - posledny clanok (pripadne oznaceny clanok) zobrazenie vo
+"vacsom" formate
+
+- zobrazenie poslednych X (definovane) clankov + strankovanie
+
+- zobrazenie clankov podla kategorie
+
+- zobrazenie clankov podla stitkov (tags)
+
+- manazment clankov (ADMIN cast)
+
+- publikacny system - vytvorenie a upravenie clanku - nadpis, perex, hlavny
+obrazok, text clanku, viditelnost pre konkretnu rolu pouzivatela)
+
+- priradenie kategorii
+
+- priradenie stitkov
+
+- priradenie dokumentov (zobrazovane ako linky pod clankom)
+
+- priradenie liniek-uzlov (zobrazovane ako linky pod clankom)
+
+- vytvorenie foto-galerie (album) + vlozenie fotografii do galerie +
+priadenie galerii k clankom
+
+- SEO parametre clanku
+
+ 
+
+odhad: 105 hodin
+
+ 
+
+6. MODUL CAROUSEL
+
+- DB model
+
+- vytvaranie carousel-slider s obrazkami - moznost vlozit vytvoreny carousel
+na stranku (ADMIN cast)
+
+ 
+
+odhad: 14 hodin
+
+ 
+
+7. MODUL HLASOVANIA (prieskum)
+
+- DB model
+
+- manazment hlasovani (ADMIN cast) - vytvorenie/uprava otazok (1 az X
+moznosti, hlasuje sa kliknutim), definovanie pre koho je hlasovanie
+(neprihlaseny/prihlaseny), ochrana proti viac-nasobnemu hlasovaniu (cookies,
+db)
+
+- vlozenie na stranku
+
+ 
+
+odhad: 6 hodin
+
+ 
+
+8. MODUL NEWS LETTER
+
+- DB model
+
+- formular pre prihlasenie sa k odberu
+
+- linka pre odhlasenie sa (zaslana v kazdom e-maily)
+
+- manazment e-mailovych adries (ADMIN cast) - stav: prihlaseny, odhlaseny,
+datumy+cas
+
+- posielanie news-letter
+
+ 
+
+odhad: 10 hodin
+
+ 
+
+9. MODUL MENU (ADMIN cast)
+
+- DB pre menu
+
+- manazment menu + sub-menu, predpoklad 2-urovnove menu (po grafickej
+stranke), manazment vytvorit ako strom
+
+ 
+
+odhad: 22 hodin
+
+ 
+
+10. MODUL AKTUALITY (novinky, kratke clanky)  + strom kategorii aktualit
+
+- DB pre menu
+
+- manazment aktualit (novinky), kratky text, linka na pokracovanie temy
+(prelink na clanok atd.), zaradenie v kategorii
+
+- zobrazenie aktualit (noviniek) - ako cast nejakej stranky
+
+ 
+
+odhad: 10 hodin
+
+ 
+
+11. MODUL GALERIA
+
+- DB model
+
+- manazment - vytvorenie/publikovanie galerie (parametre galerie, nazov,
+rola pouzivatela), vlozenie obrazkov
+
+ 
+
+odhad: 22 hodin
+
+ 
+
+11. definovanie struktury portalu - stranky, max. 3 stlpcove zobrazenie
+
+- DB model pre ulozenie template pre jednotlive casti + cache
+
+ 
+
+odhad: 10 hodin
+
+ 
+
+12. MODUL FORMULAROV
+
+- DB model
+
+- vytvorenie a uprava jednoduchych formularov pre zber udajov (ADMIN cast)
+
+ 
+
+odhad: 14 hodin
+
+ 
+
+13. MODUL BLOGOV
+
+- DB model
+
+- kazdy clanok ma autora, ak by nepostacovalo, je mozne vytvarat blogove
+clanky - zobrazenie cez pouzivatela
+
+- rovnake moznosti ako pre MODUL CLANKY
+
+ 
+
+odhad: 8 hodin
+
+ 
+
+14. MODUL KOMENTAROV (ak by sa nepouzili FB komentare)
+
+- DB model
+
+- clanok : povolenie/zakazanie komentovania clanku
+
+- zobrazenie komentarov + vlozenie komentaru (moznost upravit komentar)
+
+- moznost ohlasit nevhodny komentar (vid. ADMIN cast)
+
+- manazment komentarov (ADMIN cast).
+
+ 
+
+odhad: 32 hodin
+
+ 
+
+. OSTATNE
+
+- preferovany obsah - box (clanok)
+
+- google maps
+
+- socialne siete

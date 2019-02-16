@@ -1,0 +1,229 @@
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,500,600,700,800");
+
+/* regular = 400, bold = 700, extra-bold = 800, semi-bold = 600, medium = 500, light = 300 */
+
+body {
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 400;
+  line-height: 1.5;
+  text-align: left;
+  background-color: #000; 
+}
+
+body {
+  padding-top: 123px;
+}
+
+.container {
+	background-color: #fff; 
+	padding-left: 0px;
+	padding-right: 0px;
+}
+
+input[type="text"], select.form-control, textarea.form-control {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #696868;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  border-radius: 0;
+}
+
+input[type="text"]:focus, select.form-control:focus, textarea.form-control:focus {
+  -webkit-box-shadow: none;
+  box-shadow: none;
+}
+
+.required:before{
+  content:"*";
+  font-weight:bold;
+}
+
+.btn {
+	border: 2px solid #0076ae;
+	color: #0076ae;
+}
+
+.navbar-km-consult .navbar-nav > li > a {
+	font-size: 18px;
+	font-style: normal; 
+	font-variant: normal; 
+	font-weight: 800;
+	color: #696868;
+}
+
+.navbar-km-consult .navbar-nav > li.active > a {
+	color: #0076ae;
+}
+
+.navbar-km-consult.affix .navbar-nav > li > a {
+	font-size: 12px; 
+	font-style: normal; 
+	font-variant: normal; 
+	font-weight: 800;
+}
+
+.navbar-nav > li {
+  float: left;
+  position: relative;
+}
+.navbar-km-consult .navbar-nav .active a::after {
+  border-bottom: 5px solid #0076ae;
+  bottom: -10px;
+  content: " ";
+  left: 0;
+  position: absolute;
+  right: 0;
+}
+
+.navbar-km-consult.affix .navbar-nav .active a::after {
+	bottom: 0px;
+}
+
+.navbar { 
+  -webkit-transition:padding 0.2s ease;
+  -moz-transition:padding 0.2s ease; 
+  -o-transition:padding 0.2s ease;        
+  transition:padding 0.2s ease;  
+}
+
+.navbar-light .navbar-nav > li > a {
+	
+}
+
+.affix {
+  padding-top: 0.2em !important;
+  padding-bottom: 0.2em !important;
+  -webkit-transition:padding 0.2s linear;
+  -moz-transition:padding 0.2s linear;  
+  -o-transition:padding 0.2s linear;         
+  transition:padding 0.2s linear;  
+}
+
+.jumbotron {
+  color: white;
+  background-image: url("../images/slider-img.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 0;
+  padding: 4rem 8rem;
+  margin-bottom: 0px;
+}
+
+.jumbotron div.header {
+	text-transform: uppercase;
+	font-size: 24px;
+	font-weight: 500;
+}
+
+.jumbotron div.title {
+	text-transform: uppercase;
+	font-size: 66px;
+	font-weight: 700;
+}
+
+.jumbotron2 {
+  color: white;
+  background-image: url("../images/co-hovoria-bg-slider.gif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 0;
+  padding: 4rem 8rem;
+}
+
+.jumbotron2 div.header {
+	font-size: 24px;
+	font-weight: 600;
+	text-transform: uppercase;
+}
+
+.jumbotron2 div.title {
+	font-size: 18px;
+	font-weight: 300;
+}
+
+.jumbotron2 div.sign {
+	font-size: 18px;
+}
+
+.jumbotron2 div.link {
+	font-size: 18px;
+}
+
+h1 {
+  border-bottom: 5px solid #0076ae;
+  font-size: 40px;
+  font-weight: 600;
+  color: #0076ae;
+  display: inline-block;
+  width: auto;
+  text-align: center;
+  margin: auto;
+  padding: 0 20px 5px;
+}
+
+.content {
+	padding-top: 50px;
+}
+
+.right {
+  z-index: 0;
+  color: #fff;
+}
+
+.right:before {
+  background-image: url("../images/img-right.png");
+  background-repeat: no-repeat;
+  content: '';
+  display: block;
+  position: absolute;
+  z-index: -1;
+  width: 100%;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+}
+
+.icons {
+	font-size: 60px;
+	color: #0076ae;
+}
+
+.footer {
+	text-align: center !important;
+	background-color: #0076ae;
+	padding: 20px;
+}
+
+.img__wrap {
+  position: relative;
+  width: 100%;
+}
+
+.img__description {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 118, 174, 0.72);
+  color: #fff;
+  visibility: hidden;
+  opacity: 0;
+
+  /* transition effect. not necessary */
+  transition: opacity .2s, visibility .2s;
+}
+
+.img__wrap:hover .img__description {
+  visibility: visible;
+  opacity: 1;
+}
+
+.vertical-center {
+  display: flex;
+  align-items: center;
+}

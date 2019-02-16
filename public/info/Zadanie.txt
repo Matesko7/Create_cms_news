@@ -1,0 +1,29 @@
+Dobry den,
+ 
+posielam v prilohe HTML+CSS sablonu a sumarizaciu:
+ 
+1. DB nazvy tabuliek + ostatne v anglickom jazyku, pouzitie male pismena
+2. kodovanie UTF-8
+3. pouzitie MySQL + apache + PHP 7.1 + najnovsi Laravel + najnovsie jQuery + bootstrap 4.x
+4. subory ukladat na disk nie do DB
+  predpokladany rozsah prvej verzie, vytvorenej do cca 10 dni:
+ 
+1. zakladne jadro CMS, pripojenie DB (zakladne casti z bodu 1. podrobneho popisu problemu)
+2. zakladne nastavenia CMS (zakladne casti z bodu 2. podrobneho popisu problemu)
+3. vytvorenie kategorii (strom) a stitkov (tags)
+4. vytvorenie clanku + publikovanie (admin-cast), zaradenie do kategorie, priradenie stitkov
+5. manazment pouzivatelov (?) - pouzivatel + rola
+6. verejna cast pristupna bez prihlasenia, admin-cast po prihlaseni (prihlasenie, odhlasenie pouzivatela)
+7. zobrazenie clankov - verejna cast (zakladne zobrazenie)
+ 
+predpokladany rozsah podla bodov hore:
+ 
+1. 10 hodin
+2. 8 hodin
+3. 8 hodin
+4. 25 hodin
+5. 12 hodin
+6. 4 hodiny
+7. 12 hodin
+ 
+spolu: 79 hodin
