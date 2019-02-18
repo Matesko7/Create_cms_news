@@ -1,5 +1,5 @@
 <nav class="container navbar fixed-top navbar-expand-lg navbar-km-consult bg-white" data-toggle="affix" style="padding: 0 125px 0 125px;">
-    <a class="navbar-brand" href="#">
+    <a class="navbar-brand" href="/">
         <img src="images/logo.png" alt="Logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
@@ -23,9 +23,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="#">KONTAKT</a>
             </li>
+            @if(Auth::check())
+            <li class="nav-item">
+                <a class="nav-link" href="/logout">ODHLÁSENIE</a>
+            </li>
+            @else
             <li class="nav-item">
                 <a class="nav-link" href="/login">PRIHLÁSENIE</a>
             </li>
+            @endif
         </ul>
     </div>
 </nav>

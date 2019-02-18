@@ -1,3 +1,4 @@
+<div class="form-group col-md-12 container text-center content">
 @if(count($errors)>0)
 @foreach($errors->all() as $error)
 <div class="alert alert-danger">
@@ -8,18 +9,19 @@
 
 @if(session('success'))
 <div class="alert alert-success">
-    {{session('success_reg')}}
+    {{session('success')}}
 </div>
 @endif
 
 @if(session('error'))
 <div class="alert alert-danger">
-    {{session('error_reg')}}
+    {{session('error')}}
 </div>
 @endif
 
 @if(session('warning'))
 <div class="alert alert-warning">
-    {{session('error_reg')}}
+    {{session('warning')}}
 </div>
 @endif
+</div>

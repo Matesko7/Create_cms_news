@@ -11,8 +11,14 @@
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/','Controller@index');
 
-Route::get('/login', 'loginController@index');
+// routes for login
+Route::get('/login', 'LoginController@index');
+Route::post('/login/checklogin', 'LoginController@checklogin');
+
+Route::group(['middleware' => 'is.Authorized'], function () {
+    //ADMIN-LOGIN
+    Route::get('/logout', 'LoginController@logout');
+    Route::get('/successlogin', 'Admin\AdminController@index');
+});

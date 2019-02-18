@@ -23,11 +23,6 @@
 
 <body>
     @include('inc.navbar')
-    <div class="container">
-        <div class="col-md-12 col-xs-12">
-            @include('inc.messages')
-        </div>
-    </div>
     @yield('content')
     @include('inc.footer')
 </body>
