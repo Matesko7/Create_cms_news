@@ -12,13 +12,19 @@
 */
 
 Route::get('/','Controller@index');
+Route::get('/home', 'HomeController@index')->name('home');
+Auth::routes();
 
-// routes for login
-Route::get('/login', 'LoginController@index');
-Route::post('/login/checklogin', 'LoginController@checklogin');
 
-Route::group(['middleware' => 'is.Authorized'], function () {
-    //ADMIN-LOGIN
-    Route::get('/logout', 'LoginController@logout');
-    Route::get('/successlogin', 'Admin\AdminController@index');
+Route::group(['middleware' => 'is.Authorized'], function () {  
+    //ADMIN
+    Route::group(['middleware' => 'is.Admin'], function () {
+        //Articles
+        Route::get('admin/editarticle/{id}', 'Admin\AdminController@edit');
+        Route::get('admin/deletearticle/{id}', 'Admin\AdminController@delete');
+    });        
+
 });
+
+
+

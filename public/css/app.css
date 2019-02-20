@@ -10495,6 +10495,31 @@ a.text-dark:focus {
   justify-content: center;
 }
 
+.bin,
+.pen {
+  color: black;
+}
+
+.message {
+  margin: auto;
+}
+
+.nav-link {
+  text-transform: uppercase;
+}
+
+.sub-nav {
+  text-transform: uppercase;
+  display: initial;
+  padding-right: 0.5rem;
+  padding-left: 0.5rem;
+}
+
+.sub-navAdmin {
+  text-align: right;
+  padding-right: 5% !important;
+}
+
 .navbar-laravel {
   background-color: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);

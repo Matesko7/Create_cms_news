@@ -10,7 +10,7 @@
 </div>
 
 <div class="container text-center content">
-    <h1>Články</h1>
+    <h1><a href="/successlogin" style="text-decoration:none;">Články</a></h1>
     <div style="margin: 30px 150px 0 150px;font-size:18px;font-weight: 400;color: #212121;">Externé vedenie
         jednoduchého a podvojného účtovníctva, mzdovej agendy, spracovanie daňových priznaní a závierok, finančného
         a účtovného poradenstva.</div>

@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Seeder;
 use App\User;
+use App\Role;
 
 class UsersTableSeeder extends Seeder
 {
@@ -12,25 +13,29 @@ class UsersTableSeeder extends Seeder
      */
     public function run()
     {
-        User::create([
-            'name' => 'admin',
-            'email' => 'admin@admin.sk',
-            'password' => Hash::make('*admin*'),
-            'remember_token' => str_random(10),
-        ]);
+        $role_visitor = Role::where('name', 'visitor')->first();
+        $role_editor  = Role::where('name', 'editor')->first();
+        $role_admin  = Role::where('name', 'admin')->first();
 
-        User::create([
-            'name' => 'redaktor',
-            'email' => 'redaktor@redaktor.sk',
-            'password' => Hash::make('*redaktor*'),
-            'remember_token' => str_random(10),
-        ]);
+        $admin = new User();
+        $admin->name = 'Matej';
+        $admin->email = 'admin@example.com';
+        $admin->password = Hash::make('*admin*');
+        $admin->save();
+        $admin->roles()->attach($role_admin);
 
-        User::create([
-            'name' => 'navstevnik',
-            'email' => 'navstevnik@redaktor.sk',
-            'password' => Hash::make('*navstevnik*'),
-            'remember_token' => str_random(10),
-        ]);
+        $editor = new User();
+        $editor->name = 'Lukáš';
+        $editor->email = 'editor@example.com';
+        $editor->password = Hash::make('*editor*');
+        $editor->save();
+        $editor->roles()->attach($role_editor);
+
+        $visitor = new User();
+        $visitor->name = 'Lukáš';
+        $visitor->email = 'visitor@example.com';
+        $visitor->password = Hash::make('*visitor*');
+        $visitor->save();
+        $visitor->roles()->attach($role_visitor);
     }
 }

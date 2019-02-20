@@ -3,7 +3,6 @@
 @section('content')
 <div class="container">
     <div class="row" style="margin: 0 250px 0 250px;">
-        @include('inc.messages')
         {{ Form::open(array('url' => '/login/checklogin','autocomplete' => 'off','style'=>"width:100%"))}}
         {{csrf_field()}}
         <div class="form-row">

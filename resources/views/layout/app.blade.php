@@ -22,7 +22,10 @@
 </head>
 
 <body>
-    @include('inc.navbar')
+    @include('inc.navbar') 
+    @if(Auth::check() && Auth::user()->hasAnyRole(['admin','editor']) )
+        @include('inc.adminNavbar')
+    @endif
     @yield('content')
     @include('inc.footer')
 </body>

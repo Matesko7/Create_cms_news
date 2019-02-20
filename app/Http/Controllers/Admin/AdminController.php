@@ -12,4 +12,14 @@ class AdminController extends Controller
         $articles= new Article;
         return view('Admin/admin', ['articles' => $articles->getAll()]);
     }
+
+    public function delete($id){
+        $articles= new Article;
+        $articles->deleteArticle($id);
+        return back()->with(['success' => 'Článok úspešne zmazaný','articles' => $articles->getAll()]);
+    }
+
+    public function edit($id){
+        return 123;
+    }
 }

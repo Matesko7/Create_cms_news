@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class IsAuthorized
+class isEditor
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,9 @@ class IsAuthorized
      */
     public function handle($request, Closure $next)
     {
-		if (isset(Auth::user()->email)) {
+		if (isset(Auth::user()->email) && Auth::user()->authorizeRoles('editor') ) {
             return $next($request);
         }
-        return redirect('/login'); // If user is not registered.
+        return redirect('/login'); // If user is not an editor.
     }
 }

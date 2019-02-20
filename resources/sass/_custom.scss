@@ -1,3 +1,27 @@
 .pagination {
 justify-content: center;
 }
+
+.bin, .pen{
+color: black;
+}
+
+.message{
+    margin: auto;
+}
+
+.nav-link{
+    text-transform: uppercase; 
+}
+
+.sub-nav{
+    text-transform: uppercase; 
+    display: initial;
+    padding-right: 0.5rem;
+    padding-left: 0.5rem; 
+}
+
+.sub-navAdmin{
+    text-align: right;
+    padding-right: 5% !important;
+}
