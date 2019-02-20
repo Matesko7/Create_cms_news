@@ -31,9 +31,9 @@ class HomeController extends Controller
         if(Auth::user()->hasRole('visitor'))
                 return view('index');
 
-        if(Auth::user()->hasRole('admin')){
+        if(Auth::user()->hasAnyRole(['editor','admin'])){
             $articles= new Article;
-            return view('Admin/admin', ['articles' => $articles->getAll()]);
+            return view('Admin/index', ['articles' => $articles->getAll()]);
         }
     }
 

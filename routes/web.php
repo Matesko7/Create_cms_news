@@ -15,13 +15,26 @@ Route::get('/','Controller@index');
 Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
-
-Route::group(['middleware' => 'is.Authorized'], function () {  
+Route::group(['middleware' => 'is.Authorized'], function () {      
+    
+    Route::get('/profile', 'Admin\AdminController@index')->name('userProfile');
+    //User change personal infomation
+    Route::post('/user/{id}', 'Admin\UsersController@editprofile');
+    
     //ADMIN
-    Route::group(['middleware' => 'is.Admin'], function () {
+    Route::middleware(['is.Admin'])->group(function () {
+        //Main route
+        Route::get('admin', 'Admin\AdminController@index');
+        
         //Articles
-        Route::get('admin/editarticle/{id}', 'Admin\AdminController@edit');
-        Route::get('admin/deletearticle/{id}', 'Admin\AdminController@delete');
+        Route::get('admin/articles', 'Admin\ArticlesController@index');
+        Route::get('admin/article/{id?}', 'Admin\ArticlesController@article');
+        Route::get('admin/deletearticle/{id}', 'Admin\ArticlesController@delete');
+
+        //Users
+        Route::get('admin/users', 'Admin\UsersController@index');
+        Route::get('admin/user/{id?}', 'Admin\UsersController@edit');
+        Route::get('admin/deleteuser/{id?}', 'Admin\UsersController@delete');
     });        
 
 });
