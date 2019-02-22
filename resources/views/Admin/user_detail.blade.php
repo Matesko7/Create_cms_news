@@ -6,7 +6,7 @@
         <h2>Editácia profilu</h2>
     </div>
     <hr>
-    <form class="form-horizontal" enctype="multipart/form-data" true method="POST" action="/user/{{Auth::user()->id}}">@csrf
+    <form class="form-horizontal" enctype="multipart/form-data" true method="POST" action="/user/{{$user[0]->id}}">@csrf
         <div style="padding:50px;" class="row">
             <!-- left column -->
             <div class="col-md-4">
@@ -40,10 +40,14 @@
                     <label class="col-lg-3 control-label">Rola:</label>
                     <div class="col-lg-8">
                         <div class="ui-select">
-                            <select id="user_time_zone" class="form-control">
-                                <option value="Hawaii">{{$user[0]->role}}</option>
-                                <option value="Hawaii" selected>matej</option>
-                                <option value="Hawaii">{{$user[0]->role}}</option>
+                            <select name="role" id="role" class="form-control">
+                                @foreach($roles as $role)
+                                @if($role->id==$user_role[0]->role_id)
+                                    <option value="{{$role->id}}" selected>{{$role->name}}</option>
+                                @else
+                                    <option value="{{$role->id}}">{{$role->name}}</option>
+                                @endif
+                                @endforeach
                             </select>
                         </div>
                     </div>

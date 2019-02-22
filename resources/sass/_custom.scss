@@ -30,3 +30,26 @@ color: black;
     max-height: 326px;
     max-width: 326px;
 }
+
+.new-article{
+    margin:10px 10px 10px 10px;
+}
+
+.title-article{
+    text-transform: uppercase; 
+    text-align:center;
+}
+
+.article{
+    text-align:center;
+}
+
+.input-tag-category{
+    width:auto;
+    text-align:center;
+    margin:10px 10px 10px 10px;
+}
+
+.hidden{
+    display: none;
+}

@@ -18,8 +18,10 @@ Auth::routes();
 Route::group(['middleware' => 'is.Authorized'], function () {      
     
     Route::get('/profile', 'Admin\AdminController@index')->name('userProfile');
+
     //User change personal infomation
-    Route::post('/user/{id}', 'Admin\UsersController@editprofile');
+    Route::post('/user/{id}', 'Admin\UsersController@editprofile')->where('id', '[0-9]+');
+
     
     //ADMIN
     Route::middleware(['is.Admin'])->group(function () {
@@ -28,13 +30,19 @@ Route::group(['middleware' => 'is.Authorized'], function () {
         
         //Articles
         Route::get('admin/articles', 'Admin\ArticlesController@index');
-        Route::get('admin/article/{id?}', 'Admin\ArticlesController@article');
-        Route::get('admin/deletearticle/{id}', 'Admin\ArticlesController@delete');
+        Route::get('admin/article/{id?}', 'Admin\ArticlesController@edit')->where('id', '[0-9]+');
+        Route::get('admin/deletearticle/{id}', 'Admin\ArticlesController@delete')->where('id', '[0-9]+');
+        //Article changes
+        Route::post('admin/article/{id?}', 'Admin\ArticlesController@save')->where('id', '[0-9]+');
+    
 
         //Users
         Route::get('admin/users', 'Admin\UsersController@index');
-        Route::get('admin/user/{id?}', 'Admin\UsersController@edit');
-        Route::get('admin/deleteuser/{id?}', 'Admin\UsersController@delete');
+        Route::get('admin/user/{id?}', 'Admin\UsersController@edit')->where('id', '[0-9]+');
+        Route::get('admin/deleteuser/{id?}', 'Admin\UsersController@delete')->where('id', '[0-9]+');
+
+        //Ajax new category
+        Route::get('/savecategory/{category}', 'Admin\CategoryController@new')->where('category', '[A-Za-z0-9]+');
     });        
 
 });

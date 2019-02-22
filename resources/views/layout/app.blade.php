@@ -23,7 +23,7 @@
 
 <body>
     @include('inc.navbar') 
-    @if(Auth::check() && Auth::user()->hasAnyRole(['admin','editor']) )
+    @if(Auth::check() && Auth::user()->hasAnyRole(['admin']) )
         @include('inc.adminNavbar')
     @endif
     @yield('content')

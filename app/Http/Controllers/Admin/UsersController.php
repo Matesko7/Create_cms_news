@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 Use App\User;
+Use App\Role;
 use Auth;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -15,7 +17,7 @@ class UsersController extends Controller
     }
 
     public function editprofile(Request $request,$id){
-        if(Auth::user()->id!=$id)
+        if(Auth::user()->id!=$id && !Auth::user()->hasRole('admin'))
             return abort(401, 'This action is unauthorized.');
         
         if (!filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
@@ -27,6 +29,7 @@ class UsersController extends Controller
             'email' => 'required',
         ]);
         
+        $user= new User;
         //ulozenie nahrateho suboru
         $file = $request->file('file');
 
@@ -35,22 +38,26 @@ class UsersController extends Controller
             $size= $_FILES['file']['size'];
             $file->move(base_path('public/users'),$id.'.'.$path_parts['extension']);
         }
-
-        $user= new User;
-        $user->updateNameEmail($request->name,$request->email);
         
+        if(Auth::user()->hasRole('admin'))
+            $user->updateNameEmail($request->name,$request->email,$id,$request->role);
+        else $user->updateNameEmail($request->name,$request->email);
+
         return back()->with('success','Profil aktualizovaný');
 
     }
 
     public function edit($id){
         $users= new User;
-        return view('Admin/user_detail', ['user' => $users->getAll($id)]);
+        $role= new Role;
+        $roles=Role::all();
+        $user_role=$role->getRoleByUserID($id);
+        return view('Admin/user_detail', ['user' => $users->getAll($id),'roles' => $roles,'user_role' => $user_role]);
     }
 
     public function delete($id){
-        $articles= new Article;
-        $articles->deleteArticle($id);
-        return back()->with(['success' => 'Článok úspešne zmazaný','articles' => $articles->getAll()]);
+        $user= new User;
+        $user->deleteUser($id);
+        return back()->with(['success' => 'Uživateľ úspešne zmazaný','users' => $user->getAll()]);
     }
 }

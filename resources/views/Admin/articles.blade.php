@@ -7,6 +7,7 @@
     </div>
     <div class="row" style="margin-left:0px; margin-right: 0px;">
         <div class="col-sm-12" style="padding: 20px 20px 0px 20px;">
+        <div class="new-article btn" >Pridať nový &nbsp<i class="fas fa-plus"></i></div>
             <div style="font-size: 18px; font-weight: 400;color: fff;">
                 <table class="table table-striped text-center">
                     <thead>
@@ -27,9 +28,17 @@
                             <td>{{$article->category_id}}</td>
                             <td>{{$article->tags}}</td>
                             <td>{{$article->created_at}}</td>
-                            <td><a style="margin-right:25%" href="/admin/editarticle/{{$article->id}}"><i title="upraviť"
-                                        class="fas fa-pencil-alt pen"></i></a>
-                                <a href="/admin/deletearticle/{{$article->id}}"><i title="vymazať" class="fas fa-trash bin"></i></a></td>
+                            <td>
+                                <a href="/admin/article/{{$article->id}}">
+                                    <i title="upraviť"
+                                        class="fas fa-pencil-alt pen">
+                                    </i>
+                                </a>&nbsp&nbsp&nbsp&nbsp
+                                <a href="/admin/deletearticle/{{$article->id}}">
+                                    <i title="vymazať" class="fas fa-trash bin">
+                                    </i>
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

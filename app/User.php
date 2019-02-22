@@ -79,14 +79,30 @@ class User extends Authenticatable
 
     public function getAll($id=null){
         if($id==null)
-            return DB::select("SELECT roles.name role,users.* FROM role_user LEFT JOIN roles ON role_user.role_id=roles.id LEFT JOIN users ON role_user.user_id=users.id");
+            return DB::select("SELECT roles.name role,users.* FROM users INNER JOIN role_user ON users.id=role_user.user_id INNER JOIN roles ON role_user.role_id=roles.id");
         else
-            return DB::select("SELECT roles.name role,users.* FROM role_user LEFT JOIN roles ON role_user.role_id=roles.id LEFT JOIN users ON role_user.user_id=users.id WHERE role_user.id=$id");
+            return DB::select("SELECT roles.id roleId,roles.name role,users.* FROM role_user LEFT JOIN roles ON role_user.role_id=roles.id LEFT JOIN users ON role_user.user_id=users.id WHERE role_user.user_id=?",[$id]);
     }
 
-    public function updateNameEmail($name,$email){
-    $id=Auth::user()->id;
-    DB::update("UPDATE users SET name = :name,email= :email WHERE id=$id",['name'=>$name,'email' => $email]);
+    public function updateNameEmail($name,$email,$id=null,$role=null){
+        if($id==null){
+            //uzivatel meni svoje udaje
+            $id=Auth::user()->id;        
+        }
+        else{
+            //admin meni udaje pouzivatelom
+            DB::update("UPDATE role_user SET role_id= :role WHERE user_id=:id",['role'=>$role,'id' => $id]);
+        }
+        DB::update("UPDATE users SET name = :name,email= :email WHERE id=:id",['name'=>$name,'email' => $email,'id' => $id]);
+
+    }
+
+    public function deleteUser($id){
+        Auth::user()->authorizeRoles('admin');
+        if (file_exists("users/$id.jpg"))
+        unlink("users/$id.jpg");
+        DB::delete("DELETE FROM users WHERE id=?",[$id]);
+        DB::delete("DELETE FROM role_user WHERE user_id=?",[$id]);
     }
 
 }

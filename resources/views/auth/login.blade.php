@@ -4,8 +4,8 @@
 <div class="container">
     @guest
     <div class="text-center">
-    <a class="sub-nav" href="{{ route('login') }}">{{ __('Login') }}</a>
-    <a class="sub-nav" href="{{ route('register') }}">{{ __('Register') }}</a>
+    <a class="sub-nav" href="{{ route('login') }}">{{ __('Prihlásenie') }}</a>
+    <a class="sub-nav" href="{{ route('register') }}">{{ __('Registrácia') }}</a>
     </div>
     @endguest
     <div class="row justify-content-center">
@@ -46,7 +46,7 @@
 
                     <div class="form-group row mb-0">
                         <div class="col text-center">
-                            <input type="submit" name="Odoslať" class="btn">
+                            <input type="submit" value="Prihlásiť" name="Odoslať" class="btn">
                         </div>
                     </div>
                 </form>

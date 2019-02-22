@@ -12,8 +12,21 @@ class Article extends Model
     }
 
     public function getArticle($id){
-        if($this::where('id',$id)->first())
-            return $article = $this::where('id',$id)->get();
+        return $article = $this::where('id',$id)->get();
+    }
+
+    public function getCategoryByArticleId($id){
+        return DB::select("SELECT category_id FROM articles LEFT JOIN categories ON articles.category_id=categories.id WHERE articles.id=:id",['id' => $id]);
+    }
+
+    public function update($title,$perex,$plot,$id=null){
+        if($id==null){
+            //novy clanok
+        }
+        else{
+            //update clanku
+            
+        }
     }
 
     public function deleteArticle($id){

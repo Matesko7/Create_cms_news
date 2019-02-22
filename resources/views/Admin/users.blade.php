@@ -23,9 +23,15 @@
                             <th scope="row">{{$user->name}}</th>
                             <td>{{$user->email}}</td>
                             <td>{{$user->role}}</td>
-                            <td><a style="margin-right:25%" href="/admin/user/{{$user->id}}"><i title="upraviť"
-                                        class="fas fa-pencil-alt pen"></i></a>
-                                <a href="/admin/deleteuser/{{$user->id}}"><i title="vymazať" class="fas fa-trash bin"></i></a></td>
+                            <td>
+                                <a href="/admin/user/{{$user->id}}">
+                                    <i title="upraviť"
+                                    class="fas fa-pencil-alt pen"></i>
+                                </a>&nbsp&nbsp&nbsp&nbsp
+                                <a href="/admin/deleteuser/{{$user->id}}">
+                                    <i title="vymazať" class="fas fa-trash bin"></i>
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
