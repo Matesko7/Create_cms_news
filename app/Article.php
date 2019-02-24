@@ -19,14 +19,13 @@ class Article extends Model
         return DB::select("SELECT category_id FROM articles LEFT JOIN categories ON articles.category_id=categories.id WHERE articles.id=:id",['id' => $id]);
     }
 
-    public function update($title,$perex,$plot,$id=null){
-        if($id==null){
+    public function updateArticle($title,$perex,$plot,$id=null){
+        //if($id==null){
             //novy clanok
-        }
-        else{
-            //update clanku
-            
-        }
+        //}
+        //else{
+            //update clanku  
+        //}
     }
 
     public function deleteArticle($id){

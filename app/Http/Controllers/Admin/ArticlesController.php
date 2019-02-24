@@ -28,12 +28,13 @@ class ArticlesController extends Controller
 
     public function save(Request $request,$id=null){
         $article= new Article;
+        return "Touto cestou sa ulozi clanok pri dalsej verzii";
         if($id==null){
             //novy clanok
 
         }
         else{
-            $article->update($request->title,$request->perex,$request->plot,$id);
+            $article->updateArticle($request->title,$request->perex,$request->plot,$id);
             //zistenie tagov
             /*for ($i = 1; $i <= 10; $i++) {
                 echo($request->tag1);

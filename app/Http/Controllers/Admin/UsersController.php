@@ -39,7 +39,7 @@ class UsersController extends Controller
             $file->move(base_path('public/users'),$id.'.'.$path_parts['extension']);
         }
         
-        if(Auth::user()->hasRole('admin'))
+        if(Auth::user()->hasRole('admin') && Auth::user()->id!=$id)
             $user->updateNameEmail($request->name,$request->email,$id,$request->role);
         else $user->updateNameEmail($request->name,$request->email);
 
