@@ -6,46 +6,60 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Article;
 use App\Category;
+use App\User;
 use Illuminate\Support\Facades\DB;
+use Auth;
 
 class ArticlesController extends Controller
 {
     public function index(){
         $articles= new Article;
-        return view('Admin/articles', ['articles' => $articles->getAll()]);
+        return view('Admin/Articles/articles', ['articles' => $articles->getAllwAuthorandGroup()]);
     }
 
-    public function edit($id){
+    public function edit($id=null){
         $article= new Article;
         $category= new Category;
-        //return $article->getArticle($id);
         $categories= Category::all();
-        $article_category=$article->getCategoryByArticleId($id);
-        if(!$article_category)
-            $article_category=1; //nezaradene
-        return view('Admin/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category]);
+        if($id!=null){
+            $article_category=$article->getCategoryByArticleId($id);
+            if(!$article_category)
+                $article_category=1; //nezaradene
+            $articles=$article->getArticle($id);
+            $tags= explode("|",$articles[0]->tags);
+            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags]);
+        }
+        else{
+            return view('Admin/Articles/article_new',['categories' => $categories]);
+        }
     }
 
     public function save(Request $request,$id=null){
-        $article= new Article;
-        return "Touto cestou sa ulozi clanok pri dalsej verzii";
-        if($id==null){
-            //novy clanok
+        $this->validate($request, [
+            'title' => 'required',
+            'perex' => 'required',
+            'plot' => 'required',
+        ]);
 
+        $tmp_tags="";
+        if(!empty($request->tags)){
+            foreach($request->tags as $key=>$tag){
+                if($key==0)
+                    $tmp_tags=$tag;
+                else 
+                    $tmp_tags=$tmp_tags."|".$tag;
+            };
+        }
+        if(empty($request->category))
+            $request->category=array(1);
+        $article= new Article;
+        if($id==null){
+            $article->updateArticle($request->title,$request->perex,$request->plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,Auth::user()->id);
+            return back()->with('success','Článok pridaný');
         }
         else{
-            $article->updateArticle($request->title,$request->perex,$request->plot,$id);
-            //zistenie tagov
-            /*for ($i = 1; $i <= 10; $i++) {
-                echo($request->tag1);
-            }*/
-            //$request->title
-            //$request->perex
-            //$request->plot
-
-            //ulozenie editacie
-
-
+            $article->updateArticle($request->title,$request->perex,$request->plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$id);
+            return back()->with('success','Článok aktualizovaný');
         }
     }
 

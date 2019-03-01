@@ -11,16 +11,23 @@
 |
 */
 
-Route::get('/','Controller@index');
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/','Controller@index')->name('index');
+Route::get('/sluzby', 'Controller@sluzby')->name('sluzby');
+Route::get('home', 'HomeController@index')->name('home');
 Auth::routes();
+
+
+
+//FORMULAR
+Route::post('/feedback', 'FeedbackController@send');
+
 
 Route::group(['middleware' => 'is.Authorized'], function () {      
     
-    Route::get('/profile', 'Admin\AdminController@index')->name('userProfile');
+    Route::get('profile', 'Admin\AdminController@index')->name('userProfile');
 
     //User change personal infomation
-    Route::post('/user/{id}', 'Admin\UsersController@editprofile')->where('id', '[0-9]+');
+    Route::post('user/{id}', 'Admin\UsersController@editprofile')->where('id', '[0-9]+');
 
     
     //ADMIN
@@ -42,7 +49,7 @@ Route::group(['middleware' => 'is.Authorized'], function () {
         Route::get('admin/deleteuser/{id?}', 'Admin\UsersController@delete')->where('id', '[0-9]+');
 
         //Ajax new category
-        Route::get('/savecategory/{category}', 'Admin\CategoryController@new')->where('category', '[A-Za-z0-9]+');
+        Route::get('savecategory/{category}', 'Admin\CategoryController@new')->where('category', '[A-Za-z0-9]+');
     });        
 
 });

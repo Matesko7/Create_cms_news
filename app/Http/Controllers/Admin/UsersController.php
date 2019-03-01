@@ -13,7 +13,7 @@ class UsersController extends Controller
 {
     public function index(){
         $users= new User;
-        return view('Admin/users', ['users' => $users->getAll()]);
+        return view('Admin/Users/users', ['users' => $users->getAll()]);
     }
 
     public function editprofile(Request $request,$id){
@@ -52,7 +52,7 @@ class UsersController extends Controller
         $role= new Role;
         $roles=Role::all();
         $user_role=$role->getRoleByUserID($id);
-        return view('Admin/user_detail', ['user' => $users->getAll($id),'roles' => $roles,'user_role' => $user_role]);
+        return view('Admin//Users/user_detail', ['user' => $users->getAll($id),'roles' => $roles,'user_role' => $user_role]);
     }
 
     public function delete($id){

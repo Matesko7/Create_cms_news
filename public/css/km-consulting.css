@@ -2,6 +2,10 @@
 
 /* regular = 400, bold = 700, extra-bold = 800, semi-bold = 600, medium = 500, light = 300 */
 
+html {
+	scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   font-family: "Raleway", sans-serif;
@@ -12,7 +16,7 @@ body {
 }
 
 body {
-  padding-top: 123px;
+  padding-top: 145px;
 }
 
 .container {
@@ -176,6 +180,7 @@ h1 {
 
 .right:before {
   background-image: url("../images/img-right.png");
+  background-color: #0076ae;
   background-repeat: no-repeat;
   content: '';
   display: block;
@@ -226,4 +231,16 @@ h1 {
 .vertical-center {
   display: flex;
   align-items: center;
+}
+
+.text-xs-center {
+        text-align: center;
+}
+
+.g-recaptcha {
+    display: inline-block;
+}
+
+.fixed-top-2 {
+    margin-top: 30px;
 }

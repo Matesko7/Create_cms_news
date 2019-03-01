@@ -1,6 +1,10 @@
 @extends('layout.app')
 
 @section('content')
+
+<head>
+    {!! $map['js'] !!}
+</head>
 <div class="container">
     <div class="jumbotron">
         <div class="header">KM consult s.r.o.</div>
@@ -9,25 +13,21 @@
     </div>
 </div>
 
-<div class="container text-center content">
-    <h1><a href="/successlogin" style="text-decoration:none;">Články</a></h1>
+<div id="onas" class="container text-center content">
     <div style="margin: 30px 150px 0 150px;font-size:18px;font-weight: 400;color: #212121;">Externé vedenie
         jednoduchého a podvojného účtovníctva, mzdovej agendy, spracovanie daňových priznaní a závierok, finančného
-        a účtovného poradenstva.</div>
+        a účtovného poradenstva. Transparentné ceny. S nami sa nemusíte obávať žiadnych skrytých poplatkov. Flexibilita
+        v doručovaní dokladov. V rámci Bratislavy a okolia ponúkame možnosť vyzdvihnutia dokladov priamo u Vás.</div>
 </div>
 
 <div class="container content">
     <div class="row" style="margin-left:0px; margin-right: 0px;">
-        <div class="col-sm-6" style="background-color: #0076ae; padding: 20px 0 0 20px;">
-            <h2 style="font-size: 24px; font-weight: 500;color: fff;">KM CONSULT S.R.O.</h2>
+        <div class="col-sm-6" style="background-color: #0076ae; padding: 10px 10px 0 10px;">
             <div style="font-size: 18px; font-weight: 400;color: fff;">
                 <p>Každému jednotlivému klientovi venujeme individuálnu pozornosť a osobný prístup. V závislosti od
                     Vašich špecifických potrieb Vám ponúkneme riešenia šité na mieru.</p>
-                <p>Transparentné ceny. S nami sa nemusíte obávať žiadnych skrytých poplatkov.</p>
                 <p>Našim klientom poskytujeme poradenstvo bezplatne. Odbremeníme Vás od nutnosti orientovania sa
                     v aktuálnych zákonoch a komunikácie s úradmi.</p>
-                <p>Flexibilita v doručovaní dokladov. V rámci Bratislavy a okolia ponúkame možnosť vyzdvihnutia
-                    dokladov priamo u Vás.</p>
                 <p>S nami nestratíte prehľad o aktuálnom stave vášho účtovníctva. Doklady spracúvame priebežne.
                     Urobíme v dokladoch poriadok. Od nás sa k Vám doklady vrátia prehľadne zotriedené.
                     Myslíme na budúcnosť. Je pre nás dôležité udržať si Vašu dôveru a spokojnosť.</p>
@@ -50,7 +50,7 @@
                 <i class="fas fa-chart-bar icons"></i>
             </div>
             <div style="padding-top:10px;font-size: 18px; font-weight: 400;color:#696868">
-                Účtovníctvo a dane
+                <a href="sluzby#ucto">Účtovníctvo a dane</a>
             </div>
             <div style="padding-top:10px;font-size: 16px; font-weight: 400;color:#949494">
                 Kontrola správnosti účtovných dokladov, spracovanie a zaúčtovanie dokladov podľa postupov účtovania
@@ -61,7 +61,7 @@
                 <i class="fas fa-users icons"></i>
             </div>
             <div style="padding-top:10px;font-size: 18px; font-weight: 400;color:#696868">
-                Mzdy a personalistika
+                <a href="sluzby#mzdy">Mzdy a personalistika</a>
             </div>
             <div style="padding-top:10px;font-size: 16px; font-weight: 400;color:#949494">
                 Registrácia zamestnávateľa, vedenie evidencie zamestnancov, mesačné spracovanie miezd
@@ -72,66 +72,10 @@
                 <i class="fas fa-euro-sign icons"></i>
             </div>
             <div style="padding-top:10px;font-size: 18px; font-weight: 400;color:#696868">
-                Cenník
+                <a href="sluzby#cennik">Cenník</a>
             </div>
             <div style="padding-top:10px;font-size: 16px; font-weight: 400;color:#949494">
                 Môžete si vybrať medzi cenou za položku alebo paušálnou cenou.
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="container text-center content">
-    <h1>NÁŠ TÍM</h1>
-</div>
-
-<div class="container text-center content">
-    <div style="margin: 30px 150px 0 150px;font-size:18px;font-weight:400;color: #212121;">Lorem ipsum dolor sit amet,
-        consectetur adipiscing elit. Proin dapibus volutpat justo, vel lacinia massa consequat bibendum.</div>
-</div>
-
-<div class="container content">
-    <div class="row" style="margin: 0 150px 0 150px;">
-        <div class="col-4 text-center">
-            <div class="img__wrap">
-                <div class="img__img"><img src="images/11011952_10205226004631500_7047186447326985695_n.jpg" width="100%" /></div>
-                <div class="img__description text-center vertical-center" style="height: 100%;">
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x"></i></span>
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-facebook-f fa-stack-1x"></i></span>
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-linkedin-in fa-stack-1x"></i></span>
-                </div>
-            </div>
-            <div style="border: 2px solid #0076ae; margin-top:10px;">
-                <div style="font-size: 24px; font-weight: 400;color: #000000;">MENO a PRIEZVISKO</div>
-                <div style="color: #000000">FUNKCIA POZÍCIA</div>
-            </div>
-        </div>
-        <div class="col-4 text-center">
-            <div class="img__wrap">
-                <div class="img__img"><img src="images/11011952_10205226004631500_7047186447326985695_n.jpg" width="100%" /></div>
-                <div class="img__description text-center vertical-center" style="height: 100%;">
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x"></i></span>
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-facebook-f fa-stack-1x"></i></span>
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-linkedin-in fa-stack-1x"></i></span>
-                </div>
-            </div>
-            <div style="border: 2px solid #0076ae; margin-top:10px;">
-                <div style="font-size: 24px; font-weight: 400;color: #000000;">MENO a PRIEZVISKO</div>
-                <div style="color: #000000">FUNKCIA POZÍCIA</div>
-            </div>
-        </div>
-        <div class="col-4 text-center">
-            <div class="img__wrap">
-                <div class="img__img"><img src="images/11011952_10205226004631500_7047186447326985695_n.jpg" width="100%" /></div>
-                <div class="img__description text-center vertical-center" style="height: 100%;">
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-twitter fa-stack-1x"></i></span>
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-facebook-f fa-stack-1x"></i></span>
-                    <span class="fa-stack fa-lg"><i class="far fa-circle fa-stack-2x"></i><i class="fab fa-linkedin-in fa-stack-1x"></i></span>
-                </div>
-            </div>
-            <div style="border: 2px solid #0076ae; margin-top:10px;">
-                <div style="font-size: 24px; font-weight: 400;color: #000000;">MENO a PRIEZVISKO</div>
-                <div style="color: #000000">FUNKCIA POZÍCIA</div>
             </div>
         </div>
     </div>
@@ -141,52 +85,65 @@
     <div class="jumbotron2">
         <div class="header text-center">ČO HOVORIA NAŠI KLIENTI</div>
         <div class="title text-center">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin dapibus volutpat justo, vel lacinia massa
-                consequat bibendum.</p>
-            <p>Etiam facilisis tincidunt metus id tempor. Nulla facilisi. Etiam vestibulum ornare neque a congue. Nulla
-                facilisi. Donec sapien elit, eleifend non ultricies blandit, hendrerit ac ex. Aenean pharetra
-                consectetur erat, eu ullamcorper quam fringilla tempus. Mauris sit amet porta nibh. Proin commodo
-                eleifend leo non convallis. Donec mattis justo a gravida elementum. Aenean imperdiet at augue vehicula
-                mollis.</p>
+            <p>Vynikajúca úroveň služieb za korektnú cenu.</p>
+            <p>Oceňujem flexibilné riešenia problémov, profesionálny a ľudský prístup, rýchle spracovanie dokladov.</p>
+            <p>Služby spoločnosti KM consult nám maximálne vyhovujú a so spoločnosťou budeme spolupracovať aj naďalej.</p>
+            <p>Celková spokojnosť. Vyzdvihujem prístup a dodržiavanie vopred dohodnutých termínov.</p>
         </div>
-        <div class="sign text-center" style="font-size: 18px; font-weight: 400;">Kamil Spokojný</div>
-        <div class="link text-center" style="font-size: 18px; font-weight: 300;"><a href="#">www.spokojnost.sk</a></div>
     </div>
 </div>
 
-
-<div class="container text-center content">
+<div id="kontakt" class="container text-center content">
     <h1>KONTAKT</h1>
 </div>
 
 <div class="container">
     <div class="row" style="margin: 0 250px 0 250px;">
-        <form style="width:100%;">
+        <form action="{{asset('feedback')}}" method="post" style="width:100%">
+            {{ csrf_field() }}
             <div class="form-row">
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" name="name" required>
+                    <input v-model="form.name" class="form-control" :class="{ 'is-invalid': hasError('name') }" id="name"
+                        type="text" name="name" required>
+                    <div v-if="hasError('name')" class="invalid-feedback">@{{ getError('name') }}</div>
                     <label for="name">Name *</label>
                 </div>
+
                 <div class="form-group col-md-6">
-                    <input type="text" class="form-control" name="e-mail" required>
-                    <label for="e-mail">E-mail *</label>
+                    <input v-model="form.email" class="form-control" :class="{ 'is-invalid': hasError('email') }" id="email"
+                        type="text" name="email" required>
+                    <div v-if="hasError('email')" class="invalid-feedback">@{{ getError('email') }}</div>
+                    <label for="email">Email*</label>
                 </div>
+
                 <div class="form-group col-md-12">
-                    <textarea class="form-control" id="message" rows="3"></textarea>
+                    <textarea v-model="form.message" name="message" id="message" class="form-control" :class="{ 'is-invalid': hasError('message') }"></textarea>
+                    <div v-if="hasError('message')" class="invalid-feedback">@{{ getError('message') }}</div>
                     <label for="message">Správa...</label>
                 </div>
             </div>
+
             <div class="form-row" style="text-align: center;">
                 <div class="col text-center">
-                    <input type="submit" name="Odoslať" class="btn">
+                    <div>
+                        <div style="width:50%;margin: 0 auto;" class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY')  }}">
+                        </div>
+                    </div>
+                    <input type="submit" value="Odoslať" name="Odoslať" class="btn">
                 </div>
             </div>
         </form>
     </div>
 </div>
-
-
 <div class="container text-center content">
-    <img src="images/mapa.png" width="100%" />
+    {!! $map['html'] !!}
 </div>
+
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+<script>
+    setTimeout(function () {
+        google.maps.event.trigger(markers_map[0], 'click');
+    }, 2000);
+
+</script>
 @endsection

@@ -29,11 +29,11 @@ class HomeController extends Controller
         Auth::user()->authorizeRoles(['visitor', 'editor','admin']);
 
         if(Auth::user()->hasRole('visitor'))
-                return view('index');
+                return redirect('/');
 
         if(Auth::user()->hasAnyRole(['editor','admin'])){
             $articles= new Article;
-            return view('Admin/index', ['articles' => $articles->getAll()]);
+            return view('Admin/Users/index', ['articles' => $articles->getAll()]);
         }
     }
 

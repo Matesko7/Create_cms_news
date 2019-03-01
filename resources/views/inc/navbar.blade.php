@@ -1,27 +1,24 @@
-<nav class="container navbar fixed-top navbar-expand-lg navbar-km-consult bg-white" data-toggle="affix" style="padding: 0 125px 0 125px;">
-    <a class="navbar-brand" href="/">
-        <img src="/images/logo.png" alt="Logo">
+<nav class="container navbar navbar-main fixed-top navbar-expand-lg navbar-km-consult bg-white fixed-top-2" data-toggle="affix" style="padding: 0 125px 0 125px;">
+    <a class="navbar-brand" href="{{asset('/')}}">
+        <img src="{{asset('images/logo.png')}}" alt="Logo">
     </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
         aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">úvod<span class="sr-only">(current)</span></a>
+        <ul id="navigation" class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a id="uvod" class="nav-link" href="{{route('index')}}">úvod</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">o nás</a>
+                <a class="nav-link" href="{{asset('/#onas') }}">o nás</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">služby</a>
+                <a class="nav-link" href="{{asset('/sluzby#sluzby')}}">služby</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">team</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">kontakt</a>
+                <a class="nav-link" href="{{asset('/#kontakt') }}">kontakt</a>
             </li>
             @if(Auth::check())
             <li class="nav-item dropdown">
@@ -45,11 +42,16 @@
             </li>
             @else
             <li class="nav-item">
-                <a class="nav-link" href="/login">PRIHLÁSENIE</a>
+                <a class="nav-link" href="{{asset('login')}}">PRIHLÁSENIE</a>
             </li>
             @endif
         </ul>
     </div>
+</nav>
+<nav class="container navbar fixed-top navbar-light">
+<div class="row" style="width:100%;margin-left:0px;border-bottom: 1px solid #696868;">
+<div class="col-12"><p style="margin:0;font-size: 12px; font-weight: 400;color:#949494" class="float-right">Informácie na telefónnom čísle: <b>+421 915 232 394</b></p></div>
+</div>
 </nav>
 <div class="container text-center">
     @include('inc.messages');
@@ -58,12 +60,24 @@
     $(window).scroll(function () {
         /* affix after scrolling 100px */
         if ($(document).scrollTop() > 100) {
-            $('.navbar').addClass('affix');
-            $('.navbar-brand img').attr('src', '/images/logo-scroll.png'); //change src
+            $('.navbar-main').addClass('affix');
+            $('.navbar-brand img').attr('src', "{{asset('images/logo-scroll.png')}}"); //change src
         } else {
-            $('.navbar').removeClass('affix');
-            $('.navbar-brand img').attr('src', '/images/logo.png'); //change src
+            $('.navbar-main').removeClass('affix');
+            $('.navbar-brand img').attr('src', "{{asset('images/logo.png')}}"); //change src
         }
     });
 
+    $(function(){
+        $('a').each(function(){
+            if ($(this).prop('href') == window.location.href) {
+                $(this).addClass('active'); 
+                $(this).parents('li').addClass('active');
+            }
+			if (window.location.href=="http://ipolak.nws.company/nws_paralaxcms/public/") {
+                $('#uvod').addClass('active'); 
+                $('#uvod').parents('li').addClass('active');
+            }
+        });
+    });
 </script>

@@ -4,8 +4,8 @@
 <div class="container">
     @guest
     <div class="text-center">
-    <a class="sub-nav" href="{{ route('login') }}">{{ __('Prihlásenie') }}</a>
-    <a class="sub-nav" href="{{ route('register') }}">{{ __('Registrácia') }}</a>
+        <a class="sub-nav" href="{{ route('login') }}">{{ __('Prihlásenie') }}</a>
+        <a class="sub-nav" href="{{ route('register') }}">{{ __('Registrácia') }}</a>
     </div>
     @endguest
     <div class="row justify-content-center">
@@ -18,7 +18,8 @@
                         <label for="email" class="col-md-4 col-form-label text-md-right">{{ __('E-Mail') }}</label>
 
                         <div class="col-md-6">
-                            <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
+                            <input id="email" type="email"
+                             class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}"
                                 name="email" value="{{ old('email') }}" required autofocus>
 
                             @if ($errors->has('email'))
@@ -45,9 +46,15 @@
                     </div>
 
                     <div class="form-group row mb-0">
-                        <div class="col text-center">
+                            <div class="col-md-8 offset-md-4 text-center">
                             <input type="submit" value="Prihlásiť" name="Odoslať" class="btn">
-                        </div>
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn-link" href="{{ route('password.request') }}">
+                                        {{ __('Zobudli ste heslo?') }}
+                                    </a>
+                                @endif
+                            </div>
                     </div>
                 </form>
             </div>

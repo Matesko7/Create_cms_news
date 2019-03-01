@@ -24,11 +24,11 @@
                             <td>{{$user->email}}</td>
                             <td>{{$user->role}}</td>
                             <td>
-                                <a href="/admin/user/{{$user->id}}">
+                                <a href="{{asset("admin/user/$user->id")}}">
                                     <i title="upraviť"
                                     class="fas fa-pencil-alt pen"></i>
                                 </a>&nbsp&nbsp&nbsp&nbsp
-                                <a href="/admin/deleteuser/{{$user->id}}">
+                                <a href="{{asset("admin/deleteuser/$user->id")}}">
                                     <i title="vymazať" class="fas fa-trash bin"></i>
                                 </a>
                             </td>

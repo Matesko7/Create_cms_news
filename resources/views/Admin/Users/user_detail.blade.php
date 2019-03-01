@@ -6,15 +6,15 @@
         <h2>Editácia profilu</h2>
     </div>
     <hr>
-    <form class="form-horizontal" enctype="multipart/form-data" true method="POST" action="/user/{{$user[0]->id}}">@csrf
+    <form class="form-horizontal" enctype="multipart/form-data" true method="POST" action="{{asset("user/".$user[0]->id)}}" >@csrf
         <div style="padding:50px;" class="row">
             <!-- left column -->
             <div class="col-md-4">
                 <div class="text-center">
                     <?php if(file_exists("users/".$user[0]->id.".jpg")){?>
-                    <img src="/users/{{$user[0]->id}}.jpg" class="avatar img-circle" alt="avatar">
+                    <img src="{{asset("users/".$user[0]->id.".jpg")}}" class="avatar img-circle" alt="avatar">
                     <?php }else{ ?>
-                    <img src="/users/Unknown_Person.png" class="avatar img-circle" alt="avatar">
+                    <img src="{{asset("users/Unknown_Person.png")}}" class="avatar img-circle" alt="avatar">
                     <?php } ?>
                     <br><br>
                     <input name="file" id="file" type="file" accept="image/x-png,image/jpeg" />
