@@ -11,6 +11,12 @@ use Auth;
 class AdminController extends Controller
 {
     public function index(){
-        return view('Admin/users/index');
+        $user_photo=false;
+        $photo= glob("users/".Auth::user()->id."/*"); // get all file names
+        foreach($photo as $value){ // iterate files
+            if(is_file($value))
+                $user_photo=$value;
+        }  
+        return view('Admin/users/index',['user_photo' => $user_photo]);
     }
 }

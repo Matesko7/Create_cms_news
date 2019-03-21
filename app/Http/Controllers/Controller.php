@@ -35,4 +35,8 @@ class Controller extends BaseController
         return view('sluzby');
     }
 
+    public function test(){
+        return view('test');
+    }
+
 }

@@ -32,8 +32,7 @@ class HomeController extends Controller
                 return redirect('/');
 
         if(Auth::user()->hasAnyRole(['editor','admin'])){
-            $articles= new Article;
-            return view('Admin/Users/index', ['articles' => $articles->getAll()]);
+            return redirect('/profile');
         }
     }
 

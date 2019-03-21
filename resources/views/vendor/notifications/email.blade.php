@@ -2,7 +2,11 @@
 
 Dobrý deň,
 
-z Vášho emailu bola podaná žiadosť o zaslanie nového hesla do <a href="http://kmuctovnictvo.sk/">kmuctovnictvo.sk</a>
+{{-- Intro Lines --}}
+@foreach ($introLines as $line)
+{{ $line }}
+
+@endforeach
 
 {{-- Action Button --}}
 @isset($actionText)
@@ -21,8 +25,11 @@ z Vášho emailu bola podaná žiadosť o zaslanie nového hesla do <a href="htt
 @endcomponent
 @endisset
 
-Platnosť odkazu je 60 minút.<br>
-<p>Pokiaľ ste o zmenu hesla nežiadali, email prosím ignorujte.</p>
+{{-- Outro Lines --}}
+@foreach ($outroLines as $line)
+{{ $line }}
+
+@endforeach
 
 <p>S pozdravom,<br>
 KM účtovnictvo</p>
@@ -31,7 +38,7 @@ KM účtovnictvo</p>
 @isset($actionText)
 @component('mail::subcopy')
 @lang(
-    "Ak máte problémy s kliknutím na tlačidlo 'Resetovať heslo', skopírujte nižšie uvedenú URL adresu\n".
+    "Ak máte problémy s kliknutím na tlačidlo \":actionText\", skopírujte nižšie uvedenú URL adresu\n".
     'do svojho webového prehliadača: [:actionURL](:actionURL)',
     [
         'actionText' => $actionText,

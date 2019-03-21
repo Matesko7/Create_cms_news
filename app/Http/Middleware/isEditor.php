@@ -5,7 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Auth;
 
-class isEditor
+class IsEditor
 {
     /**
      * Handle an incoming request.
@@ -16,9 +16,9 @@ class isEditor
      */
     public function handle($request, Closure $next)
     {
-		if (isset(Auth::user()->email) && Auth::user()->authorizeRoles('editor') ) {
+	if (isset(Auth::user()->email) && Auth::user()->hasAnyRole(['editor','admin'] )) {
             return $next($request);
         }
-        return redirect('/login'); // If user is not an editor.
+        return redirect('/login'); // If user is not an editor or admin.
     }
 }

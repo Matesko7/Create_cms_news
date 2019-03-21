@@ -20,6 +20,9 @@
             <li class="nav-item">
                 <a class="nav-link" href="{{asset('/#kontakt') }}">kontakt</a>
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{{asset('/clanky') }}">články</a>
+            </li>
             @if(Auth::check())
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -31,10 +34,20 @@
                     <a class="dropdown-item" href="{{ route('userProfile') }}">
                         {{ __('PROFIL') }}
                     </a>
+
+                    @if( Auth::user()->hasAnyRole(['admin','editor']))
+                    <a class="dropdown-item" href="{{asset('admin/articles')}}">{{ __('Články') }}</a>
+                    @endif
+
+                    @if( Auth::user()->hasrole('admin') )
+                    <a class="dropdown-item" href="{{asset('admin/users')}}">{{ __('Uživatelia') }}</a>
+                    @endif
+                    
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                      document.getElementById('logout-form').submit();">
                         {{ __('ODHLÁSENIE') }}
                     </a>
+                    
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         @csrf
                     </form>

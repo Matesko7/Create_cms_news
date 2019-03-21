@@ -23,3 +23,15 @@
     {{session('warning')}}
 </div>
 @endif
+
+@if (session('status'))
+    <div class="alert alert-success col-md-6 message" role="alert">
+        {{ session('status') }}
+    </div>
+@endif
+
+@if (session('resent'))
+    <div class="alert alert-success col-md-6 message" role="alert">
+        {{ __('Nový verifikačný link Vám bol zaslaný na vašu emailovú adresu.') }}
+    </div>
+@endif

@@ -8,7 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Support\Facades\DB;
 use Auth;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
     use Notifiable;
 
@@ -84,7 +84,7 @@ class User extends Authenticatable
             return DB::select("SELECT roles.id roleId,roles.name role,users.* FROM role_user LEFT JOIN roles ON role_user.role_id=roles.id LEFT JOIN users ON role_user.user_id=users.id WHERE role_user.user_id=?",[$id]);
     }
 
-    public function updateNameEmail($name,$email,$id=null,$role=null){
+    public function updateNameEmail($name,$email=null,$id=null,$role=null){
         if($id==null){
             //uzivatel meni svoje udaje
             $id=Auth::user()->id;        
@@ -93,14 +93,12 @@ class User extends Authenticatable
             //admin meni udaje pouzivatelom
             DB::update("UPDATE role_user SET role_id= :role WHERE user_id=:id",['role'=>$role,'id' => $id]);
         }
-        DB::update("UPDATE users SET name = :name,email= :email WHERE id=:id",['name'=>$name,'email' => $email,'id' => $id]);
+        DB::update("UPDATE users SET name = :name WHERE id=:id",['name'=>$name,'id' => $id]);
 
     }
 
     public function deleteUser($id){
         Auth::user()->authorizeRoles('admin');
-        if (file_exists("users/$id.jpg"))
-        unlink("users/$id.jpg");
         DB::delete("DELETE FROM users WHERE id=?",[$id]);
         DB::delete("DELETE FROM role_user WHERE user_id=?",[$id]);
     }

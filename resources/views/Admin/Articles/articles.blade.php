@@ -27,8 +27,8 @@
                             <td>{{$article->user_name}}</td>
                             <td>{{$article->cat_name}}</td>
                             <td>{{$article->tags}}</td>
-                            <td>{{$article->created_at}}</td>
-                            <td>
+                            <td style="max-width:150px">{{date("d.m.Y H:i:s",strtotime($article->created_at))}}</td>
+                            <td style="min-width:80px">
                                 <a href="{{asset("admin/article/$article->id")}}">
                                     <i title="upraviť"
                                         class="fas fa-pencil-alt pen">
