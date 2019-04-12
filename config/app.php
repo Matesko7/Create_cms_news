@@ -164,6 +164,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 		Collective\Html\HtmlServiceProvider::class,
 		 FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
+		 Harimayco\Menu\MenuServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -231,6 +232,7 @@ return [
 		'Html' => Collective\Html\HtmlFacade::class,
 		'GMaps' => FarhanWazir\GoogleMaps\Facades\GMapsFacade::class,
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
+		'Menu' => Harimayco\Menu\Facades\Menu::class,
     ],
 
 ];

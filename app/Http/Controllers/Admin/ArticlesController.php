@@ -26,7 +26,7 @@ class ArticlesController extends Controller
     public function edit($id=null){
         $article= new Article;
         $category= new Category;
-        $categories= Category::all();
+        $categories= $category->getAll();
         $article_photo=false;
         if($id!=null){
             $article_category=$article->getCategoryByArticleId($id);
@@ -51,7 +51,7 @@ class ArticlesController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'perex' => 'required',
-            'plot' => 'required',
+            'editor' => 'required',
         ]);
 
         $tmp_tags="";
@@ -74,9 +74,11 @@ class ArticlesController extends Controller
             $request->dateArticle=$tmp[2].'-'.$tmp[0].'-'.$tmp[1].' 00:00:00' ;
         } 
 
-        
+ 
+
+
         if($id==null){
-            $id_new_article=$article->updateArticle($request->title,$request->perex,$request->plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,Auth::user()->id,$request->dateArticle);
+            $id_new_article=$article->updateArticle($request->title,$request->perex,str_replace(array("\n","\r","&#9;"),array("","",""),$request->editor),$tmp_tags,$request->category[count($request->category)-1],$request->audience,Auth::user()->id,$request->dateArticle);
             //ulozenie nahrateho suboru
             $file = $request->file('file');
             if(isset($file)){
@@ -106,7 +108,7 @@ class ArticlesController extends Controller
                 $file->move(base_path('public/articles/'.$id),'cover_photo.'.$path_parts['extension']);
             }
 
-            $article->updateArticle($request->title,$request->perex,$request->plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$id);
+            $article->updateArticle($request->title,$request->perex,str_replace(array("\n","\r","&#9;"),array("","",""),$request->editor),$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$id);
             return back()->with('success','Článok aktualizovaný');
         }
     }

@@ -8,21 +8,28 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarResponsive">
         <ul id="navigation" class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a id="uvod" class="nav-link" href="{{route('index')}}">úvod</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{asset('/#onas') }}">o nás</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{asset('/sluzby#sluzby')}}">služby</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{asset('/#kontakt') }}">kontakt</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="{{asset('/clanky') }}">články</a>
-            </li>
+            @foreach($menulist as $menu)
+                @if(!count($menu['child']))
+                <li class="nav-item">
+                    <a id="{{ __($menu['label']) }}" class="nav-link" href="{{asset($menu['link'])}}">{{ __($menu['label']) }}</a>
+                </li>
+                @else
+                <li class="nav-item dropdown">
+                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false" v-pre>
+                        {{ __($menu['label']) }} <span class="caret"></span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                    @foreach($menu['child'] as $children)
+                        <a class="dropdown-item" href="{{asset($children['link'])}}">
+                            {{ __($children['label']) }}
+                        </a>
+                    @endforeach
+                    </div>
+                    </li>
+                @endif
+            @endforeach
+
             @if(Auth::check())
             <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
@@ -30,7 +37,7 @@
                     {{ Auth::user()->name }} <span class="caret"></span>
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="user_info">
                     <a class="dropdown-item" href="{{ route('userProfile') }}">
                         {{ __('PROFIL') }}
                     </a>
@@ -41,6 +48,12 @@
 
                     @if( Auth::user()->hasrole('admin') )
                     <a class="dropdown-item" href="{{asset('admin/users')}}">{{ __('Uživatelia') }}</a>
+
+                    <a class="dropdown-item" href="{{asset('admin/categories')}}">{{ __('Kategórie') }}</a>
+
+                    <a class="dropdown-item" href="{{asset('admin/menu')}}">{{ __('Menu') }}</a>
+
+
                     @endif
                     
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

@@ -90,7 +90,13 @@ class Article extends Model
         }
     }
 
+    public function updateArticleCategory($id){
+        if(Auth::user()->hasAnyRole(['editor','admin']))
+            $this::where('category_id',$id)->update(['category_id' => 1]);
+    }
+
     public function deleteArticle($id){
-        $this::where('id',$id)->delete();
+        if(Auth::user()->hasAnyRole(['editor','admin']))
+            $this::where('id',$id)->delete();
     }
 }

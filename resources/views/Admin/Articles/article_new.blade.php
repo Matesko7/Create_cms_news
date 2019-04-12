@@ -5,6 +5,10 @@
 <head>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+    <link rel="stylesheet" href="{{asset('jodit/build/jodit.min.css')}}">
+    <script src="{{asset('jodit/build/jodit.min.js')}}"></script>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 </head>
 <div class="container">
     <div class="row">
@@ -51,8 +55,8 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <textarea class="form-control article" id="plot" name="plot" placeholder="Obsah článku"
-                                    rows="7"></textarea>
+                            OBSAH
+                                <textarea id="editor" name="editor"></textarea>
                             </div>
                         </div>
 
@@ -135,6 +139,20 @@
 
 
 <script>
+   var editor = new Jodit('#editor', {
+    uploader: {
+           url: '/jodit/upload',
+           headers: {
+             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+             },
+           baseurl: 'obrazky/',
+        
+        isSuccess: function(e){
+            editor.selection.insertImage('/articles/01.png');
+        },
+    }
+   });
+
     $(function () {
         $("#datepicker").datepicker();
     });

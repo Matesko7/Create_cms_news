@@ -23,7 +23,8 @@
 </head>
 
 <body>
-    @include('inc.navbar') 
+    <?php $menu_items = Menu::getByName('Default'); ?>
+    @include('inc.navbar', ['menulist' =>$menu_items]) 
     @yield('content')
     @include('inc.footer')
 </body>
