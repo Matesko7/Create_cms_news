@@ -16,24 +16,84 @@ class Article extends Model
         return $article = $this::where('id',$id)->get();
     }
 
+    public function getAllTags(){
+            $tags= array();
+            $tmp=$this::select('tags')->get();
+            foreach ($tmp as $key => $value) {
+                $tmp2=explode("|",$value->tags);
+                foreach ($tmp2 as $key2 => $value2) {
+                    if($value2!='')
+                        array_push($tags,$value2);
+                }
+            }
+            return $tags;
+    }
+
     public function getCategoryByArticleId($id){
         return DB::select("SELECT category_id FROM articles LEFT JOIN categories ON articles.category_id=categories.id WHERE articles.id=:id",['id' => $id]);
     }
 
-    public function getAllwAuthorandGroup($paginate=15,$date='2030-01-01 00:00:00'){
-        return $this::leftJoin('categories', function($join){
-            $join->on('articles.category_id','=','categories.id');
-        })
-        ->leftJoin('users', function($join2){
-            $join2->on('articles.user_id','=','users.id');
-        })
-        ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
-        ->where('articles.created_at','<',$date)
-        ->orderBy('articles.created_at', 'desc')
-        ->paginate($paginate);
+    public function getAllwAuthorandGroup($paginate=15,$date='2030-01-01 00:00:00',$category=false,$tag=false){
+
+        if($category && $tag){
+            $result= $this::leftJoin('categories', function($join){
+                $join->on('articles.category_id','=','categories.id');
+            })
+            ->leftJoin('users', function($join2){
+                $join2->on('articles.user_id','=','users.id');
+            })
+            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->where('articles.created_at','<',$date)
+            ->where('category_id','=',$category)
+            ->where('tags','LIKE','%'.$tag.'%')
+            ->orderBy('articles.created_at', 'desc')
+            ->paginate($paginate);
+        }
+        else if($category){
+            $result= $this::leftJoin('categories', function($join){
+                $join->on('articles.category_id','=','categories.id');
+            })
+            ->leftJoin('users', function($join2){
+                $join2->on('articles.user_id','=','users.id');
+            })
+            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->where('articles.created_at','<',$date)
+            ->where('category_id','=',$category)
+            ->orderBy('articles.created_at', 'desc')
+            ->paginate($paginate);
+        }
+        else if($tag){
+            $result= $this::leftJoin('categories', function($join){
+                $join->on('articles.category_id','=','categories.id');
+            })
+            ->leftJoin('users', function($join2){
+                $join2->on('articles.user_id','=','users.id');
+            })
+            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->where('articles.created_at','<',$date)
+            ->where('tags','LIKE','%'.$tag.'%')
+            ->orderBy('articles.created_at', 'desc')
+            ->paginate($paginate);
+        }
+        else{
+            $result= $this::leftJoin('categories', function($join){
+                $join->on('articles.category_id','=','categories.id');
+            })
+            ->leftJoin('users', function($join2){
+                $join2->on('articles.user_id','=','users.id');
+            })
+            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->where('articles.created_at','<',$date)
+            ->orderBy('articles.created_at', 'desc')
+            ->paginate($paginate);
+        }
+        
+        return $result;
 
         //DB::select("SELECT *,categories.name as cat_name,users.name as user_name FROM articles LEFT JOIN categories ON articles.category_id=categories.id LEFT JOIN users ON articles.user_id=users.id");
     }
+
+
 
     public function getPerEditorwAuthorandGroup(){
         return $this::leftJoin('categories', function($join){

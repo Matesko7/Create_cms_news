@@ -1,0 +1,690 @@
+$enable-responsive-font-sizes: true
+// colors
+$dark-blue: #393d72
+$light-blue: #5798fe
+$pink: #ff4880
+$orange: #ffae00
+$green: #7cbe47
+$purple: #9c49fa
+$red: #fa496e
+$beige-bg: #f9f5f0
+
+//fonts
+$rubik: 'Rubik', sans-serif
+$schoolbell: 'Schoolbell', cursive
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+input,
+button,
+textarea
+  font-family: $rubik !important
+
+a:hover
+  text-decoration: none !important
+
+a:focus
+  outline: none
+    
+
+html
+  width: 100%
+  margin: 0
+  padding: 0
+
+  body 
+    width: 100%
+    margin: 0
+    padding: 0
+
+    img
+      user-select: none
+
+    .show-more
+      font-family: $rubik !important
+      font-weight: bold
+      margin-top: 2rem
+      padding: 1.3rem 3.3rem
+      background-color: $orange
+      border: none
+      border-radius: 100px
+
+    .contact-icon
+      color: $pink
+    .main-head
+      text-align: center
+
+      .navbar,
+        padding: 1rem
+
+      .nav-item,
+      .navbar-brand,
+      .contact
+        font-family: $rubik
+        font-weight: bold
+        font-size: 0.9rem !important
+        color: #858688
+        margin: 0
+        padding: 0.5rem 0
+
+
+      .main-links
+        a:hover > p
+          background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .8s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23ff4880' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E")
+          // background-image: url("../grafika/squiggle.svg")
+          background-position: 0 100%
+          background-size: auto 3px
+          background-repeat: repeat-x
+          text-decoration: none
+          color: $dark-blue
+
+      .header-bottom,
+      .row
+        width: 100%
+        margin: 0
+
+      .header-bottom
+        padding: 1.5rem
+        
+        svg
+          position: absolute
+          top: 1.4rem
+          width: 16rem
+          height: auto
+          
+        .logo
+          position: absolute
+          top: -1.5rem
+          width: 7rem
+          height: auto
+
+        .fa-search
+          background-color: $dark-blue
+          position: absolute
+
+        .fa-facebook-f
+          background-color: $orange
+          position: absolute
+          // left: 25%
+          left: 6rem
+
+        .fa-twitter
+          background-color: $pink
+          position: absolute
+          // left: 40%
+          left: 10rem
+
+        .fa-youtube
+          background-color: $light-blue
+          position: absolute
+          // left: 55%
+          left: 14rem
+
+
+        i
+          color: white
+          padding: 1rem
+          min-width: 3rem
+          min-height: 3rem
+          border-radius: 100px
+
+      .jumbotron,
+      .jumbotron-fluid,
+        background-image: url("../grafika/ikony-slider.png"), url("../grafika/slider.png")
+        background-position-y: 6rem, center
+        background-position-x: center, center
+        background-repeat: no-repeat, no-repeat
+        background-size: 80vw auto, cover
+        min-height: 84vh
+        // min-height: 40rem
+        widht: 100vw
+        margin: 0 !important
+        margin-top: 0 !important
+        padding: 7rem 0 0 0
+        color: white
+
+        .star
+          width: 1.4rem
+          height: 1.4rem
+
+        .welcome-text
+          font-weight: bold
+          font-size: 1.4rem
+
+        .main-heading
+          margin-top: 2rem
+          font-weight: bold
+          font-size: 5vw
+          line-height: 95%    
+
+
+    main
+      .heading
+        font-size: 3rem
+        font-weight: bold
+        color: $dark-blue
+
+      .title
+        color: $pink
+        font-family: $schoolbell !important
+
+      .text
+        color: grey
+
+      section#about-us
+        padding: 4rem 0
+
+        svg
+          position: absolute
+          margin-top: -6.8rem
+          width: 14rem
+          height: auto
+        
+        a
+          position: absolute
+          margin-top: -6rem
+
+        .bg
+          background-image: url("../grafika/background-img.png")
+          background-position: center
+          background-repeat: repeat-y
+          background-size: contain
+
+        .image-col img
+          width: 32rem
+          height: 32rem
+          border-radius: 100%
+
+        .badge
+          position: absolute
+          left: 2rem
+          bottom: 2rem
+          width: 12rem
+          height: 12rem
+          background-image: url("../grafika/button-o-nas-jazdy.png")
+          background-position: center
+          background-size: contain
+          background-repeat: no-repeat
+          display: flex
+          align-items: center
+          justify-content: center
+        
+        .badge-text
+          color: white
+          font-family: $schoolbell !important
+
+        .badge-text-diff
+          font-family: $rubik !important
+          font-weight: 300
+          font-size: 2rem
+
+      section#benefits
+        padding: 6rem 0
+        background-color: $beige-bg
+
+        .row
+          text-align: center
+
+        .circle       
+          margin: 0 !important 
+          padding: 3rem
+          width: 10rem
+          height: 10rem 
+          border-radius: 100px
+          background-color: black
+          display: flex
+          align-items: center
+          justify-content: center
+
+        .caption
+          font-family: $rubik
+          font-weight: 500
+          margin-top: 1rem
+          color: $dark-blue
+
+        .orange
+          background-color: $orange
+
+        .pink
+          background-color: $pink
+
+        .light-blue
+          background-color: $light-blue
+
+        .green
+          background-color: $green
+
+        .purple
+          background-color: $purple
+
+        .red
+          background-color: $red
+
+      section#subscribe
+        padding: 0rem 0rem 6rem 0rem
+        background-color: $beige-bg
+
+        .subscribe-heading
+          font-size: 1.5rem
+
+        .search-input
+          font-family: $rubik
+          font-weight: regular
+          border: none
+          border-radius: 15px
+          padding: 1.2rem
+          width: 25rem
+
+        .search-input:focus
+          outline: none
+
+        .search-submit
+          font-family: $rubik
+          font-weight: bold
+          color: white
+          border: none
+          border-radius: 15px
+          padding: 1.2rem 3rem
+          background-color: $orange
+          width: 11rem
+          
+      section#reference
+        padding: 6rem 0
+
+        .row
+          text-align: center
+
+        .slider
+          margin-top: 2rem
+
+          .owl-theme .owl-dots .owl-dot span
+            background: none
+            border: 1px solid grey
+            width: 13px
+            height: 13px
+
+          .owl-theme .owl-dots .owl-dot.active span
+            background: none
+            border: 2px solid $dark-blue
+
+          .slide-woman
+            background-image: url("../grafika/bg-povedali-o-nas-woman.png")
+            background-position: top
+            background-size: auto 18rem
+            background-repeat: no-repeat
+            padding: 0rem 5rem
+
+          .slide-man
+            background-image: url("../grafika/bg-povedali-o-nas-man.png")
+            background-position: top
+            background-size: auto 18rem
+            background-repeat: no-repeat
+            padding: 0rem 5rem
+
+          .slide-text
+            color: white
+            font-size: 1.15rem
+            text-align: left
+            margin-top: 4rem
+          
+          .profile
+            margin: 5.5rem 0 1rem 0
+            
+            .picture
+              width: 4.5rem
+              height: 4.5rem
+              margin-right: 0.5rem
+              border-radius: 100%
+              background-color: $dark-blue
+              //Insert image here -->
+              //background-image: url("")
+              //background-postion: center
+              //background-size: cover
+              //background-repeat: no-repeat
+          
+            .profile-text
+              text-align: left
+
+            .profile-name
+              font-weight: bold
+              color: $dark-blue
+              font-size: 1.15rem !important
+              margin: 0.7rem 0rem 0.1rem 0rem
+
+            .profile-date
+              font-weight: 300
+              font-size: 0.8rem !important
+              margin-bottom: 0.7rem
+
+      section#more-info
+        padding: 6rem 0
+        background-image: url("../grafika/bg-info.png")
+        background-position: center
+        background-size: cover
+        background-repeat: repeat
+
+        .row
+          text-align: center
+
+        .more-info-title
+          color: white
+          font-size: 1.8rem
+
+        .more-info-heading
+          color: white
+        
+        .show-more
+          color: white
+          background-color: $dark-blue
+
+      section#gallery
+        padding: 6rem 0
+
+        .row
+          text-align: center
+
+        .image-thumb
+          width: 12rem
+          height: 15rem
+          border-radius: 15px
+          background-image:url("../grafika/galeria/1.jpg")
+          background-position: center
+          background-size: cover
+          background-repeat: no-repeat
+
+        .image-2
+          background-image:url("../grafika/galeria/2.jpg")
+
+        .image-3
+          background-image:url("../grafika/galeria/3.jpg")
+
+        .image-4
+          background-image:url("../grafika/galeria/4.jpg")
+
+        .image-5
+          background-image:url("../grafika/galeria/5.jpg")
+
+      footer#foot
+        padding: 6rem 0 2rem 0
+        background-image: url("../grafika/footer-background.png")
+        background-position: center
+        background-size: cover
+        background-repeat: repeat
+
+        svg
+          position: absolute
+          margin-top: -6rem
+          width: 14rem
+          height: auto
+
+        .up-scroll
+          display: contents
+
+        .arrow-top
+          position: absolute
+          margin-top: -5.6rem
+
+        .footer-main
+          padding-bottom: 4rem
+
+        .logo
+          width: 10vw
+
+        .footer-title
+          color: white
+          font-weight: bold
+
+        .footer-link,
+        .footer-text
+          color: white
+          opacity: 0.8
+          font-weight: 300
+          font-size: 0.8rem
+
+          span
+            margin-left: 1.1rem
+
+        .search-input
+          font-family: $rubik
+          font-weight: regular
+          border: none
+          border-radius: 15px
+          padding: 1rem
+
+        .search-input:focus
+          outline: none
+
+        .search-submit
+          margin-top: 1rem
+          font-family: $rubik
+          font-weight: bold
+          color: white
+          border: none
+          border-radius: 15px
+          padding: 1rem 3rem
+          background-color: $orange
+
+        .footer-social
+          padding-top: 4rem
+          border-top: rgba(255,255,255,0.8) solid 0.01rem
+
+        .fa-facebook-f
+          background-color: $orange
+          padding: 1rem 1.2rem !important
+
+        .fa-twitter
+          background-color: $pink
+          margin: 0 0.5rem
+
+        .fa-youtube
+          background-color: $light-blue
+
+        .footer-social i
+          color: white
+          padding: 1rem
+          min-width: 3rem
+          min-height: 3rem
+          border-radius: 100px
+
+@media only screen and (max-width: 1200px)
+  html body
+    .main-head .jumbotron.jumbotron-fluid .main-heading
+      font-size: 7vw
+
+    main section#reference .slider
+      .slide-woman, .slide-man
+        padding: 0 19rem
+    
+@media only screen and (max-width: 992px)
+  html body
+    .main-head .jumbotron.jumbotron-fluid .main-heading
+      font-size: 7vw
+
+    main section#about-us .show-more
+      margin: 1rem 0 3rem 0
+
+    main section#reference .slider
+      .slide-woman, .slide-man
+        padding: 0 11rem
+
+    main section#subscribe
+      .subscribe-input-col
+        padding-left: 0 !important
+        padding-bottom: 1rem
+    
+@media only screen and (max-width: 767.5px)
+  html body
+    .main-head .jumbotron.jumbotron-fluid 
+      background-image: none, url("../grafika/slider.png")
+      min-height: 84vh
+      .main-heading
+        font-size: 9vw
+
+    .main-head .header-bottom .social-wrap
+      display: none
+
+    main section#reference .slider
+      .slide-woman, .slide-man
+        padding: 0 6rem
+    
+    main section#subscribe 
+      .subscribe-head-col
+        text-align: center
+        align-items: center !important
+        margin-bottom: 2rem
+
+      .subscribe-input-col
+        padding: 0
+        margin-bottom: 0.5rem
+        text-align: center
+
+@media only screen and (max-width: 600px)
+  html body
+    .main-head .jumbotron.jumbotron-fluid .main-heading
+      font-size: 12vw
+
+    main section#about-us 
+      .image-col img
+        width: 25rem
+        height: 25rem
+      
+      .badge
+        width: 10rem
+        height: 10rem
+
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 16rem
+        padding: 0 6rem
+      
+      .slide-text
+        margin-top: 3rem 
+
+      .profile
+        margin: 4.5rem 0 1rem 0
+
+@media only screen and (max-width: 527px)
+  html body
+    main section#about-us 
+      .image-col img
+        width: 23rem
+        height: 23rem
+      
+      .badge
+        width: 8rem
+        height: 8rem
+
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 14rem
+        padding: 0 6.3rem
+
+      .slide-text
+        margin-top: 2rem 
+        font-size: 1.1rem
+
+      .profile
+        margin: 2.5rem 0 1rem 0
+
+@media only screen and (max-width: 482px)
+  html body
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 14rem
+        padding: 0 5rem
+
+      .slide-text
+        margin-top: 1.8rem 
+
+@media only screen and (max-width: 450px)
+  html body
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 14rem
+        padding: 0 4rem
+
+      .slide-text
+        margin-top: 1.8rem 
+
+    main section#subscribe .search-input
+      width: 18rem
+
+@media only screen and (max-width: 410px)
+  html body
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 14rem
+        padding: 0 3rem
+
+      .slide-text
+        margin-top: 1.8rem 
+    
+@media only screen and (max-width: 380px)
+  html body
+    .main-head .jumbotron.jumbotron-fluid 
+      .welcome-text
+        font-size: 1rem
+
+      .main-heading
+        font-size: 2.5rem
+
+      .show-more
+        padding: 1rem 3rem
+
+    main section#about-us 
+      .image-col img
+        width: 20rem
+        height: 20rem
+      
+      .badge
+        width: 5rem
+        height: 5rem
+
+      .badge-text
+        color: white
+        font-family: $schoolbell !important
+        font-size: 0.8rem
+
+      .badge-text-diff
+        font-family: $rubik !important
+        font-weight: 300
+        font-size: 1.5rem  
+
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 12rem
+        padding: 0 4rem
+
+      .slide-text
+        margin-top: 1.8rem 
+        font-size: 0.9rem
+
+@media only screen and (max-width: 350px)
+  html body
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 12rem
+        padding: 0 3rem
+
+      .slide-text
+        margin-top: 1.8rem 
+        font-size: 0.9rem
+
+@media only screen and (max-width: 325px)
+  html body
+    main section#reference .slider
+      .slide-woman, .slide-man
+        background-size: auto 12rem
+        padding: 0 2rem
+
+      .slide-text
+        margin-top: 1.8rem 
+        font-size: 0.9rem
+
+@import url("/bootstrap.css")

@@ -17,6 +17,6 @@ class AdminController extends Controller
             if(is_file($value))
                 $user_photo=$value;
         }  
-        return view('Admin/users/index',['user_photo' => $user_photo]);
+        return view('Admin/Users/index',['user_photo' => $user_photo]);
     }
 }

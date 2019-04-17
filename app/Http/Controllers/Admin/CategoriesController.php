@@ -49,7 +49,7 @@ class CategoriesController extends Controller
 
 
         if($id==null){
-            return view('Admin//Categories/index',['categories' => $categories->getAll()]);    
+            return view('Admin/Categories/index',['categories' => $categories->getAll()]);    
         }
         else{
             $cat=$categories->getCategoryById($id);
@@ -58,7 +58,7 @@ class CategoriesController extends Controller
             else
                 $cat->parent=null;
             
-            return view('Admin//Categories/index', ['category' => $cat,'categories' => $categories->getAll()]);
+            return view('Admin/Categories/index', ['category' => $cat,'categories' => $categories->getAll()]);
         }
     }
 

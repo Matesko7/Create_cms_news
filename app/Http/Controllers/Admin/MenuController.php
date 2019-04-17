@@ -11,6 +11,6 @@ use Illuminate\Support\Facades\DB;
 class MenuController extends Controller
 {
     public function index(){
-        return view('Admin/menu/index');
+        return view('Admin/Menu/index');
     }
 }

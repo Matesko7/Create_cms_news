@@ -1,0 +1,1 @@
+style.sass/css obsahuje štýly hlavne pre index.html, ale blog-post.html používa tiež niektoré štýly aj zo style.sass/css okrem blog-post.sass/css

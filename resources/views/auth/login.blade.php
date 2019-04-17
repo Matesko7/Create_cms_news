@@ -1,9 +1,9 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container">
+<div class="container" style="padding-top:20px">
     @guest
-    <div class="text-center">
+    <div  class="text-center">
         <a class="sub-nav" href="{{ route('login') }}">{{ __('Prihlásenie') }}</a>
         <a class="sub-nav" href="{{ route('register') }}">{{ __('Registrácia') }}</a>
     </div>

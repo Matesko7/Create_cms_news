@@ -51,7 +51,7 @@ class ArticlesController extends Controller
         $this->validate($request, [
             'title' => 'required',
             'perex' => 'required',
-            'editor' => 'required',
+            'ce' => 'required',
         ]);
 
         $tmp_tags="";
@@ -75,10 +75,8 @@ class ArticlesController extends Controller
         } 
 
  
-
-
         if($id==null){
-            $id_new_article=$article->updateArticle($request->title,$request->perex,str_replace(array("\n","\r","&#9;"),array("","",""),$request->editor),$tmp_tags,$request->category[count($request->category)-1],$request->audience,Auth::user()->id,$request->dateArticle);
+            $id_new_article=$article->updateArticle($request->title,$request->perex,str_replace(array("\n","\r","&#9;"),array("","",""),$request->ce),$tmp_tags,$request->category[count($request->category)-1],$request->audience,Auth::user()->id,$request->dateArticle);
             //ulozenie nahrateho suboru
             $file = $request->file('file');
             if(isset($file)){
@@ -108,7 +106,7 @@ class ArticlesController extends Controller
                 $file->move(base_path('public/articles/'.$id),'cover_photo.'.$path_parts['extension']);
             }
 
-            $article->updateArticle($request->title,$request->perex,str_replace(array("\n","\r","&#9;"),array("","",""),$request->editor),$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$id);
+            $article->updateArticle($request->title,$request->perex,str_replace(array("\n","\r","&#9;"),array("","",""),$request->ce),$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$id);
             return back()->with('success','Článok aktualizovaný');
         }
     }

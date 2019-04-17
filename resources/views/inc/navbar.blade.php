@@ -1,4 +1,4 @@
-<nav class="container navbar navbar-main fixed-top navbar-expand-lg navbar-km-consult bg-white fixed-top-2" data-toggle="affix" style="padding: 0 125px 0 125px;">
+<nav class="container navbar navbar-main fixed-top navbar-expand-lg navbar-km-consult bg-white fixed-top-2" data-toggle="affix" style="padding: 0 125px 0px 125px">
     <a class="navbar-brand" href="{{asset('/')}}">
         <img src="{{asset('images/logo.png')}}" alt="Logo">
     </a>
@@ -11,7 +11,7 @@
             @foreach($menulist as $menu)
                 @if(!count($menu['child']))
                 <li class="nav-item">
-                    <a id="{{ __($menu['label']) }}" class="nav-link" href="{{asset($menu['link'])}}">{{ __($menu['label']) }}</a>
+                    <a id="{{ __($menu['id']) }}" class="nav-link" href="{{asset($menu['link'])}}">{{ __($menu['label']) }}</a>
                 </li>
                 @else
                 <li class="nav-item dropdown">
@@ -80,7 +80,7 @@
 </div>
 </nav>
 <div class="container text-center">
-    @include('inc.messages');
+    @include('inc.messages')
 </div>
 <script>
     $(window).scroll(function () {

@@ -34,7 +34,7 @@
                 @endif
                 <div class="w3-container">
                     <h3 class="text-center"><b>{{$article[0]->title}}</b></h3>
-                    <h5>{{$article[0]->cat_name}}, <span class="w3-opacity">{{date("d.m.y",strtotime($article[0]->created_at))}}</span>
+                    <h5><a href="{{asset('/clanky')}}/{{$article[0]->category_id}}/0">{{$article[0]->cat_name}}</a>, <span class="w3-opacity">{{date("d.m.y",strtotime($article[0]->created_at))}}</span>
                     <span class="w3-right"><b>Autor:</b> {{$article[0]->user_name}}</span>
                     </h5>
                 </div>
@@ -51,7 +51,10 @@
                             
                             <p><span class="w3-padding-large w3-left"> 
                             @foreach($tags as $tag)
-                            <span class="w3-tag">#{{$tag}}</span>
+                            <span class="w3-tag">
+                            <a href="{{asset('/clanky')}}/0/{{$tag}}" >
+                            #{{$tag}}</a>
+                            </span>
                             @endforeach
                             </span></p>
                             

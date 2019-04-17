@@ -1,0 +1,769 @@
+@import url("/bootstrap.css");
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+input,
+button,
+textarea {
+  font-family: "Rubik", sans-serif !important;
+}
+
+a:hover {
+  text-decoration: none !important;
+}
+
+a:focus {
+  outline: none;
+}
+
+html {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html body {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+html body img {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
+
+html body .show-more {
+  font-family: "Rubik", sans-serif !important;
+  font-weight: bold;
+  margin-top: 2rem;
+  padding: 1.3rem 3.3rem;
+  background-color: #ffae00;
+  border: none;
+  border-radius: 100px;
+}
+
+html body .contact-icon {
+  color: #ff4880;
+}
+
+html body .main-head {
+  text-align: center;
+}
+
+html body .main-head .navbar {
+  padding: 1rem;
+}
+
+html body .main-head .nav-item,
+html body .main-head .navbar-brand,
+html body .main-head .contact {
+  font-family: "Rubik", sans-serif;
+  font-weight: bold;
+  font-size: 0.9rem !important;
+  color: #858688;
+  margin: 0;
+  padding: 0.5rem 0;
+}
+
+html body .main-head .main-links a:hover > p {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg id='squiggle-link' xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' xmlns:ev='http://www.w3.org/2001/xml-events' viewBox='0 0 20 4'%3E%3Cstyle type='text/css'%3E.squiggle{animation:shift .8s linear infinite;}@keyframes shift {from {transform:translateX(0);}to {transform:translateX(-20px);}}%3C/style%3E%3Cpath fill='none' stroke='%23ff4880' stroke-width='2' class='squiggle' d='M0,3.5 c 5,0,5,-3,10,-3 s 5,3,10,3 c 5,0,5,-3,10,-3 s 5,3,10,3'/%3E%3C/svg%3E");
+  background-position: 0 100%;
+  background-size: auto 3px;
+  background-repeat: repeat-x;
+  text-decoration: none;
+  color: #393d72;
+}
+
+html body .main-head .header-bottom,
+html body .main-head .row {
+  width: 100%;
+  margin: 0;
+}
+
+html body .main-head .header-bottom {
+  padding: 1.5rem;
+}
+
+html body .main-head .header-bottom svg {
+  position: absolute;
+  top: 1.4rem;
+  width: 16rem;
+  height: auto;
+}
+
+html body .main-head .header-bottom .logo {
+  position: absolute;
+  top: -1.5rem;
+  width: 7rem;
+  height: auto;
+}
+
+html body .main-head .header-bottom .fa-search {
+  background-color: #393d72;
+  position: absolute;
+}
+
+html body .main-head .header-bottom .fa-facebook-f {
+  background-color: #ffae00;
+  position: absolute;
+  left: 6rem;
+}
+
+html body .main-head .header-bottom .fa-twitter {
+  background-color: #ff4880;
+  position: absolute;
+  left: 10rem;
+}
+
+html body .main-head .header-bottom .fa-youtube {
+  background-color: #5798fe;
+  position: absolute;
+  left: 14rem;
+}
+
+html body .main-head .header-bottom i {
+  color: white;
+  padding: 1rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  border-radius: 100px;
+}
+
+html body .main-head .jumbotron,
+html body .main-head .jumbotron-fluid {
+  background-image: url("../grafika/ikony-slider.png"), url("../grafika/slider.png");
+  background-position-y: 6rem, center;
+  background-position-x: center, center;
+  background-repeat: no-repeat, no-repeat;
+  background-size: 80vw auto, cover;
+  min-height: 84vh;
+  widht: 100vw;
+  margin: 0 !important;
+  margin-top: 0 !important;
+  padding: 7rem 0 0 0;
+  color: white;
+}
+
+html body .main-head .jumbotron .star,
+html body .main-head .jumbotron-fluid .star {
+  width: 1.4rem;
+  height: 1.4rem;
+}
+
+html body .main-head .jumbotron .welcome-text,
+html body .main-head .jumbotron-fluid .welcome-text {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+html body .main-head .jumbotron .main-heading,
+html body .main-head .jumbotron-fluid .main-heading {
+  margin-top: 2rem;
+  font-weight: bold;
+  font-size: 5vw;
+  line-height: 95%;
+}
+
+html body main .heading {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #393d72;
+}
+
+html body main .title {
+  color: #ff4880;
+  font-family: "Schoolbell", cursive !important;
+}
+
+html body main .text {
+  color: grey;
+}
+
+html body main section#about-us {
+  padding: 4rem 0;
+}
+
+html body main section#about-us svg {
+  position: absolute;
+  margin-top: -6.8rem;
+  width: 14rem;
+  height: auto;
+}
+
+html body main section#about-us a {
+  position: absolute;
+  margin-top: -6rem;
+}
+
+html body main section#about-us .bg {
+  background-image: url("../grafika/background-img.png");
+  background-position: center;
+  background-repeat: repeat-y;
+  background-size: contain;
+}
+
+html body main section#about-us .image-col img {
+  width: 32rem;
+  height: 32rem;
+  border-radius: 100%;
+}
+
+html body main section#about-us .badge {
+  position: absolute;
+  left: 2rem;
+  bottom: 2rem;
+  width: 12rem;
+  height: 12rem;
+  background-image: url("../grafika/button-o-nas-jazdy.png");
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+html body main section#about-us .badge-text {
+  color: white;
+  font-family: "Schoolbell", cursive !important;
+}
+
+html body main section#about-us .badge-text-diff {
+  font-family: "Rubik", sans-serif !important;
+  font-weight: 300;
+  font-size: 2rem;
+}
+
+html body main section#benefits {
+  padding: 6rem 0;
+  background-color: #f9f5f0;
+}
+
+html body main section#benefits .row {
+  text-align: center;
+}
+
+html body main section#benefits .circle {
+  margin: 0 !important;
+  padding: 3rem;
+  width: 10rem;
+  height: 10rem;
+  border-radius: 100px;
+  background-color: black;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+html body main section#benefits .caption {
+  font-family: "Rubik", sans-serif;
+  font-weight: 500;
+  margin-top: 1rem;
+  color: #393d72;
+}
+
+html body main section#benefits .orange {
+  background-color: #ffae00;
+}
+
+html body main section#benefits .pink {
+  background-color: #ff4880;
+}
+
+html body main section#benefits .light-blue {
+  background-color: #5798fe;
+}
+
+html body main section#benefits .green {
+  background-color: #7cbe47;
+}
+
+html body main section#benefits .purple {
+  background-color: #9c49fa;
+}
+
+html body main section#benefits .red {
+  background-color: #fa496e;
+}
+
+html body main section#subscribe {
+  padding: 0rem 0rem 6rem 0rem;
+  background-color: #f9f5f0;
+}
+
+html body main section#subscribe .subscribe-heading {
+  font-size: 1.5rem;
+}
+
+html body main section#subscribe .search-input {
+  font-family: "Rubik", sans-serif;
+  font-weight: regular;
+  border: none;
+  border-radius: 15px;
+  padding: 1.2rem;
+  width: 25rem;
+}
+
+html body main section#subscribe .search-input:focus {
+  outline: none;
+}
+
+html body main section#subscribe .search-submit {
+  font-family: "Rubik", sans-serif;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 1.2rem 3rem;
+  background-color: #ffae00;
+  width: 11rem;
+}
+
+html body main section#reference {
+  padding: 6rem 0;
+}
+
+html body main section#reference .row {
+  text-align: center;
+}
+
+html body main section#reference .slider {
+  margin-top: 2rem;
+}
+
+html body main section#reference .slider .owl-theme .owl-dots .owl-dot span {
+  background: none;
+  border: 1px solid grey;
+  width: 13px;
+  height: 13px;
+}
+
+html body main section#reference .slider .owl-theme .owl-dots .owl-dot.active span {
+  background: none;
+  border: 2px solid #393d72;
+}
+
+html body main section#reference .slider .slide-woman {
+  background-image: url("../grafika/bg-povedali-o-nas-woman.png");
+  background-position: top;
+  background-size: auto 18rem;
+  background-repeat: no-repeat;
+  padding: 0rem 5rem;
+}
+
+html body main section#reference .slider .slide-man {
+  background-image: url("../grafika/bg-povedali-o-nas-man.png");
+  background-position: top;
+  background-size: auto 18rem;
+  background-repeat: no-repeat;
+  padding: 0rem 5rem;
+}
+
+html body main section#reference .slider .slide-text {
+  color: white;
+  font-size: 1.15rem;
+  text-align: left;
+  margin-top: 4rem;
+}
+
+html body main section#reference .slider .profile {
+  margin: 5.5rem 0 1rem 0;
+}
+
+html body main section#reference .slider .profile .picture {
+  width: 4.5rem;
+  height: 4.5rem;
+  margin-right: 0.5rem;
+  border-radius: 100%;
+  background-color: #393d72;
+}
+
+html body main section#reference .slider .profile .profile-text {
+  text-align: left;
+}
+
+html body main section#reference .slider .profile .profile-name {
+  font-weight: bold;
+  color: #393d72;
+  font-size: 1.15rem !important;
+  margin: 0.7rem 0rem 0.1rem 0rem;
+}
+
+html body main section#reference .slider .profile .profile-date {
+  font-weight: 300;
+  font-size: 0.8rem !important;
+  margin-bottom: 0.7rem;
+}
+
+html body main section#more-info {
+  padding: 6rem 0;
+  background-image: url("../grafika/bg-info.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
+}
+
+html body main section#more-info .row {
+  text-align: center;
+}
+
+html body main section#more-info .more-info-title {
+  color: white;
+  font-size: 1.8rem;
+}
+
+html body main section#more-info .more-info-heading {
+  color: white;
+}
+
+html body main section#more-info .show-more {
+  color: white;
+  background-color: #393d72;
+}
+
+html body main section#gallery {
+  padding: 6rem 0;
+}
+
+html body main section#gallery .row {
+  text-align: center;
+}
+
+html body main section#gallery .image-thumb {
+  width: 12rem;
+  height: 15rem;
+  border-radius: 15px;
+  background-image: url("../grafika/galeria/1.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+html body main section#gallery .image-2 {
+  background-image: url("../grafika/galeria/2.jpg");
+}
+
+html body main section#gallery .image-3 {
+  background-image: url("../grafika/galeria/3.jpg");
+}
+
+html body main section#gallery .image-4 {
+  background-image: url("../grafika/galeria/4.jpg");
+}
+
+html body main section#gallery .image-5 {
+  background-image: url("../grafika/galeria/5.jpg");
+}
+
+html body main footer#foot {
+  padding: 6rem 0 2rem 0;
+  background-image: url("../grafika/footer-background.png");
+  background-position: center;
+  background-size: cover;
+  background-repeat: repeat;
+}
+
+html body main footer#foot svg {
+  position: absolute;
+  margin-top: -6rem;
+  width: 14rem;
+  height: auto;
+}
+
+html body main footer#foot .up-scroll {
+  display: contents;
+}
+
+html body main footer#foot .arrow-top {
+  position: absolute;
+  margin-top: -5.6rem;
+}
+
+html body main footer#foot .footer-main {
+  padding-bottom: 4rem;
+}
+
+html body main footer#foot .logo {
+  width: 10vw;
+}
+
+html body main footer#foot .footer-title {
+  color: white;
+  font-weight: bold;
+}
+
+html body main footer#foot .footer-link,
+html body main footer#foot .footer-text {
+  color: white;
+  opacity: 0.8;
+  font-weight: 300;
+  font-size: 0.8rem;
+}
+
+html body main footer#foot .footer-link span,
+html body main footer#foot .footer-text span {
+  margin-left: 1.1rem;
+}
+
+html body main footer#foot .search-input {
+  font-family: "Rubik", sans-serif;
+  font-weight: regular;
+  border: none;
+  border-radius: 15px;
+  padding: 1rem;
+}
+
+html body main footer#foot .search-input:focus {
+  outline: none;
+}
+
+html body main footer#foot .search-submit {
+  margin-top: 1rem;
+  font-family: "Rubik", sans-serif;
+  font-weight: bold;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  padding: 1rem 3rem;
+  background-color: #ffae00;
+}
+
+html body main footer#foot .footer-social {
+  padding-top: 4rem;
+  border-top: rgba(255, 255, 255, 0.8) solid 0.01rem;
+}
+
+html body main footer#foot .fa-facebook-f {
+  background-color: #ffae00;
+  padding: 1rem 1.2rem !important;
+}
+
+html body main footer#foot .fa-twitter {
+  background-color: #ff4880;
+  margin: 0 0.5rem;
+}
+
+html body main footer#foot .fa-youtube {
+  background-color: #5798fe;
+}
+
+html body main footer#foot .footer-social i {
+  color: white;
+  padding: 1rem;
+  min-width: 3rem;
+  min-height: 3rem;
+  border-radius: 100px;
+}
+
+@media only screen and (max-width: 1200px) {
+  html body .main-head .jumbotron.jumbotron-fluid .main-heading {
+    font-size: 7vw;
+  }
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    padding: 0 19rem;
+  }
+}
+
+@media only screen and (max-width: 992px) {
+  html body .main-head .jumbotron.jumbotron-fluid .main-heading {
+    font-size: 7vw;
+  }
+  html body main section#about-us .show-more {
+    margin: 1rem 0 3rem 0;
+  }
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    padding: 0 11rem;
+  }
+  html body main section#subscribe .subscribe-input-col {
+    padding-left: 0 !important;
+    padding-bottom: 1rem;
+  }
+}
+
+@media only screen and (max-width: 767.5px) {
+  html body .main-head .jumbotron.jumbotron-fluid {
+    background-image: none, url("../grafika/slider.png");
+    min-height: 84vh;
+  }
+  html body .main-head .jumbotron.jumbotron-fluid .main-heading {
+    font-size: 9vw;
+  }
+  html body .main-head .header-bottom .social-wrap {
+    display: none;
+  }
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    padding: 0 6rem;
+  }
+  html body main section#subscribe .subscribe-head-col {
+    text-align: center;
+    -webkit-box-align: center !important;
+        -ms-flex-align: center !important;
+            align-items: center !important;
+    margin-bottom: 2rem;
+  }
+  html body main section#subscribe .subscribe-input-col {
+    padding: 0;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+}
+
+@media only screen and (max-width: 600px) {
+  html body .main-head .jumbotron.jumbotron-fluid .main-heading {
+    font-size: 12vw;
+  }
+  html body main section#about-us .image-col img {
+    width: 25rem;
+    height: 25rem;
+  }
+  html body main section#about-us .badge {
+    width: 10rem;
+    height: 10rem;
+  }
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 16rem;
+    padding: 0 6rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 3rem;
+  }
+  html body main section#reference .slider .profile {
+    margin: 4.5rem 0 1rem 0;
+  }
+}
+
+@media only screen and (max-width: 527px) {
+  html body main section#about-us .image-col img {
+    width: 23rem;
+    height: 23rem;
+  }
+  html body main section#about-us .badge {
+    width: 8rem;
+    height: 8rem;
+  }
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 14rem;
+    padding: 0 6.3rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 2rem;
+    font-size: 1.1rem;
+  }
+  html body main section#reference .slider .profile {
+    margin: 2.5rem 0 1rem 0;
+  }
+}
+
+@media only screen and (max-width: 482px) {
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 14rem;
+    padding: 0 5rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 1.8rem;
+  }
+}
+
+@media only screen and (max-width: 450px) {
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 14rem;
+    padding: 0 4rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 1.8rem;
+  }
+  html body main section#subscribe .search-input {
+    width: 18rem;
+  }
+}
+
+@media only screen and (max-width: 410px) {
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 14rem;
+    padding: 0 3rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 1.8rem;
+  }
+}
+
+@media only screen and (max-width: 380px) {
+  html body .main-head .jumbotron.jumbotron-fluid .welcome-text {
+    font-size: 1rem;
+  }
+  html body .main-head .jumbotron.jumbotron-fluid .main-heading {
+    font-size: 2.5rem;
+  }
+  html body .main-head .jumbotron.jumbotron-fluid .show-more {
+    padding: 1rem 3rem;
+  }
+  html body main section#about-us .image-col img {
+    width: 20rem;
+    height: 20rem;
+  }
+  html body main section#about-us .badge {
+    width: 5rem;
+    height: 5rem;
+  }
+  html body main section#about-us .badge-text {
+    color: white;
+    font-family: "Schoolbell", cursive !important;
+    font-size: 0.8rem;
+  }
+  html body main section#about-us .badge-text-diff {
+    font-family: "Rubik", sans-serif !important;
+    font-weight: 300;
+    font-size: 1.5rem;
+  }
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 12rem;
+    padding: 0 4rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 1.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 350px) {
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 12rem;
+    padding: 0 3rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 1.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+@media only screen and (max-width: 325px) {
+  html body main section#reference .slider .slide-woman, html body main section#reference .slider .slide-man {
+    background-size: auto 12rem;
+    padding: 0 2rem;
+  }
+  html body main section#reference .slider .slide-text {
+    margin-top: 1.8rem;
+    font-size: 0.9rem;
+  }
+}
+/*# sourceMappingURL=style.css.map */

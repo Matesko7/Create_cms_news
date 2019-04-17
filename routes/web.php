@@ -19,7 +19,7 @@ Auth::routes(['verify' => true]);
 Route::get('/','Controller@index')->name('index');
 Route::get('/sluzby', 'Controller@sluzby')->name('sluzby');
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/clanky', 'ArticlesController@index')->name('clanky');
+Route::get('/clanky/{category?}/{tag?}', 'ArticlesController@index')->name('clanky');
 Route::get('/clanok/{id}', 'ArticlesController@article')->name('clanok')->where('id', '[0-9]+');
 
 //FORMULAR
@@ -48,7 +48,7 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
 
         //GALERY FOLDER
 
-        //Route::post('admin/connector', 'connector\index');
+        Route::post('admin/connector', 'Admin\GalleryController@items');
        
         Route::post('jodit/upload', 'Admin\GalleryController@upload');
         Route::get('jodit/create', 'Admin\GalleryController@index');

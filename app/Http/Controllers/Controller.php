@@ -36,7 +36,7 @@ class Controller extends BaseController
     }
 
     public function test(){
-        return view('test');
+        return view('demo');
     }
 
 }

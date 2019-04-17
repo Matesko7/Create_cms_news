@@ -163,9 +163,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
 		Collective\Html\HtmlServiceProvider::class,
-		 FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
-		 Harimayco\Menu\MenuServiceProvider::class,
-
+		FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
+		Harimayco\Menu\MenuServiceProvider::class,
         /*
          * Package Service Providers...
          */
