@@ -154,7 +154,6 @@ function deleteitem(id) {
 }
 
 function deletemenu() {
-
 	var r = confirm("Do you want to delete this menu ?");
 	if (r == true) {
 		$.ajax({

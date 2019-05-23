@@ -1,11 +1,25 @@
 @extends('layout.app')
 
 @section('content')
-<div class="container">
-    <div class="text-center">
-    <a class="sub-nav" href="{{ route('login') }}">{{ __('Prihlásenie') }}</a>
-    <a class="sub-nav" href="{{ route('register') }}">{{ __('Registrácia') }}</a>
+<head>
+    <link rel="stylesheet" href="{{asset('grafika/css/blog-post.css')}}">
+</head>
+
+<section id="post-head">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg">
+                <nav class="breadcrumb custom-breadcrumb-nav">
+                    <a href="{{ route('login') }}" class="breadcrumb-item">
+                        <h5 class="post-title title">Prishlásenie</h5>
+                    </a>
+                </nav>
+                <h2 class="post-heading heading">Registrácia</h2>
+            </div>
+        </div>
     </div>
+</section>
+<div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card-body">
@@ -68,7 +82,7 @@
 
                     <div class="form-group row mb-0">
                         <div class="col-md-6 offset-md-4 text-center">
-                            <input type="submit" value="Registrovať" class="btn">
+                            <input type="submit" value="Registrovať" class="btn btn-info show-more">
                         </div>
                     </div>
                 </form>

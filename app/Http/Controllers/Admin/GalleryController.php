@@ -8,18 +8,21 @@ use App\Http\Controllers\Controller;
 class GalleryController extends Controller
 {
     public function upload(REQUEST $request){
-        $base = 'articles/';
-        $root = config('global_var.link_root').'public/articles/';
+        $base = 'articles/'.$_REQUEST['id_article'].'/';
+        $root = config('global_var.link_root').'public/articles/'.$_REQUEST['id_article'].'/';
         $relpath = isset($_REQUEST['baseurl']) ?  $_REQUEST['baseurl'] : ''; 
         // Use options.uploader.pathVariableName
         
         $path = $root;
+
+        if (!file_exists('articles/'.$_REQUEST['id_article'])) {
+            mkdir('articles/'.$_REQUEST['id_article'], 0777, true);
+        }
         
         // Do not give the file to load into the category that is lower than the root
         if (realpath($root.$relpath) && is_dir(realpath($root.$relpath)) && strpos(realpath($root.$relpath).'/', $root) !== false) {
             $path = realpath($root.$relpath).'/';
         }
-        
         
         // Black and white list
         $config = [
@@ -32,7 +35,7 @@ class GalleryController extends Controller
         //Here 'images' is options.uploader.filesVariableName
         if (isset($_FILES['files'])) {
             $tmp_name = $_FILES['files']['tmp_name'];
-            if (move_uploaded_file($tmp_name[0],$file='articles/'.$this->makeSafe($_FILES['files']['name'][0]))) {
+            if (move_uploaded_file($tmp_name[0],$file= $base.$this->makeSafe($_FILES['files']['name'][0]))) {
                 $info = pathinfo($file);
                 // check whether the file extension is included in the whitelist
                 if (isset($config['white_extensions']) and count($config['white_extensions'])) {

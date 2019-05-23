@@ -1,20 +1,16 @@
-@extends('layout.app')
+@extends('layout.app_admin')
 
 @section('content')
 <div class="container">
-    <div class="text-center">
-        <h2>Editácia profilu</h2>
-    </div>
-    <hr>
     <form class="form-horizontal" enctype="multipart/form-data" true method="POST" action="{{asset('user/'.$user[0]->id)}}" >@csrf
         <div style="padding:50px;" class="row">
             <!-- left column -->
             <div class="col-md-4">
                 <div class="text-center">
                     @if($user_photo)
-                    <img src="{{asset($user_photo)}}" class="avatar img-circle" alt="avatar">
+                    <img style="max-width:100%;" src="{{asset($user_photo)}}" class="avatar img-circle" alt="avatar">
                     @else
-                    <img src="{{asset('users/Unknown_Person.png')}}" class="avatar img-circle" alt="avatar">
+                    <img style="max-width:100%;" src="{{asset('users/Unknown_Person.png')}}" class="avatar img-circle" alt="avatar">
                     @endif
                     <br><br>
                     <input name="file" id="file" type="file" accept="image/x-png,image/jpeg" />
@@ -55,7 +51,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label"></label>
                     <div class="col-md-8">
-                        <input type="submit" class="btn" value="Uložiť zmeny">
+                        <input type="submit" class="btn btn-info show-more" value="Uložiť zmeny">
                         <span></span>
                         <input type="reset" class="btn btn-default" value="Zruš">
                     </div>

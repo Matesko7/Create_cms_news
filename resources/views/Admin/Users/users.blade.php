@@ -1,10 +1,7 @@
-@extends('layout.app')
+@extends('layout.app_admin')
 
 @section('content')
 <div class="container">
-    <div class="text-center">
-        <h2>Uživatelia</h2>
-    </div>
     <div class="row" style="margin-left:0px; margin-right: 0px;">
         <div class="col-sm-12" style="padding: 20px 20px 0px 20px;">
             <div style="font-size: 18px; font-weight: 400;color: fff;">

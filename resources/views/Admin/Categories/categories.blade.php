@@ -1,10 +1,8 @@
-@extends('layout.app')
+@extends('layout.app_admin')
 
 @section('content')
+
 <div class="container">
-    <div class="text-center">
-        <h2>Kategórie</h2>
-    </div>
     <div class="row" style="margin-left:0px; margin-right: 0px;">
         <div class="col-sm-12" style="padding: 20px 20px 0px 20px;">
         <a href="{{asset('admin/category')}}"><div class="new-article btn">Pridať novú &nbsp<i class="fas fa-plus"></i></div></a>
@@ -13,6 +11,7 @@
                     <thead>
                         <tr>
                             <th scope="col">Názov</th>
+                            <th scope="col">Názov EN</th>
                             <th scope="col">Parent kategória</th>
                             <th scope="col"></th>
                         </tr>
@@ -21,6 +20,7 @@
                         @foreach($categories as $category)
                         <tr>
                             <th scope="row">{{$category->name}}</th>
+                            <td>{{$category->name_en}}</th>
                             <td>{{$category->parent}}</td>
                             <td style="min-width:80px">
                                 <a href="{{asset("admin/category/$category->id")}}">

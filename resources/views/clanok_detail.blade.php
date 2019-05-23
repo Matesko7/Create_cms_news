@@ -1,72 +1,240 @@
 @extends('layout.app')
 
 @section('content')
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="stylesheet" href="{{asset('grafika/css/style.css')}}">
+  <link rel="stylesheet" href="{{asset('grafika/css/blog-post.css')}}">
 
-<head>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
-</head>
-<style>
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5 {
-        font-family: "Raleway", sans-serif
-    }
 
-</style>
-
-<div class="container">
-    <!-- Grid -->
-    <div style=" width: 70%;margin: 0 auto;" class="w3-row">
-
-        <!-- Blog entries -->
-        <div class="w3-col">
-
-            <!-- Blog entry -->
-            <div class="w3-card-12 w3-margin w3-white">
-                @if($article[0]->photo)
-                <img src="{{asset($article[0]->photo)}}" alt="Cover photo" style="width:100%">
+<section id="post-head">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg">
+            <nav class="breadcrumb custom-breadcrumb-nav">
+              <a href="#" class="breadcrumb-item">
+                <h5 class="post-title title">Úvod</h5>
+              </a>
+              <a href="#" class="breadcrumb-item">
+                <h5 class="post-title title">Článok</h5>
+              </a>
+            </nav>
+            <h2 class="post-heading heading">
+              @if(App::isLocale('en'))
+                    {{$article[0]->title_en}}
                 @else
-                <img src="{{asset('articles/cover.png')}}" alt="Cover photo" style="width:100%">
+                    {{$article[0]->title}}
                 @endif
-                <div class="w3-container">
-                    <h3 class="text-center"><b>{{$article[0]->title}}</b></h3>
-                    <h5><a href="{{asset('/clanky')}}/{{$article[0]->category_id}}/0">{{$article[0]->cat_name}}</a>, <span class="w3-opacity">{{date("d.m.y",strtotime($article[0]->created_at))}}</span>
-                    <span class="w3-right"><b>Autor:</b> {{$article[0]->user_name}}</span>
-                    </h5>
-                </div>
-
-                <div class="w3-container">
-                    <h4>{{$article[0]->perex}}</h4>
-                    <div class="w3-row">
-                        <div class="w3-col m12 s12">
-                            <?php echo(nl2br($article[0]->plot))?>
-                        </div>
-                    </div>
-                    <div class="w3-row">
-                        <div class="w3-col m12 w3-hide-small">
-                            
-                            <p><span class="w3-padding-large w3-left"> 
-                            @foreach($tags as $tag)
-                            <span class="w3-tag">
-                            <a href="{{asset('/clanky')}}/0/{{$tag}}" >
-                            #{{$tag}}</a>
-                            </span>
-                            @endforeach
-                            </span></p>
-                            
-                            <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-tag">0</span></span></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <hr>
+            </h2>
+          </div>
         </div>
-    </div>
-    <br>
-</div>
+      </div>
+    </section>
+
+    <section id="post-body">
+      <div class="container post-wrap">
+        <div class="row">
+          <div class="col-lg-8 main-content">
+            <div class="main-item">
+            @if($article[0]->photo)
+              <img src="{{asset($article[0]->photo)}}" class="post-body-img">
+            @else
+                <img src="{{asset('articles/cover.png')}}" class="post-body-img">
+            @endif
+              <div class="post">
+                <div class="row">
+                  <h6 class="post-meta text"><i class="fas fa-pencil-alt"></i> {{$article[0]->user_name}}</h6>
+                  <h6 class="post-meta text"><i class="far fa-calendar-alt"></i> {{date("d.m.y",strtotime($article[0]->created_at))}}</h6>
+                  <h6 class="post-meta text"><i class="fas fa-comments"></i> {{trans('basics.comments')}}</h6>
+                  <h6 class="post-meta text"><i class="fas fa-list"></i><a href="{{asset('/clanky')}}/{{$article[0]->category_id}}/0">
+                  @if(App::isLocale('en'))
+                    {{$article[0]->cat_name_en}}
+                  @else
+                    {{$article[0]->cat_name}}
+                  @endif 
+                  </a></h6>
+                </div>
+                <h2 class="post-item-heading">@if(App::isLocale('en'))
+                    {{$article[0]->title_en}}
+                @else
+                    {{$article[0]->title}}
+                @endif</h2>
+                @if(App::isLocale('en'))
+                  <?php echo(nl2br($article[0]->plot_en))?>
+                @else
+                  <?php echo(nl2br($article[0]->plot))?>
+                @endif
+              </div>
+              <div class="row post-tags">
+                <div class="col-sm col-lg d-flex flex-row align-items-center tags-row">
+                  <h6 class="tags-title">Tags: </h6>
+                  @foreach($tags as $tag) 
+                    @if($tag != '') 
+                  <div class="col-sm col-lg d-flex align-items-center justify-content-center px-1 py-1">
+                  <a href="{{asset('/clanky')}}/0/{{$tag}}" class="tag">
+                      <h6 class="tag-name text">{{$tag}}</h6>
+                    </a>
+                  </div>
+                    @endif
+                  @endforeach
+                </div>
+                <div class="col-sm col-lg d-flex flex-row justify-content-end social-row">
+                  <a href="#"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="main-item">
+              <div class="profile">
+                <div class="row">
+                  <div class="col-lg-4 picture-col">
+                    <div class="profile-picture"></div>
+                  </div>
+                  <div class="col-lg d-flex flex-column justify-content-between desc-col">
+                    <h4 class="profile-name">Name</h4>
+                    <p class="profile-description">Lorem ipsum dolor sit amet consectetur adipisicing elit. Porro, est!
+                      Enim
+                      similique sunt obcaecati minima, vero aliquam tempore. Quis accusantium error iure ut libero
+                      dolorem voluptates id eum sapiente temporibus.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="main-item">
+              <div class="comments">
+                <h2 class="comments-heading heading">2 Komentáre</h2>
+                <div class="row comment media-query-special">
+                  <div class="col-md-12 col-lg-3 media-query-special">
+                    <div class="user-picture"></div>
+                  </div>
+                  <div class="col-md-12 col-lg d-flex flex-row media-query-special">
+                    <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
+                      <div class="row flex-column justify-content-between">
+                        <h6 class="user-name">Name</h4>
+                          <h6 class="date">D Month, Year - 00:00</h5>
+                      </div>
+                      <div class="row">
+                        <p class="comment-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem modi
+                          eligendi, molestias saepe nulla fugiat nam repudiandae sed porro veritatis impedit blanditiis
+                          repellendus aliquid! Alias qui eligendi consequuntur incidunt nobis.</p>
+                      </div>
+                    </div>
+                    <div class="col-md col-lg-2 d-flex flex-row align-items-start normal">
+                      <button class="reply normal">Odpoveď</button>
+                    </div>
+                  </div>
+                  <div class="col-md col-lg-2 d-flex flex-row align-items-start special" id="small-disp">
+                    <button class="reply">Odpoveď</button>
+                  </div>
+                </div>
+                <div class="row comment media-query-special">
+                  <div class="col-md-12 col-lg-3 media-query-special">
+                    <div class="user-picture"></div>
+                  </div>
+                  <div class="col-md-12 col-lg d-flex flex-row media-query-special">
+                    <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
+                      <div class="row flex-column justify-content-between">
+                        <h6 class="user-name">Name</h4>
+                          <h6 class="date">D Month, Year - 00:00</h5>
+                      </div>
+                      <div class="row">
+                        <p class="comment-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem modi
+                          eligendi, molestias saepe nulla fugiat nam repudiandae sed porro veritatis impedit blanditiis
+                          repellendus aliquid! Alias qui eligendi consequuntur incidunt nobis.</p>
+                      </div>
+                    </div>
+                    <div class="col-md col-lg-2 d-flex flex-row align-items-start normal">
+                      <button class="reply normal">Odpoveď</button>
+                    </div>
+                  </div>
+                  <div class="col-md col-lg-2 d-flex flex-row align-items-start special" id="small-disp">
+                    <button class="reply">Odpoveď</button>
+                  </div>
+                </div>
+                <div class="comment add-comment">
+                  <h2 class="comments-heading heading">Pridať komentár</h2>
+                  <form action="#">
+                    <div class="row">
+                      <div class="col-md pr-2">
+                        <input type="text" name="name" placeholder="Meno" class="add-comment-input"><br>
+                      </div>
+                      <div class="col-md pl-2">
+                        <input type="email" name="email" placeholder="Email" class="add-comment-input"><br>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md">
+                        <textarea type="text" name="comment-content" placeholder="Komentár" rows="7"
+                          class="add-comment-input"></textarea>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md">
+                        <input type="submit" value="Odoslať komentár" class="add-comment-submit">
+                      </div>
+                    </div>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-4 side-content">
+            <div class="side-item">
+              <div class="search">
+                <form action="#">
+                  <div class="input-group mb-3">
+                    <input type="text" class="form-control search-input" placeholder="Vyhladať" aria-label="Search">
+                    <div class="input-group-append">
+                      <button class="btn search-submit" type="button"><i class="fas fa-search"></i></button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="categories">
+                <h4 class="categories-heading heading">Kategórie</h4>
+                <ul>
+                @foreach($categories_all as $value)
+                <a href="{{asset('/clanky')}}/{{$value->id}}/0"> <li class="category">{{$value->name}}</li></a>  
+                @endforeach
+                </ul>
+              </div>
+              <div class="newest-articles">
+                <h4 class="newest-articles-heading heading">Posledné články</h4>
+                <div class="article">
+                  <img src="{{asset('grafika/grafika clanok/baboMama.jpg')}}" class="article-photo mt-0" alt="článok">
+                  <div class="row">
+                    <h6 class="article-date text"><i class="far fa-calendar-alt"></i> Dátum</h6>
+                  </div>
+                  <a href="">
+                    <h4 class="article-name heading">Názov článku</h4>
+                  </a>
+                </div>
+                <div class="article">
+                  <img src="{{asset('grafika/grafika clanok/baboMama.jpg')}}" class="article-photo" alt="článok">
+                  <div class="row">
+                    <h6 class="article-date text"><i class="far fa-calendar-alt"></i> Dátum</h6>
+                  </div>
+                  <a href="">
+                    <h4 class="article-name heading">Názov článku</h4>
+                  </a>
+                </div>
+              </div>
+              <div class="tags">
+                <h4 class="tags-heading heading">Tagy</h4>
+                <div class="row mb-2">
+                @foreach($tags_all as $value)
+                <div class="col-sm col-lg d-flex align-items-center justify-content-center px-1 py-1">
+                    <a href="{{asset('/clanky')}}/0/{{$value}}" class="tag">
+                      <h6 class="tag-name text">{{$value}}</h6>
+                    </a>
+                </div>
+                @endforeach
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
 @endsection

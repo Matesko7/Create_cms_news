@@ -165,6 +165,8 @@ return [
 		Collective\Html\HtmlServiceProvider::class,
 		FarhanWazir\GoogleMaps\GMapsServiceProvider::class,
 		Harimayco\Menu\MenuServiceProvider::class,
+		UniSharp\LaravelFilemanager\LaravelFilemanagerServiceProvider::class,
+		Intervention\Image\ImageServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -232,6 +234,7 @@ return [
 		'GMaps' => FarhanWazir\GoogleMaps\Facades\GMapsFacade::class,
 		'Captcha' => Mews\Captcha\Facades\Captcha::class,
 		'Menu' => Harimayco\Menu\Facades\Menu::class,
+		'Image' => Intervention\Image\Facades\Image::class,
     ],
 
 ];

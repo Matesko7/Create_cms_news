@@ -17,12 +17,12 @@ class Controller extends BaseController
     
     public function index(){
         $config = array();
-        $config['center'] = '48.145373, 17.190432';
+        $config['center'] = '48.1834461513518, 17.099425792694092';
         $config['zoom'] = '14';
 
         $marker = array();
-        $marker['position'] = '48.145373, 17.190432';
-        $marker['infowindow_content'] = "<img style='margin:10px' src=".asset('images/logo-scroll.png')."><p><b>KM CONSULT S.R.O.</b></p><p>Rebarborová 1/B ( areál Harley Davidson )<br>821 07 Bratislava</p><p><span>email: info@kmuctovnictvo.sk <br>tel: +421 915 232 394</span></p>";
+        $marker['position'] = '48.1834461513518, 17.099425792694092';
+        $marker['infowindow_content'] = "<img style='margin:10px;height:75px;' src=".asset('grafika/grafika/na_boboch.png')."><p><b>Bratislavská bobová dráha</b></p><p>Cesta na Kamzík<br>831 01 Nové Mesto</p><p><span>email: ba.bobova@gmail.com <br>tel: +421 918 683 202</span></p>";
   
         \GMaps::add_marker($marker);
         \GMaps::initialize($config);

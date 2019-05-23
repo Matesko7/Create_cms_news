@@ -1,11 +1,7 @@
-@extends('layout.app')
+@extends('layout.app_admin')
 
 @section('content')
 <div class="container">
-    <div class="text-center">
-        <h2>Editácia kategórie</h2>
-    </div>
-    <hr>
     {{ Form::open(array('url' => isset($category) ? asset("admin/category/".$category->id): asset('admin/category') ,'files' => true)) }}
         <div style="padding:50px;" class="row">
             <!-- edit form column -->
@@ -20,6 +16,18 @@
                         @endif
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="col-lg-3 control-label">Názov EN:</label>
+                    <div class="col-lg-8">
+                        @if(isset($category))
+                        <input class="form-control" id="name_en" name="name_en" type="text" value="{{$category->name_en}}">
+                        @else
+                        <input class="form-control" id="name_en" name="name_en" type="text" placeholder="Category name" value="">
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label class="col-lg-3 control-label">Parent kategória:</label>
                     <div class="col-lg-8">
@@ -39,7 +47,7 @@
                         </select>
                     </div>
                 </div>
-                <button id="new_cat_save" name="new_cat_save" class="btn input-tag-category ">Uložiť</button>
+                <button id="new_cat_save" name="new_cat_save" class="btn btn-info show-more">Uložiť</button>
     {{ Form::close() }}
 </div>
 </div>

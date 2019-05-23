@@ -25,6 +25,15 @@ Route::get('/clanok/{id}', 'ArticlesController@article')->name('clanok')->where(
 //FORMULAR
 Route::post('/feedback', 'FeedbackController@send');
 
+//zmena jazyka
+Route::get('/setlocale/{locale}', function ($locale) {
+    if (in_array($locale, \Config::get('app.locales'))) {  
+      Session::put('locale', $locale);
+    }
+    echo($locale.'<br><br>');
+    return redirect()->back();
+  });
+
 
 Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], function () {      
     
@@ -41,7 +50,7 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         
         //Articles
         Route::get('admin/articles', 'Admin\ArticlesController@index');
-        Route::get('admin/article/{id?}', 'Admin\ArticlesController@edit')->where('id', '[0-9]+');
+        Route::get('admin/article/{lang}/{id?}', 'Admin\ArticlesController@edit')->where('id', '[0-9]+');
         Route::get('admin/deletearticle/{id}', 'Admin\ArticlesController@delete')->where('id', '[0-9]+');
         //Article changes
         Route::post('admin/article/{id?}', 'Admin\ArticlesController@save')->where('id', '[0-9]+');
@@ -60,6 +69,12 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         //Ajax new category
         Route::get('savecategory/{category}/{parent_category}', 'Admin\CategoriesController@new')->where(['parent_category' => '[0-9]+']);
 
+        //Ajax image to gallery
+        Route::post('saveImagetoGalery', 'Admin\ArticlesController@newImageToGalery');
+
+        //images left/right/delete
+        Route::post('editGalery','Admin\ArticlesController@editImage');
+
         //ADMIN
         Route::middleware(['is.Admin'])->group(function () {
             //Users
@@ -75,6 +90,7 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
 
             //Menu
             Route::get('admin/menu', 'Admin\MenuController@index');
+            Route::get('admin/menu/{selected_sk}/{selected_en}', 'Admin\MenuController@selectedMenuChange')->where(['selected_sk' => '[0-9]+', 'selected_en' => '[0-9]+']);
 
             //Menu
             Route::group(['middleware' => config('menu.middleware')], function () {

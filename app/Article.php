@@ -8,6 +8,10 @@ use Auth;
 
 class Article extends Model
 {
+    public function articles() {
+        return $this->belongsToMany(Image::class);
+    }
+
     public function getAll(){
         return $articles = $this::paginate(15);
     }
@@ -42,7 +46,7 @@ class Article extends Model
             ->leftJoin('users', function($join2){
                 $join2->on('articles.user_id','=','users.id');
             })
-            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->select('categories.name as cat_name','categories.name_en as cat_name_en', 'users.name as user_name', 'articles.*')
             ->where('articles.created_at','<',$date)
             ->where('category_id','=',$category)
             ->where('tags','LIKE','%'.$tag.'%')
@@ -56,7 +60,7 @@ class Article extends Model
             ->leftJoin('users', function($join2){
                 $join2->on('articles.user_id','=','users.id');
             })
-            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->select('categories.name as cat_name','categories.name_en as cat_name_en', 'users.name as user_name', 'articles.*')
             ->where('articles.created_at','<',$date)
             ->where('category_id','=',$category)
             ->orderBy('articles.created_at', 'desc')
@@ -69,7 +73,7 @@ class Article extends Model
             ->leftJoin('users', function($join2){
                 $join2->on('articles.user_id','=','users.id');
             })
-            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->select('categories.name as cat_name','categories.name_en as cat_name_en', 'users.name as user_name', 'articles.*')
             ->where('articles.created_at','<',$date)
             ->where('tags','LIKE','%'.$tag.'%')
             ->orderBy('articles.created_at', 'desc')
@@ -82,7 +86,7 @@ class Article extends Model
             ->leftJoin('users', function($join2){
                 $join2->on('articles.user_id','=','users.id');
             })
-            ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+            ->select('categories.name as cat_name','categories.name_en as cat_name_en', 'users.name as user_name', 'articles.*')
             ->where('articles.created_at','<',$date)
             ->orderBy('articles.created_at', 'desc')
             ->paginate($paginate);
@@ -115,38 +119,68 @@ class Article extends Model
         ->leftJoin('users', function($join2){
             $join2->on('articles.user_id','=','users.id');
         })
-        ->select('categories.name as cat_name', 'users.name as user_name', 'articles.*')
+        ->select('categories.name as cat_name','categories.name_en as cat_name_en','users.name as user_name', 'articles.*')
         ->where('articles.id',$id)
         ->get();
     }
 
-    public function updateArticle($title,$perex,$plot,$tags,$category,$audience,$user_id,$dateArticle,$id=null){
+    public function updateArticle($title,$perex,$plot,$tags,$category,$audience,$user_id,$dateArticle,$lang,$id=null){
         if($id==null){
-            DB::insert("INSERT INTO `articles` (`plot`, `title`, `category_id`, `perex`, `user_id`, `tags`, `audience`,`created_at`,`updated_at`) VALUES (:plot,:title,:category,:perex,:user,:tags,:audience,:created,:updated)",[
-                'plot' => $plot,
-                'title' => $title,
-                'category' => $category,
-                'perex' => $perex,
-                'tags' => $tags,
-                'audience' => $audience,
-                'user' => $user_id,
-                'created' => $dateArticle,
-                'updated' => date("Y-m-d H:i:s")
-                ]);
+            if($lang=='en'){
+                DB::insert("INSERT INTO `articles` (`plot_en`, `title_en`, `category_id`, `perex_en`, `user_id`, `tags`, `audience`,`created_at`,`updated_at`) VALUES (:plot,:title,:category,:perex,:user,:tags,:audience,:created,:updated)",[
+                    'plot' => $plot,
+                    'title' => $title,
+                    'category' => $category,
+                    'perex' => $perex,
+                    'tags' => $tags,
+                    'audience' => $audience,
+                    'user' => $user_id,
+                    'created' => $dateArticle,
+                    'updated' => date("Y-m-d H:i:s")
+                    ]);
+            }
+            else{
+                DB::insert("INSERT INTO `articles` (`plot`, `title`, `category_id`, `perex`, `user_id`, `tags`, `audience`,`created_at`,`updated_at`) VALUES (:plot,:title,:category,:perex,:user,:tags,:audience,:created,:updated)",[
+                    'plot' => $plot,
+                    'title' => $title,
+                    'category' => $category,
+                    'perex' => $perex,
+                    'tags' => $tags,
+                    'audience' => $audience,
+                    'user' => $user_id,
+                    'created' => $dateArticle,
+                    'updated' => date("Y-m-d H:i:s")
+                    ]);
+            }
             return DB::getPdo()->lastInsertId();  
         }
         else{
-            DB::update("UPDATE `articles` SET `plot`=:plot,`title`=:title,`category_id`=:category,`perex`=:perex,`tags`=:tags,`audience`=:audience,`user_id`=:user,`created_at`=:created WHERE id=:id",[
-            'plot' => $plot,
-            'title' => $title,
-            'category' => $category,
-            'perex' => $perex,
-            'tags' => $tags,
-            'audience' => $audience,
-            'user' => $user_id,
-            'id' => $id,
-            'created' => $dateArticle
-            ]);
+            if($lang=='en'){
+                DB::update("UPDATE `articles` SET `plot_en`=:plot,`title_en`=:title,`category_id`=:category,`perex_en`=:perex,`tags`=:tags,`audience`=:audience,`user_id`=:user,`created_at`=:created WHERE id=:id",[
+                    'plot' => $plot,
+                    'title' => $title,
+                    'category' => $category,
+                    'perex' => $perex,
+                    'tags' => $tags,
+                    'audience' => $audience,
+                    'user' => $user_id,
+                    'id' => $id,
+                    'created' => $dateArticle
+                ]);
+            }
+            else{
+                DB::update("UPDATE `articles` SET `plot`=:plot,`title`=:title,`category_id`=:category,`perex`=:perex,`tags`=:tags,`audience`=:audience,`user_id`=:user,`created_at`=:created WHERE id=:id",[
+                    'plot' => $plot,
+                    'title' => $title,
+                    'category' => $category,
+                    'perex' => $perex,
+                    'tags' => $tags,
+                    'audience' => $audience,
+                    'user' => $user_id,
+                    'id' => $id,
+                    'created' => $dateArticle
+                ]);
+            }
         }
     }
 

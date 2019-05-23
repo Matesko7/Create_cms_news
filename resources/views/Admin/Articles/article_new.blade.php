@@ -1,16 +1,45 @@
-@extends('layout.app')
+@extends('layout.app_admin')
 
 @section('content')
+
 
 <head>
     <link rel="shortcut icon" type="image/png" href="{{ asset('vendor/laravel-filemanager/img/folder.png') }}">
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
+    <link rel="stylesheet" href="{{asset('jodit/build/jodit.min.css')}}">
+    <script src="{{asset('jodit/build/jodit.min.js')}}"></script>
     <meta name="csrf-token" content="{{ csrf_token() }}">
-</head>
+</head>    
+
+<style>
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none
+}
+
+.nav>li {
+    position: relative;
+    display: block
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent
+}
+</style>
 <div class="container">
 <br>
+<ul class="nav nav-tabs">
+  <li><a style="@if($lang=='sk')background-color:#C9D2E0 @endif" href="{{asset('admin/article/sk')}}">SK</a></li>
+  <li><a style="@if($lang=='en')background-color:#C9D2E0 @endif" href="{{asset('admin/article/en')}}">EN</a></li>
+</ul>
     <div class="row">
         <div class="col-md-9">
             <div class="well well-sm">
@@ -18,7 +47,7 @@
                     <fieldset>
 
                         <div class="form-group" style="margin-bottom:20px;display:flex">
-                            <div class="col-md-4"><label>Viditeľnosť:</label>
+                            <div class="col-md-4"><label>Dostupnosť:</label>
                                 <div style="display:inline-block" class="ui-select">
                                     <select name="audience" id="audience" class="form-control">
                                         <option value="1">Verejné</option selected>
@@ -28,10 +57,10 @@
                             </div>
                             <div style="text-align:right" class="col-md-8">
                                 <label>Publikovať:</label>
-                                <input style="font-weight: bold;width:100px" type="text" name="dateArticle" id="dateArticle"
+                                <input style="font-weight: bold;width:150px" type="text" name="dateArticle" id="dateArticle"
                                     value="okamžite" readonly>
                                 <a id="showcalendar" href="#">upraviť</a>
-                                <div class="hidden" id="choosedate">
+                                <div class="hidden" id="choosedate" style="display:none">
                                     <input style="width:100px" type="text" id="datepicker">
                                     <input id="dateconfirm" type="button" style="font-size:0.6rem" class="btn" value="OK">
                                     <a id="hidecalendar" href="#">zrušiť</a>
@@ -44,29 +73,22 @@
                                 <input id="title" name="title" type="text" placeholder="Title" value="" class="form-control title-article">
                             </div>
                         </div>
-                        <br><br>
 
                         <div class="form-group">
                             <div class="col-md-12">
                                 <input id="perex" name="perex" type="text" placeholder="Perex" value="" class="form-control title-article">
                             </div>
                         </div>
-                        <br><br>
+                        
 
                         <div class="form-group">
                             <div class="col-md-12">
                             OBSAH
-                            <h2>Standalone Image Button</h2>
-        <div class="input-group">
-          <span class="input-group-btn">
-            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
-              <i class="fa fa-picture-o"></i> Choose
-            </a>
-          </span>
-          <input id="thumbnail" class="form-control" type="text" name="filepath">
-        </div>
-        <img id="holder" style="margin-top:15px;max-height:100px;">
-                            </div>
+                            <textarea name="editor" id="editor"></textarea>
+                            <br>
+                            <h2>Galéria</h2>
+                            Na vytvorenie galérie najprv uložte článok
+                            <br>
                         </div>
 
                         <div class="form-group text-center">
@@ -83,7 +105,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <button id="category_save" type="submit" class="btn  btn-lg">Uložiť</button>
+                                <button id="category_save" type="submit" class="btn btn-info show-more">Uložiť</button>
                             </div>
                         </div>
                     </fieldset>
@@ -116,7 +138,7 @@
                         @endforeach
                     </ul>
                     <div id="new_cat_add" class="new-article"><i class="fas fa-plus"></i>&nbsp Pridať novú</div>
-                    <div id="new_cat_panel" class="hidden">
+                    <div id="new_cat_panel" class="hidden" style="display:none">
 
                         <select id="cat_parent" name="cat_parent" class="form-control">
                             <option value="1" selected>-Nadradená kategória-</option>
@@ -147,97 +169,42 @@
 </div>
 
 <script>
-   var route_prefix = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
-  </script>
 
-  <!-- CKEditor init -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/ckeditor.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/adapters/jquery.js"></script>
-  <script>
-    $('textarea[name=ce]').ckeditor({
-      height: 100,
-      toolbar: [
-        { name: 'document', items: [ 'Source', '-', 'Save', 'NewPage', 'Preview', 'Print', '-', 'Templates' ] },
-		{ name: 'clipboard', items: [ 'Cut', 'Copy', 'Paste', 'PasteText', 'PasteFromWord', '-', 'Undo', 'Redo' ] },
-		{ name: 'editing', items: [ 'Find', 'Replace', '-', 'SelectAll', '-', 'Scayt' ] },
-		{ name: 'forms', items: [ 'Form', 'Checkbox', 'Radio', 'TextField', 'Textarea', 'Select', 'Button', 'ImageButton', 'HiddenField' ] },
-		'/',
-		{ name: 'basicstyles', items: [ 'Bold', 'Italic', 'Underline', 'Strike', 'Subscript', 'Superscript', '-', 'CopyFormatting', 'RemoveFormat' ] },
-		{ name: 'paragraph', items: [ 'NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock', '-', 'BidiLtr', 'BidiRtl', 'Language' ] },
-		{ name: 'links', items: [ 'Link', 'Unlink', 'Anchor' ] },
-		{ name: 'insert', items: [ 'Image', 'Flash', 'Table', 'HorizontalRule', 'Smiley', 'SpecialChar', 'PageBreak', 'Iframe' ] },
-		'/',
-		{ name: 'styles', items: [ 'Styles', 'Format', 'Font', 'FontSize' ] },
-		{ name: 'colors', items: [ 'TextColor', 'BGColor' ] },
-		{ name: 'tools', items: [ 'Maximize', 'ShowBlocks' ] },
-		{ name: 'about', items: [ 'About' ] }
-          ],    
-      filebrowserImageBrowseUrl: route_prefix + '?type=Images',
-      filebrowserImageUploadUrl: route_prefix + '/upload?type=Images&_token={{csrf_token()}}',
-      filebrowserBrowseUrl: route_prefix + '?type=Files',
-      filebrowserUploadUrl: route_prefix + '/upload?type=Files&_token={{csrf_token()}}'
-    });
-  </script>
+$('#holder').on('load', function () {
+ $('#image_insert').show();
+});
+
+$("#image_insert").click(function(){
+    Ajax_add_photo_to_gallery();
+});
 
   
 
-  <script>
-    {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/lfm.js')) !!}
-  </script>
-  <script>
-    $('#lfm').filemanager('image', {prefix: route_prefix});
-    $('#lfm2').filemanager('file', {prefix: route_prefix});
-  </script>
 
-  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.css" rel="stylesheet">
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('#summernote').summernote();
-    });
-  </script>
-  <script>
-    $(document).ready(function(){
-
-      // Define function to open filemanager window
-      var lfm = function(options, cb) {
-          var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
-          window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
-          window.SetUrl = cb;
-      };
-
-      // Define LFM summernote button
-      var LFMButton = function(context) {
-          var ui = $.summernote.ui;
-          var button = ui.button({
-              contents: '<i class="note-icon-picture"></i> ',
-              tooltip: 'Insert image with filemanager',
-              click: function() {
-
-                  lfm({type: 'image', prefix: '/laravel-filemanager'}, function(url, path) {
-                      context.invoke('insertImage', url);
-                  });
-
-              }
-          });
-          return button.render();
-      };
-
-      // Initialize summernote with LFM button in the popover button group
-      // Please note that you can add this button to any other button group you'd like
-      $('#summernote-editor').summernote({
-          toolbar: [
-              ['popovers', ['lfm']],
-          ],
-          buttons: {
-              lfm: LFMButton
-          }
-      })
-    });
+var editor=new Jodit('#editor', {
+    enableDragAndDropFileToEditor: true,
+    height: 500,
+    uploader: {
+        url: "{{asset('jodit/upload')}}",
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        format: 'json',
+        data: {id_article: 'tmp'},
+        isSuccess: function (resp) {
+            z="{{asset('/')}}"+ resp.files;
+            editor.selection.insertImage(z);
+        }
+    }
+});
 </script>
+
+
 <script>
+
     $(function () {
         $("#datepicker").datepicker();
+        $("#ui-datepicker-div").css("z-index", "10");
     });
 
 

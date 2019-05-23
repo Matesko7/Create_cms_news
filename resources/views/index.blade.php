@@ -5,139 +5,268 @@
 <head>
     {!! $map['js'] !!}
 </head>
-<div class="container">
-    <div class="jumbotron">
-        <div class="header">KM consult s.r.o.</div>
-        <div class="title">Komplexné <font style="color:#0076ae">účtovníctvo</font>, <font style="color:#0076ae">mzdy</font>
-            a poradenstvo</div>
-    </div>
-</div>
 
-<div id="onas" class="container text-center content">
-    <div style="margin: 30px 150px 0 150px;font-size:18px;font-weight: 400;color: #212121;">Externé vedenie
-        jednoduchého a podvojného účtovníctva, mzdovej agendy, spracovanie daňových priznaní a závierok, finančného
-        a účtovného poradenstva. Transparentné ceny. S nami sa nemusíte obávať žiadnych skrytých poplatkov. Flexibilita
-        v doručovaní dokladov. V rámci Bratislavy a okolia ponúkame možnosť vyzdvihnutia dokladov priamo u Vás.</div>
-</div>
-
-<div class="container content">
-    <div class="row" style="margin-left:0px; margin-right: 0px;">
-        <div class="col-sm-6" style="background-color: #0076ae; padding: 10px 10px 0 10px;">
-            <div style="font-size: 18px; font-weight: 400;color: fff;">
-                <p>Každému jednotlivému klientovi venujeme individuálnu pozornosť a osobný prístup. V závislosti od
-                    Vašich špecifických potrieb Vám ponúkneme riešenia šité na mieru.</p>
-                <p>Našim klientom poskytujeme poradenstvo bezplatne. Odbremeníme Vás od nutnosti orientovania sa
-                    v aktuálnych zákonoch a komunikácie s úradmi.</p>
-                <p>S nami nestratíte prehľad o aktuálnom stave vášho účtovníctva. Doklady spracúvame priebežne.
-                    Urobíme v dokladoch poriadok. Od nás sa k Vám doklady vrátia prehľadne zotriedené.
-                    Myslíme na budúcnosť. Je pre nás dôležité udržať si Vašu dôveru a spokojnosť.</p>
+<section id="about-us">
+      <div class="bg">
+        <div class="container">
+          <div class="d-flex flex-column align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248.81 49.99">
+              <defs>
+                <style>
+                  .cls-1 {
+                    fill: #fff;
+                  }
+                </style>
+              </defs>
+              <title>Asset 3arrow-up</title>
+              <g id="Layer_2" data-name="Layer 2">
+                <g id="Layer_1-2" data-name="Layer 1">
+                  <path class="cls-1"
+                    d="M0,50H248.81s-27.9-2.17-53.49-16.42C170.59,19.79,144.55.11,124.49,0h-.17c-20.06.11-46.1,19.79-70.83,33.57C27.9,47.82,0,50,0,50Z" />
+                </g>
+              </g>
+            </svg>
+            <a href="#"><img src="grafika/grafika/arrow-down.png" class="arrow-down" alt="Down" draggable="false"></a>
+          </div>
+          <div class="row justify-content-center">
+            <div class="col-lg text-col">
+              <h5 class="about-us-title title">Viac o nás</h5>
+              <h2 class="about-us-heading heading">Letná prevádzka a prevádzkový predpis</h2>
+              <img src="grafika/grafika/line.png" draggable="false" alt="" class="mb-3 mt-2">
+              <p class="about-us-text text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis alias in
+                labore. Excepturi totam beatae praesentium dolorum itaque, neque illo, possimus ut obcaecati officia
+                suscipit reiciendis voluptate cum quis unde soluta nulla? In optio, unde, blanditiis pariatur nulla fuga
+                corrupti, veritatis officia minima voluptates odio aliquid illum reprehenderit necessitatibus. Velit
+                placeat dicta asperiores dolore iure est neque aut doloremque, architecto laborum harum provident
+                perspiciatis impedit magni dolorem non. Obcaecati, itaque harum, dignissimos cumque at unde consequatur
+                voluptates error excepturi eligendi rem enim tenetur eaque consequuntur dolorum cum voluptate quos
+                officiis assumenda veritatis? Pariatur fugiat reiciendis eius dolor veritatis quibusdam id?</p>
+              <button type="button" class="btn btn-info show-more">Viac info</button>
             </div>
+            <div class="col-lg row image-col justify-content-center align-items-center">
+              <img
+                src="https://images.newscientist.com/wp-content/uploads/2018/12/18114037/gettyimages-758305393-1-800x533.jpg"
+                alt="">
+              <div class="row align-items-center badge">
+                <h6 class="badge-text">5 jázd<br><span class="badge-text-diff">12€</span></h6>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-sm-6 right" style="padding:0px;"></div>
-    </div>
-</div>
+      </div>
+    </section>
 
-<div class="container text-center content">
-    <h2 style="font-size: 24px; font-weight: 600;color:#0076ae">SLUŽBY</h2>
-    <div style="margin: 30px 150px 0 150px;font-size:18px;font-weight: 400;">S nami nestratíte prehľad o aktuálnom
-        stave vášho účtovníctva. Doklady spracúvame priebežne.</div>
-</div>
+    <section id="benefits">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="benefits-title title">Benefity</h5>
+            <h2 class="benefits-heading heading">Bobovej dráhy</h2>
+            <img src="grafika/grafika/line.png" draggable="false" alt="" class="mb-3 mt-2">
+          </div>
+        </div>
+        <div class="row my-4">
+          <div class="col-md d-flex align-items-center flex-column">
+            <div class="circle orange"><img src="grafika/grafika/ikona-zabava.png" draggable="false" alt=""></div>
+            <p class="caption">Zábava</p>
+          </div>
+          <div class="col-md d-flex align-items-center flex-column">
+            <div class="circle pink"><img src="grafika/grafika/ikona-eventy.png" draggable="false" alt=""></div>
+            <p class="caption">Eventy</p>
+          </div>
+          <div class="col-md d-flex align-items-center flex-column">
+            <div class="circle light-blue"><img src="grafika/grafika/ikona-pre-rodiny.png" draggable="false" alt=""></div>
+            <p class="caption">Pre rodiny</p>
+          </div>
+          <div class="col-md d-flex align-items-center flex-column">
+            <div class="circle green"><img src="grafika/grafika/ikona-detske-tabory.png" draggable="false" alt=""></div>
+            <p class="caption">Detské tábory</p>
+          </div>
+          <div class="col-md d-flex align-items-center flex-column">
+            <div class="circle purple"><img src="grafika/grafika/ikona-jednotlivci.png" draggable="false" alt=""></div>
+            <p class="caption">Jednotlivci</p>
+          </div>
+          <div class="col-md d-flex align-items-center flex-column">
+            <div class="circle red"><img src="grafika/grafika/ikona-adrenalin.png" draggable="false" alt=""></div>
+            <p class="caption">Adrenalín</p>
+          </div>
+        </div>
+      </div>
+    </section>
 
-<div class="container content">
-    <div class="row" style="margin: 0 150px 0 150px;">
-        <div class="col-4 text-center">
+    <section id="subscribe">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm-12 col-md-6 col-lg-5 d-flex align-items-end flex-column subscribe-head-col">
             <div>
-                <i class="fas fa-chart-bar icons"></i>
+              <h5 class="subscribe-title title">Prihláste sa k nám</h5>
+              <h2 class="subscribe-heading heading">Nenechajte si ujsť naše akcie</h2>
             </div>
-            <div style="padding-top:10px;font-size: 18px; font-weight: 400;color:#696868">
-                <a href="sluzby#ucto">Účtovníctvo a dane</a>
-            </div>
-            <div style="padding-top:10px;font-size: 16px; font-weight: 400;color:#949494">
-                Kontrola správnosti účtovných dokladov, spracovanie a zaúčtovanie dokladov podľa postupov účtovania
-            </div>
+          </div>
+          <div class="col-sm-12 col-md-6 col-lg-7 d-flex align-items-center flex-column">
+            <form action="#" class="row">
+              <div class="col-md-12 col-lg pr-1 subscribe-input-col">
+                <input type="email" name="email" placeholder="Email" class="search-input"><br>
+              </div>
+              <div class="col-md-12 col-lg pl-1 subscribe-input-col">
+                <input type="submit" value="Prihlásiť" class="search-submit">
+              </div>
+            </form>
+          </div>
         </div>
-        <div class="col-4 text-center">
-            <div>
-                <i class="fas fa-users icons"></i>
-            </div>
-            <div style="padding-top:10px;font-size: 18px; font-weight: 400;color:#696868">
-                <a href="sluzby#mzdy">Mzdy a personalistika</a>
-            </div>
-            <div style="padding-top:10px;font-size: 16px; font-weight: 400;color:#949494">
-                Registrácia zamestnávateľa, vedenie evidencie zamestnancov, mesačné spracovanie miezd
-            </div>
+      </div>
+    </section>
+
+    <section id="reference">
+      <div class="container">
+        <div class="row">
+          <div class="col-sm">
+            <h5 class="benefits-title title">Povedali o nás</h5>
+            <h2 class="benefits-heading heading">Zážitky z adrenalínu</h2>
+            <img src="grafika/grafika/line.png" draggable="false" alt="" class="mb-3 mt-2">
+          </div>
         </div>
-        <div class="col-4 text-center">
-            <div>
-                <i class="fas fa-euro-sign icons"></i>
+        <div class="row slider">
+          <div class="owl-carousel owl-theme owl-drag">
+
+            <div class="slide-woman d-flex justify-content-center flex-column">
+              <p class="slide-text text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero porro ipsam autem asperiores nihil
+                suscipit dolore perferendis ullam laborum commodi.
+              </p>
+              <div class="row profile align-items-end">
+                <div class="col d-flex justify-content-end align-self-start">
+                  <div class="picture"></div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <p class="profile-name profile-text text">Name</p>
+                  </div>
+                  <div class="row">
+                    <p class="profile-date profile-text text">Date</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div style="padding-top:10px;font-size: 18px; font-weight: 400;color:#696868">
-                <a href="sluzby#cennik">Cenník</a>
+
+            <div class="slide-man d-flex justify-content-center flex-column">
+              <p class="slide-text text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero porro ipsam autem asperiores nihil
+                suscipit dolore perferendis ullam laborum commodi.
+              </p>
+              <div class="row profile align-items-end">
+                <div class="col d-flex justify-content-end align-self-start">
+                  <div class="picture"></div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <p class="profile-name profile-text text">Name</p>
+                  </div>
+                  <div class="row">
+                    <p class="profile-date profile-text text">Date</p>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div style="padding-top:10px;font-size: 16px; font-weight: 400;color:#949494">
-                Môžete si vybrať medzi cenou za položku alebo paušálnou cenou.
+
+            <div class="slide-woman d-flex justify-content-center flex-column">
+              <p class="slide-text text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero porro ipsam autem asperiores nihil
+                suscipit dolore perferendis ullam laborum commodi.
+              </p>
+              <div class="row profile align-items-end">
+                <div class="col d-flex justify-content-end align-self-start">
+                  <div class="picture"></div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <p class="profile-name profile-text text">Name</p>
+                  </div>
+                  <div class="row">
+                    <p class="profile-date profile-text text">Date</p>
+                  </div>
+                </div>
+              </div>
             </div>
+
+            <div class="slide-man d-flex justify-content-center flex-column">
+              <p class="slide-text text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero porro ipsam autem asperiores nihil
+                suscipit dolore perferendis ullam laborum commodi.
+              </p>
+              <div class="row profile align-items-end">
+                <div class="col d-flex justify-content-end align-self-start">
+                  <div class="picture"></div>
+                </div>
+                <div class="col">
+                  <div class="row">
+                    <p class="profile-name profile-text text">Name</p>
+                  </div>
+                  <div class="row">
+                    <p class="profile-date profile-text text">Date</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
-    </div>
-</div>
+    </section>
 
-<div class="container content">
-    <div class="jumbotron2">
-        <div class="header text-center">ČO HOVORIA NAŠI KLIENTI</div>
-        <div class="title text-center">
-            <p>Vynikajúca úroveň služieb za korektnú cenu.</p>
-            <p>Oceňujem flexibilné riešenia problémov, profesionálny a ľudský prístup, rýchle spracovanie dokladov.</p>
-            <p>Služby spoločnosti KM consult nám maximálne vyhovujú a so spoločnosťou budeme spolupracovať aj naďalej.</p>
-            <p>Celková spokojnosť. Vyzdvihujem prístup a dodržiavanie vopred dohodnutých termínov.</p>
+    <section id="more-info">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg">
+            <h5 class="more-info-title title">Pre viac informácií</h5>
+            <h2 class="more-info-heading heading">Nás kontaktujte na čísle<br>0915 232 394</h2>
+            <button type="button" class="btn btn-info show-more">Viac info</button>
+          </div>
         </div>
-    </div>
-</div>
+      </div>
+      <br>
+        <div class="container text-center content">
+            {!! $map['html'] !!}
+        </div>
+    </section>
 
-<div id="kontakt" class="container text-center content">
-    <h1>KONTAKT</h1>
-</div>
-
-<div class="container">
-    <div class="row" style="margin: 0 250px 0 250px;">
-        <form action="{{asset('feedback')}}" method="post" style="width:100%">
-            {{ csrf_field() }}
-            <div class="form-row">
-                <div class="form-group col-md-6">
-                    <input v-model="form.name" class="form-control" :class="{ 'is-invalid': hasError('name') }" id="name"
-                        type="text" name="name" required>
-                    <div v-if="hasError('name')" class="invalid-feedback">@{{ getError('name') }}</div>
-                    <label for="name">Name *</label>
-                </div>
-
-                <div class="form-group col-md-6">
-                    <input v-model="form.email" class="form-control" :class="{ 'is-invalid': hasError('email') }" id="email"
-                        type="text" name="email" required>
-                    <div v-if="hasError('email')" class="invalid-feedback">@{{ getError('email') }}</div>
-                    <label for="email">Email*</label>
-                </div>
-
-                <div class="form-group col-md-12">
-                    <textarea v-model="form.message" name="message" id="message" class="form-control" :class="{ 'is-invalid': hasError('message') }"></textarea>
-                    <div v-if="hasError('message')" class="invalid-feedback">@{{ getError('message') }}</div>
-                    <label for="message">Správa...</label>
-                </div>
-            </div>
-
-            <div class="form-row" style="text-align: center;">
-                <div class="col text-center">
-                    <div>
-                        <div style="width:50%;margin: 0 auto;" class="g-recaptcha" id="feedback-recaptcha" data-sitekey="{{ env('GOOGLE_RECAPTCHA_KEY')  }}">
-                        </div>
-                    </div>
-                    <input type="submit" value="Odoslať" name="Odoslať" class="btn">
-                </div>
-            </div>
-        </form>
-    </div>
-</div>
-<div class="container text-center content">
-    {!! $map['html'] !!}
-</div>
+    <section id="gallery">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg">
+            <h5 class="more-info-title title">Fotografie</h5>
+            <h2 class="more-info-heading heading">Z našej galérie</h2>
+            <img src="grafika/grafika/line.png" draggable="false" alt="" class="mb-3 mt-2">
+          </div>
+        </div>
+        <div class="row pt-4">
+          <div class="col-sm d-flex justify-content-center py-2">
+            <a href="grafika/grafika/galeria/1.jpg" data-lightbox="gallery" data-title="Naši spokojní zákazníci">
+              <div class="image-thumb image-1"></div>
+            </a>
+          </div>
+          <div class="col-sm d-flex justify-content-center py-2">
+            <a href="grafika/grafika/galeria/2.jpg" data-lightbox="gallery" data-title="Naši spokojní zákazníci">
+              <div class="image-thumb image-2"></div>
+            </a>
+          </div>
+          <div class="col-sm d-flex justify-content-center py-2">
+            <a href="grafika/grafika/galeria/3.jpg" data-lightbox="gallery" data-title="Naši spokojní zákazníci">
+              <div class="image-thumb image-3"></div>
+            </a>
+          </div>
+          <div class="col-sm d-flex justify-content-center py-2">
+            <a href="grafika/grafika/galeria/4.jpg" data-lightbox="gallery" data-title="Naši spokojní zákazníci">
+              <div class="image-thumb image-4"></div>
+            </a>
+          </div>
+          <div class="col-sm d-flex justify-content-center py-2">
+            <a href="grafika/grafika/galeria/5.jpg" data-lightbox="gallery" data-title="Naši spokojní zákazníci">
+              <div class="image-thumb image-5"></div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
 
 <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>

@@ -3,8 +3,8 @@
 @section('content')
 
 <head>
-    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+
+  <link rel="stylesheet" href="{{asset('grafika/css/blog-post.css')}}">
 </head>
 <style>
     body,
@@ -18,10 +18,28 @@
 
 </style>
 
+<section id="post-head">
+      <div class="container">
+        <div class="row justify-content-center">
+          <div class="col-lg">
+            <nav class="breadcrumb custom-breadcrumb-nav">
+              <a href="#" class="breadcrumb-item">
+                <h5 class="post-title title">Úvod</h5>
+              </a>
+              <a href="#" class="breadcrumb-item">
+                <h5 class="post-title title">Články</h5>
+              </a>
+            </nav>
+            <h2 class="post-heading heading">{{trans('basics.articles')}}</h2>
+          </div>
+        </div>
+      </div>
+    </section>
+
 <div class="container">
 <div style="display:flex;padding-top:15px;" class="form-group">    
                 <div style="margin:auto;text-align:right!important" class="col-md-5 col-sm-12 text-center">
-                    <span>Podľa Kategórie:</span>
+                    <span>{{trans('basics.cat_filter')}}</span>
                     <select  onchange="categorychange()" id="category" name="category" type="text" style="width:60%;display:inline" class="form-control">
                         <option value='0' >--Kategória--</option>
                         @foreach($categories as $value)
@@ -35,7 +53,7 @@
                 </div>
 
                 <div style="margin:auto;text-align:right!important" class="col-md-5 text-center">
-                    <span>Podľa Tagov:</span>
+                    <span>{{trans('basics.tag_filter')}}</span>
                     <select  onchange="tagchange()" id="tag" name="tag" type="text" placeholder="Porsche" style="width:60%;display:inline" class="form-control">
                         <option value='0' >--Tag--</option>
                         @foreach($tags as $value)
@@ -64,8 +82,20 @@
                     alt="Cover photo" style="width:100%">
                 @endif
                 <div class="w3-container">
-                    <h3><b>{{$article->title}}</b></h3>
-                    <h5><a href="{{asset('/clanky')}}/{{$article->category_id}}/0">{{$article->cat_name}}</a>, <span class="w3-opacity">{{date("d.m.y",strtotime($article->created_at))}}</span>
+                    <h3><b>
+                @if(App::isLocale('en'))
+                    {{$article->title_en}}
+                @else
+                    {{$article->title}}
+                @endif
+                    </b></h3>
+                    <h5><a href="{{asset('/clanky')}}/{{$article->category_id}}/0">
+                    @if(App::isLocale('en'))
+                        {{$article->cat_name_en}}
+                    @else
+                        {{$article->cat_name}}
+                    @endif
+                    </a>, <span class="w3-opacity">{{date("d.m.y",strtotime($article->created_at))}}</span>
                     <span class="w3-right">Obsah:
                      @if($article->audience==2)
                      <i class="fas fa-lock"></i></span>
@@ -76,10 +106,16 @@
                 </div>
 
                 <div class="w3-container">
-                    <p style="text-align:justify">{{$article->perex}}</p>
+                    <p style="text-align:justify">                
+                    @if(App::isLocale('en'))
+                        {{$article->perex_en}}
+                    @else
+                        {{$article->perex}}
+                    @endif
+                    </p>
                     <div class="w3-row">
                         <div class="w3-col m8 s12">
-                            <p><a href="{{asset("clanok/$article->id")}}"><button class="w3-button w3-padding-large w3-white w3-border"><b>Celý článok »</b></button></a></p>
+                            <p><a href="{{asset("clanok/$article->id")}}"><button class="w3-button w3-padding-large w3-white w3-border"><b>{{trans('basics.full_article')}} »</b></button></a></p>
                         </div>
                         <div class="w3-col m4 w3-hide-small">
                             <p><span class="w3-padding-large w3-right"><b>Comments  </b> <span class="w3-tag">0</span></span></p>

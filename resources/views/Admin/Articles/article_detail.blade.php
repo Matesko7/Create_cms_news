@@ -1,19 +1,68 @@
-@extends('layout.app')
+@extends('layout.app_admin')
 
 @section('content')
 
 <head>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-
     <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="{{asset('jodit/build/jodit.min.css')}}">
+    <script src="{{asset('jodit/build/jodit.min.js')}}"></script>
 </head>
+<style>
+.flex-container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  background-color: white;
+}
+
+.flex-container > div {
+  background-color: #f1f1f1;
+  width: 200px;
+  margin: 10px;
+  text-align: center;
+  line-height: 75px;
+  font-size: 30px;
+}
+
+.nav {
+    padding-left: 0;
+    margin-bottom: 0;
+    list-style: none
+}
+
+.nav>li {
+    position: relative;
+    display: block
+}
+
+.nav>li>a {
+    position: relative;
+    display: block;
+    padding: 10px 15px;
+    cursor: pointer;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-bottom-color: transparent
+}
+
+
+</style>
+
 <div class="container">
 <br>
+<ul class="nav nav-tabs">
+  <li><a style="@if($lang=='sk')background-color:#C9D2E0 @endif" href="{{asset("admin/article/sk/".$article[0]->id)}}">SK</a></li>
+  <li><a style="@if($lang=='en')background-color:#C9D2E0 @endif" href="{{asset("admin/article/en/".$article[0]->id)}}">EN</a></li>
+</ul>
     <div class="row">
         <div class="col-md-9">
             <div class="well well-sm">
-                <form class="form-horizontal" enctype="multipart/form-data" method="post" action="{{asset("admin/article/".$article[0]->id)}}">
+                <form class="form-horizontal" enctype="multipart/form-data" method="post"
+                    action="{{asset("admin/article/".$article[0]->id)}}">
                     @csrf
                     <fieldset>
 
@@ -33,12 +82,14 @@
                             </div>
                             <div style="text-align:right" class="col-md-8">
                                 <label>Publikovať:</label>
-                                <input style="font-weight: bold;width:100px" type="text" name="dateArticle" id="dateArticle"
-                                    value="{{date('m/d/Y',strtotime($article[0]->created_at)+3600)}}" readonly>
+                                <input style="font-weight: bold;width:150px" type="text" name="dateArticle"
+                                    id="dateArticle" value="{{date('m/d/Y',strtotime($article[0]->created_at)+3600)}}"
+                                    readonly>
                                 <a id="showcalendar" href="#">upraviť</a>
-                                <div class="hidden" id="choosedate">
+                                <div class="hidden" style="display:none" id="choosedate">
                                     <input style="width:100px" type="text" id="datepicker">
-                                    <input id="dateconfirm" type="button" style="font-size:0.6rem" class="btn" value="OK">
+                                    <input id="dateconfirm" type="button" style="font-size:0.6rem" class="btn"
+                                        value="OK">
                                     <a id="hidecalendar" href="#">zrušiť</a>
                                 </div>
                             </div>
@@ -46,41 +97,66 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <input id="title" name="title" type="text" placeholder="Title" value="{{$article[0]->title}}"
-                                    class="form-control title-article">
+                                <input id="title" name="title" type="text" placeholder="Názov článku"
+                                    value="@if($lang=='en'){{$article[0]->title_en}}@else{{$article[0]->title}}@endif" class="form-control title-article">
                             </div>
                         </div>
-                        <br><br>
+                        <br>
 
                         <div class="form-group">
                             <div class="col-md-12">
-                                <input id="perex" name="perex" type="text" placeholder="Perex" value="{{$article[0]->perex}}"
-                                    class="form-control title-article">
+                                <input id="perex" name="perex" type="text" placeholder="Perex článku"
+                                    value="@if($lang=='en'){{$article[0]->perex_en}}@else{{$article[0]->perex}}@endif" class="form-control title-article">
                             </div>
                         </div>
-                        <br><br>
+                        <br>
                         <div class="form-group">
                             <div class="col-md-12">
-                            OBSAH
-                                <textarea name="ce" id="ce" class="form-control"></textarea>
-                            </div>
-                        </div>
-
+                                OBSAH
+                                <textarea name="editor" id="editor"></textarea>
+                                <br>
+                                <h2>Galéria</h2>
+                                <div id="1" class="flex-container">
+                                @if(count($galery))
+                                    @foreach($galery as $img)
+                                        <div>
+                                            <img src='{{asset($img->link)}}' style='max-height:100px;' alt='obrazok'><br>
+                                            <button onclick='Ajax_image_edit(1,{{$img->id}})' type='button' style='margin:5px' class='btn btn-primary'>🡸</button>
+                                            <button onclick='Ajax_image_edit(2,{{$img->id}})' type='button' style='margin:5px' class='btn btn-danger'>X</button>
+                                            <button onclick='Ajax_image_edit(3,{{$img->id}})' type='button' style='margin:5px' class='btn btn-primary'>🡺</button>
+                                        </div>
+                                    @endforeach
+                                @endif
+                                </div>    
+                                <br>
+                                <div class="input-group">
+          <span class="input-group-btn">
+            <a id="lfm" data-input="thumbnail" data-preview="holder" class="btn btn-primary">
+              <i class="fa fa-picture-o"></i> Choose
+            </a>
+          </span>
+          <input id="thumbnail" class="form-control" type="text" name="filepath">
+        </div>
+        <img id="holder" style="margin-top:15px;max-height:100px;">
+        <button  id='image_insert' style="display:none" class="btn btn-primary" type="button">Vlož</button>
+        </div>
                         <div class="form-group">
                             <div class="col-md-11">
                                 <div class="text-center">
                                     @if($article_photo)
-                                    <img src="{{asset($article_photo)}}" class="avatar img-circle" alt="article_photo">
+                                    <img style="max-width:400px;" src="{{asset($article_photo)}}"
+                                        class="avatar img-circle" alt="article_photo">
                                     @endif
                                     <br><br>
-                                    Titulná fotka:&nbsp<input name="file" id="file" type="file" accept="image/x-png,image/jpeg" />
+                                    Titulná fotka:&nbsp<input name="file" id="file" type="file"
+                                        accept="image/x-png,image/jpeg" />
                                 </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <button id="category_save" type="submit" class="btn  btn-lg">Uložiť</button>
+                                <button id="category_save" type="submit" class="btn btn-info show-more">Uložiť</button>
                             </div>
                         </div>
                     </fieldset>
@@ -117,7 +193,7 @@
                     </ul>
                     <div id="new_cat_add" class="new-article"><i class="fas fa-plus"></i>&nbsp Pridať novú</div>
 
-                    <div id="new_cat_panel" class="hidden">
+                    <div id="new_cat_panel" class="hidden" style="display:none">
 
                         <select id="cat_parent" name="cat_parent" class="form-control">
                             <option value="1" selected>-Nadradená kategória-</option>
@@ -128,8 +204,10 @@
                             @endforeach
                         </select>
 
-                        <input id="new_cat" name="new_cat" placeholder="Kategoria" value="" class="form-control input-tag-category">
-                        <button type="button" id="new_cat_save" name="new_cat_save" class="btn input-tag-category ">Uložiť</button>
+                        <input id="new_cat" name="new_cat" placeholder="Kategoria" value=""
+                            class="form-control input-tag-category">
+                        <button type="button" id="new_cat_save" name="new_cat_save"
+                            class="btn input-tag-category ">Uložiť</button>
                     </div>
                 </div>
             </div>
@@ -138,15 +216,18 @@
             <div class="card" style="min-height:250px;max-height:300px;overflow-y: scroll;margin:10px 10px">
                 <!-- Default panel contents -->
                 <div class="card-header">Značky</div>
-                <input id="new_tag" name="new_tag" placeholder="summer" value="" class="form-control input-tag-category ">
+                <input id="new_tag" name="new_tag" placeholder="summer" value=""
+                    class="form-control input-tag-category ">
                 <div id="for_tags" class="input-tag-category">
                     @foreach($tags as $key=>$tag)
                     @if($tag!='')
-                    <p value="{{$tag}}" name="tag{{$key}}" onclick='remove(this)'><i class='fas fa-minus-circle'>&nbsp{{$tag}}</i></p>
+                    <p value="{{$tag}}" name="tag{{$key}}" onclick='remove(this)'><i
+                            class='fas fa-minus-circle'>&nbsp{{$tag}}</i></p>
                     @endif
                     @endforeach
                 </div>
-                <button style="min-height:40px" type="button" id="new_tag_save" name="new_tag_save" class="btn input-tag-category ">Pridať</button>
+                <button style="min-height:40px" type="button" id="new_tag_save" name="new_tag_save"
+                    class="btn input-tag-category ">Pridať</button>
             </div>
         </div>
 
@@ -157,92 +238,65 @@
     {{ Form::hidden('tags[]',$tag,['id'=>'tag'.$key]) }}
     @endforeach
     {{ Form::hidden('user_id',$article[0]->user_id) }}
+    {{ Form::hidden('lang',$lang) }}
     </form>
 </div>
 
 
 <script>
-   var route_prefix = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
-  </script>
+$('#holder').on('load', function () {
+ $('#image_insert').show();
+});
 
-  <!-- CKEditor init -->
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/ckeditor.js"></script>
-  <script src="//cdnjs.cloudflare.com/ajax/libs/ckeditor/4.5.11/adapters/jquery.js"></script>
-  <script>
-    $('textarea[name=ce]').ckeditor({
-      height: 600,
-      filebrowserImageBrowseUrl: route_prefix + '?type=Images',
-      filebrowserImageUploadUrl: route_prefix + '/upload?type=Images&_token={{csrf_token()}}',
-      filebrowserBrowseUrl: route_prefix + '?type=Files',
-      filebrowserUploadUrl: route_prefix + '/upload?type=Files&_token={{csrf_token()}}'
+$("#image_insert").click(function(){
+    Ajax_add_photo_to_gallery();
+});
+
+    var editor = new Jodit('#editor', {
+        enableDragAndDropFileToEditor: true,
+        height: 500,
+        uploader: {
+            url: "{{asset('jodit/upload')}}",
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            format: 'json',
+            data: {
+                id_article: {{$article[0]->id}}
+            },
+            isSuccess: function (resp) {
+                z = "{{asset('/')}}" + resp.files;
+                editor.selection.insertImage(z);
+            }
+        }
     });
-    
-    var z="{{$article[0]->plot}}";
-   
+
+    var z = '';
+    if( '{{$lang}}'=='en')
+        z = "{{$article[0]->plot_en}}";
+    else 
+        z = "{{$article[0]->plot}}";
+
     z = z.replace(/&lt;/g, "<");
     z = z.replace(/&amp;/g, "&");
     z = z.replace(/&gt;/g, ">");
     z = z.replace(/&quot;/g, '"');
     z = z.replace(/&#039;/g, "'");
-    $('textarea[name=ce]').val(z);
-  </script>
+    editor.value = z;
 
-  
+</script>
+
+<script>
+   var route_prefix = "{{ url(config('lfm.url_prefix', config('lfm.prefix'))) }}";
+  </script>
 
   <script>
     {!! \File::get(base_path('vendor/unisharp/laravel-filemanager/public/js/lfm.js')) !!}
   </script>
   <script>
     $('#lfm').filemanager('image', {prefix: route_prefix});
-    $('#lfm2').filemanager('file', {prefix: route_prefix});
   </script>
 
-  <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.css" rel="stylesheet">
-  <script src="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.4/summernote.js"></script>
-  <script>
-    $(document).ready(function() {
-      $('#summernote').summernote();
-    });
-  </script>
-  <script>
-    $(document).ready(function(){
-
-      // Define function to open filemanager window
-      var lfm = function(options, cb) {
-          var route_prefix = (options && options.prefix) ? options.prefix : '/laravel-filemanager';
-          window.open(route_prefix + '?type=' + options.type || 'file', 'FileManager', 'width=900,height=600');
-          window.SetUrl = cb;
-      };
-
-      // Define LFM summernote button
-      var LFMButton = function(context) {
-          var ui = $.summernote.ui;
-          var button = ui.button({
-              contents: '<i class="note-icon-picture"></i> ',
-              tooltip: 'Insert image with filemanager',
-              click: function() {
-
-                  lfm({type: 'image', prefix: '/laravel-filemanager'}, function(url, path) {
-                      context.invoke('insertImage', url);
-                  });
-
-              }
-          });
-          return button.render();
-      };
-
-      // Initialize summernote with LFM button in the popover button group
-      // Please note that you can add this button to any other button group you'd like
-      $('#summernote-editor').summernote({
-          toolbar: [
-              ['popovers', ['lfm']],
-          ],
-          buttons: {
-              lfm: LFMButton
-          }
-      })
-    });
-</script>
 <script>
     $(function () {
         $("#datepicker").datepicker();
@@ -361,6 +415,40 @@
                     value: data
                 }).appendTo('form');
                 $('#new_cat').val('');
+            }
+        });
+    }
+
+
+    function Ajax_add_photo_to_gallery() {
+        var src=$('#holder').attr('src');
+        $.ajax({
+            url: '{{asset("/saveImagetoGalery")}}',
+            data: {'src': src, 'article_id': {{$article[0]->id}} },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            success: function (id) {
+                $("#1").append("<div><img src='"+$('#holder').attr('src')+"' style='max-height:100px;' alt='obrazok'><br><button onclick='Ajax_image_edit(1,"+id+")' type='button' style='margin:5px' class='btn btn-primary'>🡸</button><button onclick='Ajax_image_edit(2,"+id+")' type='button' style='margin:5px' class='btn btn-danger'>X</button><button onclick='Ajax_image_edit(3,"+id+")' type='button' style='margin:5px' class='btn btn-primary'>🡺</button></div>");
+            }
+        });
+    }
+
+    
+    function Ajax_image_edit(action, id){
+        $.ajax({
+            url: '{{asset("/editGalery")}}',
+            data: {'article_id' :  {{$article[0]->id}}, 'action': action, 'image_id' : id },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            success: function (data) {
+                $("#1").empty();
+                data.forEach(element => {
+                    $("#1").append("<div><img src='{{asset('/')}}"+element['link']+"' style='max-height:100px;' alt='obrazok'><br><button onclick='Ajax_image_edit(1,"+element['id']+")' type='button' style='margin:5px' class='btn btn-primary'>🡸</button><button onclick='Ajax_image_edit(2,"+element['id']+")' type='button' style='margin:5px' class='btn btn-danger'>X</button><button onclick='Ajax_image_edit(3,"+element['id']+")' type='button' style='margin:5px' class='btn btn-primary'>🡺</button></div>");
+                });
             }
         });
     }

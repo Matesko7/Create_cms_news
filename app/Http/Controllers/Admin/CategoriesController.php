@@ -71,11 +71,11 @@ class CategoriesController extends Controller
         $categories= new Category;
         if($request->cat_parent==1) $request->cat_parent=NULL;
         if($id==null){
-            $id_new_cat=$categories->updateCategory($request->name,$request->cat_parent);
+            $id_new_cat=$categories->updateCategory($request->name,$request->name_en,$request->cat_parent);
             return redirect(asset("admin/categories"))->with('success','Kategória pridaná');
         }
         else{
-            $categories->updateCategory($request->name,$request->cat_parent,$id);
+            $categories->updateCategory($request->name,$request->name_en,$request->cat_parent,$id);
             return back()->with('success','Kategória aktualizovaná');
         }
     }

@@ -34,12 +34,12 @@ class Category extends Model
             $this::where('parent_id',$id)->update(['parent_id' => null]);
     }
 
-    public function updateCategory($name,$cat_parent,$id=null){
+    public function updateCategory($name,$name_en,$cat_parent,$id=null){
         if($id==null){
-            DB::insert("INSERT INTO `categories` (`name`,`parent_id`) values (:name, :parent_id)",['name' => $name, 'parent_id' => $cat_parent]);
+            DB::insert("INSERT INTO `categories` (`name`,`name_en`,`parent_id`) values (:name,:name_en,:parent_id)",['name' => $name,'name_en' => $name_en, 'parent_id' => $cat_parent]);
             return DB::getPdo()->lastInsertId();
         }
         else
-            DB::update("UPDATE `categories` SET `name`=:name, `parent_id`=:parent_id WHERE `id`=:id",['name' => $name, 'parent_id' => $cat_parent,'id' => $id]);
+            DB::update("UPDATE `categories` SET `name`=:name, `name_en`=:name_en,`parent_id`=:parent_id WHERE `id`=:id",['name' => $name,'name_en' => $name_en, 'parent_id' => $cat_parent,'id' => $id]);
     }
 }

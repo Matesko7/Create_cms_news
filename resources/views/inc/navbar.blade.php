@@ -1,37 +1,27 @@
-<nav class="container navbar navbar-main fixed-top navbar-expand-lg navbar-km-consult bg-white fixed-top-2" data-toggle="affix" style="padding: 0 125px 0px 125px">
-    <a class="navbar-brand" href="{{asset('/')}}">
-        <img src="{{asset('images/logo.png')}}" alt="Logo">
-    </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul id="navigation" class="navbar-nav ml-auto">
+<header class="main-head">
+    <nav class="navbar bg-white justify-content-center">
+        <a href="tel:0918 683 202" class="col-lg">
+            <p class="navbar-brand contact">0918 683 202</p>
+            <i class="fas fa-phone-square contact-icon"></i>
+        </a>
+        <div class="row col-lg main-links">
             @foreach($menulist as $menu)
-                @if(!count($menu['child']))
-                <li class="nav-item">
-                    <a id="{{ __($menu['id']) }}" class="nav-link" href="{{asset($menu['link'])}}">{{ __($menu['label']) }}</a>
-                </li>
-                @else
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ __($menu['label']) }} <span class="caret"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    @foreach($menu['child'] as $children)
-                        <a class="dropdown-item" href="{{asset($children['link'])}}">
-                            {{ __($children['label']) }}
-                        </a>
-                    @endforeach
-                    </div>
-                    </li>
-                @endif
+            <a href="{{asset($menu['link'])}}" class="col-lg" id="{{ __($menu['label']) }}">
+                <p class="nav-item">{{ __($menu['label']) }}</p>
+            </a>
             @endforeach
 
+            @if (App::isLocale('sk'))
+                <a href="{{asset('setlocale/en')}}" class="col-lg" id="locale">
+                    <p class="nav-item">EN</p>
+                </a>
+	        @else
+                <a href="{{asset('setlocale/sk')}}" class="col-lg" id="locale">
+                    <p class="nav-item">SK</p>
+                </a>
+            @endif
+
             @if(Auth::check())
-            <li class="nav-item dropdown">
                 <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" v-pre>
                     {{ Auth::user()->name }} <span class="caret"></span>
@@ -65,45 +55,61 @@
                         @csrf
                     </form>
                 </div>
-            </li>
             @else
-            <li class="nav-item">
-                <a class="nav-link" href="{{asset('login')}}">PRIHLÁSENIE</a>
-            </li>
+                 <a href="{{asset('login')}}" class="col-lg">
+                <p class="nav-item">PRIHLÁSENIE</p>
+                </a>
             @endif
-        </ul>
-    </div>
-</nav>
-<nav class="container navbar fixed-top navbar-light">
-<div class="row" style="width:100%;margin-left:0px;border-bottom: 1px solid #696868;">
-<div class="col-12"><p style="margin:0;font-size: 12px; font-weight: 400;color:#949494" class="float-right">Informácie na telefónnom čísle: <b>+421 915 232 394</b></p></div>
-</div>
-</nav>
-<div class="container text-center">
-    @include('inc.messages')
-</div>
-<script>
-    $(window).scroll(function () {
-        /* affix after scrolling 100px */
-        if ($(document).scrollTop() > 100) {
-            $('.navbar-main').addClass('affix');
-            $('.navbar-brand img').attr('src', "{{asset('images/logo-scroll.png')}}"); //change src
-        } else {
-            $('.navbar-main').removeClass('affix');
-            $('.navbar-brand img').attr('src', "{{asset('images/logo.png')}}"); //change src
-        }
-    });
+        </div>
+        <a href="mailto:ba.bobova@gmail.com" class="col-lg">
+            <i class="fas fa-envelope contact-icon"></i>
+            <p class="navbar-brand contact">ba.bobova@gmail.com</p>
+        </a>
+    </nav>
 
-    $(function(){
-        $('a').each(function(){
-            if ($(this).prop('href') == window.location.href) {
-                $(this).addClass('active'); 
-                $(this).parents('li').addClass('active');
-            }
-			if (window.location.href=="http://ipolak.nws.company/nws_paralaxcms/public/") {
-                $('#uvod').addClass('active'); 
-                $('#uvod').parents('li').addClass('active');
-            }
-        });
-    });
-</script>
+    <div class="row bg-white justify-content-center header-bottom">
+        <div class="col-md row justify-content-center align-items-center social-wrap">
+            <a href="#"><i class="fas fa-search"></i></a>
+        </div>
+
+        <div class="col-md row justify-content-center align-items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248.81 49.99">
+                <defs>
+                    <style>
+                        .cls-1 {
+                            fill: #fff;
+                        }
+
+                    </style>
+                </defs>
+                <title>Asset 2arrow-down</title>
+                <g id="Layer_2" data-name="Layer 2">
+                    <g id="Layer_1-2" data-name="Layer 1">
+                        <path class="cls-1"
+                            d="M248.81,0H0S27.9,2.17,53.49,16.42C78.22,30.19,104.26,49.87,124.32,50h.17c20.06-.11,46.1-19.79,70.83-33.57C220.9,2.17,248.81,0,248.81,0Z" />
+                    </g>
+                </g>
+            </svg>
+            <img src="{{asset('grafika/grafika/na_boboch.png')}}" alt="logo" draggable="false" class="logo">
+        </div>
+
+        <div class="col row justify-content-center align-items-center social-wrap">
+            <a href="#"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" class=" ml-2"><i class="fab fa-twitter"></i></a>
+            <a href="#" class=" ml-2"><i class="fab fa-youtube"></i></a>
+        </div>
+    </div>
+    
+    @if(Route::current()->getName() == 'index')
+    <div class="jumbotron jumbotron-fluid">
+      <div class="row justify-content-center">
+        <img src="{{asset('/grafika/grafika/star-slider.png')}}" alt="" class="star mr-4">
+        <h3 class="welcome-text">Vitajte na bobovej dráhe</h3>
+        <img src="{{asset('/grafika/grafika/star-slider.png')}}" alt="" class="star ml-4">
+      </div>
+      <h1 class="main-heading">Adrenalínová<br>zábava pre<br>všetkých</h1>
+      <button type="button" class="btn btn-info show-more">Viac o ponuke</button>
+      @endif
+</div>
+
+</header>
