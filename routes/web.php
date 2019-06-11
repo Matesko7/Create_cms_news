@@ -42,6 +42,11 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
     //User change personal infomation
     Route::post('user/{id}', 'Admin\UsersController@editprofile')->where('id', '[0-9]+');
 
+    //ADD COMMENT TO ARTICLE
+    Route::post('article/addcoment/{article_id}', 'CommentController@save')->where('article_id', '[0-9]+');
+    //REPLY TO COMMENT IN ARTICLE
+    Route::post('article/reply_comment/{article_id}/{comment_id}', 'CommentController@reply')->where(['comment_id' => '[0-9]+', 'article_id' => '[0-9]+']);
+
       
     //EDITOR+ADMIN
     Route::middleware(['is.Editor'])->group(function () {
@@ -87,6 +92,19 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
             Route::get('admin/category/{id?}', 'Admin\CategoriesController@edit')->where('id', '[0-9]+');
             Route::get('admin/deletecategory/{id?}', 'Admin\CategoriesController@delete')->where('id', '[0-9]+');
             Route::post('admin/category/{id?}', 'Admin\CategoriesController@save')->where('id', '[0-9]+');
+
+            //Comments    
+            Route::get('admin/comments', 'Admin\CommentsController@index');
+            //Edit comments per Article
+            Route::get('admin/comments/article/{article_id}', 'Admin\CommentsController@commentsPerArticle')->where('article_id', '[0-9]+');
+            Route::get('admin/comment/deny/{comment_id}', 'Admin\CommentsController@commentDeny')->where('coment_id', '[0-9]+');
+            Route::get('admin/comment/approve/{comment_id}', 'Admin\CommentsController@commentApprove')->where('coment_id', '[0-9]+');
+            
+            //Selected articles
+            Route::get('admin/selectedarticles', 'Admin\ArticlesController@selectedArticles');
+            Route::post('admin/selectedarticles', 'Admin\ArticlesController@selectedArticlesSave');
+            //Edit comments per Article
+
 
             //Menu
             Route::get('admin/menu', 'Admin\MenuController@index');

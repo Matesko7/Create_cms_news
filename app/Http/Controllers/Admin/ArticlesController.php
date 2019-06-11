@@ -134,7 +134,9 @@ class ArticlesController extends Controller
                 $file->move(base_path('public/articles/'.$id.'/cover'),'cover_photo.'.$path_parts['extension']);
             }
             
-            $article->updateArticle($request->title,$request->perex,str_replace(array("\n","\r","&#9;"),array("","",""),$request->editor),$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$request->lang,$id);
+			$plot=str_replace(array("\n","\r","&#9;","/articles/tmp/"),array("","","","/articles/".$id."/"),$request->editor);
+			
+            $article->updateArticle($request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$request->lang,$id);
             return back()->with('success','Článok aktualizovaný');
         }
     }
@@ -270,5 +272,68 @@ class ArticlesController extends Controller
             $galery= DB::select("SELECT * from article_image RIGHT JOIN images ON article_image.image_id=images.id WHERE article_image.article_id=? ORDER BY order_image",[$request->article_id]);
             return $galery; 
         }
+    }
+
+    public function selectedArticles(){
+        $articles = Article::orderBY('created_at')->get();
+        $articles_selected= Article::where('selected_article','!=',null)->get();
+        $tmp_array=array("1" => null,"2" => null,"3" => null,"4" => null,"5" => null,"6" => null);
+
+        foreach ($articles_selected as $key => $value) {
+            $tmp_array[$value->selected_article]= $value; 
+        }
+
+
+
+        return view('Admin.Articles.selected',['articles' => $articles, 'articles_selected' => $tmp_array]);
+    }
+
+    public function selectedArticlesSave(Request $request){
+        
+        if($request->article_selected_6 == 0){
+            Article::where('selected_article',6)->update(['selected_article' => null]);
+        }
+        else{
+            Article::where('id',$request->article_selected_6)->update(['selected_article' => 6]);
+        }
+
+        
+        if($request->article_selected_5 == 0){
+            Article::where('selected_article',5)->update(['selected_article' => null]);
+        }
+        else{
+            Article::where('id',$request->article_selected_5)->update(['selected_article' => 5]);
+        }
+        
+        if($request->article_selected_4 == 0){
+            Article::where('selected_article',4)->update(['selected_article' => null]);
+        }
+        else{
+            Article::where('id',$request->article_selected_4)->update(['selected_article' => 4]);
+        }
+
+        if($request->article_selected_3 == 0){
+            Article::where('selected_article',3)->update(['selected_article' => null]);
+        }
+        else{
+            Article::where('id',$request->article_selected_3)->update(['selected_article' => 3]);
+        }
+
+        if($request->article_selected_2 == 0){
+            Article::where('selected_article',2)->update(['selected_article' => null]);
+        }
+        else{
+            Article::where('id',$request->article_selected_2)->update(['selected_article' => 2]);
+        }
+
+
+        if($request->article_selected_1 == 0){
+            Article::where('selected_article',1)->update(['selected_article' => null]);
+        }
+        else{
+            Article::where('id',$request->article_selected_1)->update(['selected_article' => 1]);
+        }
+        
+        return redirect()->back()->with('success','Vybrané články aktualizované');  
     }
 }

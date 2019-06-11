@@ -43,7 +43,10 @@
 
                     <a class="dropdown-item" href="{{asset('admin/menu')}}">{{ __('Menu') }}</a>
 
+                    <a class="dropdown-item" href="{{asset('admin/comments')}}">{{ __('Komenty') }}</a>
 
+                    <a class="dropdown-item" href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
+                    
                     @endif
                     
                     <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();

@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use App\User;
 use Illuminate\Http\Request;
 use Mail;
+use Illuminate\Support\Facades\DB;
 
 
 class Controller extends BaseController
@@ -27,8 +28,14 @@ class Controller extends BaseController
         \GMaps::add_marker($marker);
         \GMaps::initialize($config);
         $map = \GMaps::create_map();
+
+        //novinky
+        $news = DB::select("SELECT articles.*, users.name as author FROM articles LEFT JOIN users on articles.user_id=users.id order by created_at limit 6");
+
+        //vybrané články
+        $selected = DB::select("SELECT articles.*, users.name as author FROM articles LEFT JOIN users on articles.user_id=users.id WHERE selected_article !=0 order by selected_article limit 6");
         
-        return view('index', ['map' => $map]);
+        return view('index', ['map' => $map, 'news' => $news, 'selected_articles' => $selected]);
     }
 
     public function sluzby(){

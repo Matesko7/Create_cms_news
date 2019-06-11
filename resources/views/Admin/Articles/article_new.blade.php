@@ -118,7 +118,7 @@
                     <div class="card-header">Kategórie</div>
                     <ul id="category_list" class="list-group list-group-flush">
                         @foreach($categories as $key=>$category)
-                        @if($key==0)
+                        @if($category->id==1)
                         <li class="list-group-item">
                             <label class="switch ">
                                 <input onclick="categorycheckboxes(this)" name="category[]" value="{{$category->id}}"

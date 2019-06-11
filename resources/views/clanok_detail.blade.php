@@ -102,69 +102,21 @@
             </div>
             <div class="main-item">
               <div class="comments">
-                <h2 class="comments-heading heading">2 Komentáre</h2>
-                <div class="row comment media-query-special">
-                  <div class="col-md-12 col-lg-3 media-query-special">
-                    <div class="user-picture"></div>
-                  </div>
-                  <div class="col-md-12 col-lg d-flex flex-row media-query-special">
-                    <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
-                      <div class="row flex-column justify-content-between">
-                        <h6 class="user-name">Name</h4>
-                          <h6 class="date">D Month, Year - 00:00</h5>
-                      </div>
-                      <div class="row">
-                        <p class="comment-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem modi
-                          eligendi, molestias saepe nulla fugiat nam repudiandae sed porro veritatis impedit blanditiis
-                          repellendus aliquid! Alias qui eligendi consequuntur incidunt nobis.</p>
-                      </div>
-                    </div>
-                    <div class="col-md col-lg-2 d-flex flex-row align-items-start normal">
-                      <button class="reply normal">Odpoveď</button>
-                    </div>
-                  </div>
-                  <div class="col-md col-lg-2 d-flex flex-row align-items-start special" id="small-disp">
-                    <button class="reply">Odpoveď</button>
-                  </div>
-                </div>
-                <div class="row comment media-query-special">
-                  <div class="col-md-12 col-lg-3 media-query-special">
-                    <div class="user-picture"></div>
-                  </div>
-                  <div class="col-md-12 col-lg d-flex flex-row media-query-special">
-                    <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
-                      <div class="row flex-column justify-content-between">
-                        <h6 class="user-name">Name</h4>
-                          <h6 class="date">D Month, Year - 00:00</h5>
-                      </div>
-                      <div class="row">
-                        <p class="comment-content">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Quidem modi
-                          eligendi, molestias saepe nulla fugiat nam repudiandae sed porro veritatis impedit blanditiis
-                          repellendus aliquid! Alias qui eligendi consequuntur incidunt nobis.</p>
-                      </div>
-                    </div>
-                    <div class="col-md col-lg-2 d-flex flex-row align-items-start normal">
-                      <button class="reply normal">Odpoveď</button>
-                    </div>
-                  </div>
-                  <div class="col-md col-lg-2 d-flex flex-row align-items-start special" id="small-disp">
-                    <button class="reply">Odpoveď</button>
-                  </div>
-                </div>
-                <div class="comment add-comment">
+              @if(Auth::check())
+                <div id="user_add_comment" class="comment add-comment">
                   <h2 class="comments-heading heading">Pridať komentár</h2>
-                  <form action="#">
-                    <div class="row">
+                  <form action="{{asset('article/addcoment/'.$article[0]->id)}}" method="post">@csrf
+                    <!--<div class="row">
                       <div class="col-md pr-2">
-                        <input type="text" name="name" placeholder="Meno" class="add-comment-input"><br>
+                        <input type="text" name="name" placeholder="{{Auth::user()->name}}" class="add-comment-input" value="" ><br>
                       </div>
                       <div class="col-md pl-2">
-                        <input type="email" name="email" placeholder="Email" class="add-comment-input"><br>
+                        <input type="email" name="email" placeholder="Email" class="add-comment-input" value="{{Auth::user()->email}}" readonly><br>
                       </div>
-                    </div>
+                    </div>-->
                     <div class="row">
                       <div class="col-md">
-                        <textarea type="text" name="comment-content" placeholder="Komentár" rows="7"
+                        <textarea type="text" name="comment" placeholder="Komentár" rows="7"
                           class="add-comment-input"></textarea>
                       </div>
                     </div>
@@ -175,6 +127,61 @@
                     </div>
                   </form>
                 </div>
+                @else
+                  <h2 class="comments-heading" style="text-align:center;color:red">Pre vkladanie komentárov sa musíte prihlásiť</h2>
+                @endif
+                <br><br>
+                <h2 class="comments-heading heading">Komentáre: {{count($comments)}}</h2>
+                @foreach($comments as $comment)
+                <div class="row comment media-query-special">
+                  <div class="col-md-12 col-lg-3 media-query-special">
+                    <div class="user-picture" style="background-image: url('{{asset('users/'.$comment->user_id.'/'.$comment->user_id.'.jpg')}}');background-postion:center;background-size: cover;background-repeat: no-repeat"></div>
+                  </div>
+                  <div class="col-md-12 col-lg d-flex flex-row media-query-special">
+                    <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
+                      <div class="row flex-column justify-content-between">
+                        <h6 class="user-name">{{$comment->user_name}}</h4>
+                          <h6 class="date">{{date("d.m.Y H:i:s", strtotime($comment->created_at)+3600)}}</h5>
+                      </div>
+                      <div class="row">
+                        <p class="comment-content">{{$comment->comment}}</p>
+                      </div>
+                      <div class="row" id="reply_to_{{$comment->id}}" style="display: none">
+                        <form action="{{asset('article/reply_comment/'.$article[0]->id.'/'.$comment->id)}}" method="post">@csrf
+                          <input type="comment" name="comment_reply" placeholder="odpoved na komentár" class="add-comment-input" style="padding:0.5rem">
+                          <button  class="reply">Odoslať</button>
+                        </form>  
+                      </div>
+                    </div>
+                    <div class="col-md col-lg-2 d-flex flex-row align-items-start normal">
+                      <button onclick="comment_reply(this)" value="{{$comment->id}}" class="reply normal">Odpoveď</button>
+                    </div>
+                  </div>
+                  <div class="col-md col-lg-2 d-flex flex-row align-items-start special" id="small-disp">
+                    <button onclick="comment_reply(this)" value="{{$comment->id}}" class="reply">Odpoveď</button>
+                  </div>
+                </div>
+                @if($comment->child)
+                  @foreach($comment->child as $reply)
+                    <div style="margin-left:50px;padding:1rem" class="row comment media-query-special">
+                    <div class="col-md-12 col-lg-3 media-query-special">
+                      <div class="user-picture" style="background-image: url('{{asset('users/'.$reply['userId'].'/'.$reply['userId'].'.jpg')}}');background-postion:center;background-size: cover;background-repeat: no-repeat"></div>
+                    </div>
+                    <div class="col-md-12 col-lg d-flex flex-row media-query-special">
+                      <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
+                        <div class="row flex-column justify-content-between">
+                          <h6 class="user-name">{{$reply['userName']}}</h4>
+                            <h6 class="date">{{date("d.m.Y H:i:s", strtotime($reply['created_at'])+3600)}}</h5>
+                        </div>
+                        <div class="row">
+                          <p class="comment-content">{{$reply['plot']}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  @endforeach
+                @endif
+                @endforeach
               </div>
             </div>
           </div>
@@ -236,5 +243,11 @@
         </div>
       </div>
     </section>
+
+<script>
+function comment_reply(e){
+  $("#reply_to_"+e.value).show();
+}
+</script>
 
 @endsection

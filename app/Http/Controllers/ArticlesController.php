@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Article;
 use App\Category;
+use App\Comment;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -57,11 +58,13 @@ class ArticlesController extends Controller
 
     public function article($id){
         $article_tmp= new Article;
+        $comments_tmp= new Comment;
         $article=$article_tmp->getArticlewAuthorandGroup($id);
         if($article[0]->audience==2){
             if(!isset(Auth::user()->email) || !Auth::user()->verified)
                 return back()->with('warning','Tento článok je len pre prihlasených použivateľov. Ak si ho chcete prečítať prosim prihláste sa');
         }
+
         $article[0]->photo=false;
         $tags=explode("|",$article[0]->tags);
         $photos= glob("articles/$id/cover/*"); // get all file names
@@ -70,10 +73,30 @@ class ArticlesController extends Controller
                 $article[0]->photo=$photo;
         }
 
+        //$comments= json_decode(json_encode($comments_tmp->getAllComentswUserByArcticleId($id),true));
+        $comments= $comments_tmp->getAllComentswUserByArcticleId($id);
+        //$comments['child']= array();
+        //print_r($comments);
+        
+        $tmp_comments_reply=$comments_tmp->getAllRepliesComentswUserByArcticleId($id);
+
+
+        foreach ($comments as $key1 => $comment) {
+            $tmp= array();
+            foreach ($tmp_comments_reply as $key2 => $comment_reply) {
+                if($comment->id == $comment_reply->parent_id){
+                    $tmp2= array('userId' => $comment_reply->user_id,'userName' => $comment_reply->user_name,'created_at' => $comment_reply->created_at,'plot' => $comment_reply->comment);
+                    array_push($tmp,$tmp2);
+                    //$comments[$key]= $tmp;
+                    //array_push($comments[2],$tmp);
+                }
+            }
+            $comments[$key1]->child = $tmp;
+        }
         $categories_all=Category::where('id','!=',1)->get();
         $tags_all= $article_tmp->getAllTags();
        
-        return view('clanok_detail',['article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all]);
+        return view('clanok_detail',['article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all,'comments' => $comments]);
     }
 
     private function makeSafe($file) {

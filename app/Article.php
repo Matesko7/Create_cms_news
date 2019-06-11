@@ -46,6 +46,9 @@ class Article extends Model
             ->leftJoin('users', function($join2){
                 $join2->on('articles.user_id','=','users.id');
             })
+            ->leftJoin('comments', function($join3){
+                $join3->on('articles.id','=','comments.id');
+            })
             ->select('categories.name as cat_name','categories.name_en as cat_name_en', 'users.name as user_name', 'articles.*')
             ->where('articles.created_at','<',$date)
             ->where('category_id','=',$category)
@@ -97,7 +100,17 @@ class Article extends Model
         //DB::select("SELECT *,categories.name as cat_name,users.name as user_name FROM articles LEFT JOIN categories ON articles.category_id=categories.id LEFT JOIN users ON articles.user_id=users.id");
     }
 
-
+    public function getCountCommentsPerArticle(){
+        /*return $this::leftJoin('comments', function($join){
+            $join->on('comments.article_id','=','articles.id');
+        })
+        ->select( COUNT('comments.id'),'articles.tsitle')
+        ->orderBy('articles.created_at', 'desc')
+        ->get();*/
+        
+        return DB::select("SELECT articles.title,articles.id,COUNT(comments.id) as comment_count FROM articles LEFT JOIN comments ON comments.article_id = articles.id GROUP BY articles.title,articles.id");
+        
+    }
 
     public function getPerEditorwAuthorandGroup(){
         return $this::leftJoin('categories', function($join){
