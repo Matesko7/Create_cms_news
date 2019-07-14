@@ -1,10 +1,11 @@
 @extends('layout.app')
 
 @section('content')
+<head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="{{asset('grafika/css/style.css')}}">
   <link rel="stylesheet" href="{{asset('grafika/css/blog-post.css')}}">
-
+</head>
 
 <section id="post-head">
       <div class="container">
@@ -36,9 +37,9 @@
           <div class="col-lg-8 main-content">
             <div class="main-item">
             @if($article[0]->photo)
-              <img src="{{asset($article[0]->photo)}}" class="post-body-img">
+              <img src="{{asset($article[0]->photo)}}" alt="cover photo" class="post-body-img">
             @else
-                <img src="{{asset('articles/cover.png')}}" class="post-body-img">
+                <img src="{{asset('articles/cover.png')}}"  alt="cover article photo" class="post-body-img">
             @endif
               <div class="post">
                 <div class="row">
@@ -58,12 +59,31 @@
                 @else
                     {{$article[0]->title}}
                 @endif</h2>
+                <h5>
+                @if(App::isLocale('en'))
+                        {{$article[0]->perex_en}}
+                    @else
+                        {{$article[0]->perex}}
+                    @endif
+                </h5>
                 @if(App::isLocale('en'))
                   <?php echo(nl2br($article[0]->plot_en))?>
                 @else
                   <?php echo(nl2br($article[0]->plot))?>
                 @endif
+                @if($attachments)
+                <br><br>
+                <h6>Prílohy:</h6>
+                @foreach($attachments as $attachment)
+                  <a href="{{asset($attachment->link)}}" target="_blank">
+                  @if($attachment->attach_name){{$attachment->attach_name}}@else príloha @endif</a><br>
+                @endforeach
+                @endif
+                @if(count($gallery))
+                  @include('galeria')
+                @endif
               </div>
+              
               <div class="row post-tags">
                 <div class="col-sm col-lg d-flex flex-row align-items-center tags-row">
                   <h6 class="tags-title">Tags: </h6>

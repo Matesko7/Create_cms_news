@@ -41,8 +41,23 @@
   <script src="{{asset('grafika/js/carousel.js')}}"></script>
   <script src="{{asset('grafika/js/scroll.js')}}"></script>
 
-
-  <title>Bobová dráha</title>
+  @if(isset($article[0]->title))
+    <title>@if(App::isLocale('en')){{$article[0]->title_en}}@else{{$article[0]->title}}@endif</title>
+    <meta name="description" content="@if(App::isLocale('en')){{$article[0]->perex_en}}@else{{$article[0]->perex}}@endif">
+    <meta name="og:title" property="og:title" content="@if(App::isLocale('en')){{$article[0]->title_en}}@else{{$article[0]->title}}@endif">
+    <meta property="og:title" content="@if(App::isLocale('en'))
+                    {{$article[0]->title_en}}
+                @else
+                    {{$article[0]->title}}
+                @endif" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="{{Request::url()}}" />
+  @if($article[0]->photo)
+    <meta property="og:image" content="{{asset($article[0]->photo)}}" />
+  @endif
+  @else
+    <title>Bobová dráha</title>
+  @endif
 </head>
 <?php 
       if(App::isLocale('sk'))

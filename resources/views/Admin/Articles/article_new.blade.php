@@ -88,6 +88,9 @@
                             <br>
                             <h2>Galéria</h2>
                             Na vytvorenie galérie najprv uložte článok
+                            <br><br>
+                            <h2>Prílohy</h2>
+                            Na vloženie prílohy najprv uložte článok
                             <br>
                         </div>
 
@@ -165,6 +168,7 @@
             </div>
         </div>
     </div>
+    {{ Form::hidden('pic_hash', $pic_hash)}}
     </form>
 </div>
 
@@ -178,9 +182,6 @@ $("#image_insert").click(function(){
     Ajax_add_photo_to_gallery();
 });
 
-  
-
-
 var editor=new Jodit('#editor', {
     enableDragAndDropFileToEditor: true,
     height: 500,
@@ -190,7 +191,7 @@ var editor=new Jodit('#editor', {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         format: 'json',
-        data: {id_article: 'tmp'},
+        data: {'id_article': 'tmp','pic_hash': '{{ $pic_hash }}' },
         isSuccess: function (resp) {
             z="{{asset('/')}}"+ resp.files;
             editor.selection.insertImage(z);

@@ -25,6 +25,14 @@ class ArticlesController extends Controller
     }
 
     public function edit($lang='sk',$id=null){
+        // length of hash to generate, up to the output length of the hash function used
+        $length = 6;
+        // The following should retrieve the date down to your desired resolution.
+        // If you want a daily code, retrieve only the date-specific parts
+        // For hourly resolution, retrieve the date and hour, but no minute parts
+        $today = date("m.d.y H:m:s:u"); // e.g. "03.10.01"
+        $hash = substr(hash('md5', $today), 0, $length); // Hash it
+        
         $article= new Article;
         $category= new Category;
         $categories= $category->getAll();
@@ -45,7 +53,10 @@ class ArticlesController extends Controller
 
             $galery= DB::select("SELECT * from article_image RIGHT JOIN images ON article_image.image_id=images.id WHERE article_image.article_id=? ORDER BY order_image",[$id]);
 
-            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang]);
+            $attachments= DB::select("SELECT * from article_attachment WHERE article_id=? ORDER BY id desc",[$id]);
+            
+
+            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang, 'pic_hash' => $hash, 'attachments' => $attachments]);
         }
         else{
             $photos= glob("articles/tmp/cover/*"); // get all file names
@@ -53,18 +64,28 @@ class ArticlesController extends Controller
                 if(is_file($value))
                     unlink($value);
             }
-            return view('Admin/Articles/article_new',['categories' => $categories,'article_photo' => $article_photo, 'lang' => $lang]);
+            return view('Admin/Articles/article_new',['categories' => $categories,'article_photo' => $article_photo, 'lang' => $lang, 'pic_hash' => $hash]);
         }
     }
 
     public function save(Request $request,$id=null){
         
+        $now= date("Y-m-d H:i:s");
+        $photos= glob("articles/tmp/*"); // get all file names
+        foreach($photos as $value){ // iterate files
+            if(is_file($value))
+                if(date("Y-m-d H:i:s",filectime($value)) < date('Y-m-d H:i:s',strtotime($now . "-1 days")))
+                    unlink($value);
+        }
+
         $this->validate($request, [
             'title' => 'required',
             'perex' => 'required',
             'editor' => 'required',
+            "attachment.*"  => 'max: 51200' ,
         ]);
         
+
         $tmp_tags="";
         if(!empty($request->tags)){
             foreach($request->tags as $key=>$tag){
@@ -115,10 +136,11 @@ class ArticlesController extends Controller
             $photos= glob("articles/tmp/*"); // get all file names
             foreach($photos as $value){ // iterate files
                 if(is_file($value))
-                    rename ($value , 'articles/'. $id_new_article.'/'.basename($value));
+                    if(substr(basename($value),0,6) == $request->pic_hash)
+                        rename ($value , 'articles/'. $id_new_article.'/'.basename($value));
             }
 
-            return redirect(asset("admin/article/$id_new_article"))->with('success','Článok pridaný');
+            return redirect(asset("admin/article/sk/$id_new_article"))->with('success','Článok pridaný');
         }
         else{
             //ulozenie nahrateho suboru
@@ -133,12 +155,48 @@ class ArticlesController extends Controller
                 $size= $_FILES['file']['size'];
                 $file->move(base_path('public/articles/'.$id.'/cover'),'cover_photo.'.$path_parts['extension']);
             }
+
+
+            //ulozenie priloh
+            if( strtolower( $_SERVER[ 'REQUEST_METHOD' ] ) == 'post' && !empty($_FILES[ 'attachment']) ){
+                if (!file_exists('articles/'.$id.'/attachments')) {
+                    mkdir('articles/'.$id.'/attachments', 0777, true);
+                }
+                foreach( $_FILES['attachment']['name'] as $index => $name ){
+                    if($name){
+                        move_uploaded_file($_FILES['attachment']['tmp_name'][$index],'articles/'.$id.'/attachments/'.$name );
+                        $attach_name=$request->name_attachment[$index];
+                        DB::insert("INSERT INTO article_attachment (article_id, link,attach_name) VALUES ($id,'articles/$id/attachments/$name','$attach_name')");
+                        /*}
+                        else
+                            DB::update("UPDATE article_attachment  set link= 'articles/$id/attachments/$name' where article_id=$id and attach_order=($index)");
+                        */
+                    }
+                }
+            }
+
             
 			$plot=str_replace(array("\n","\r","&#9;","/articles/tmp/"),array("","","","/articles/".$id."/"),$request->editor);
-			
+            
+            //presunutie ponahravanych fotiek vramci clanku
+            $photos= glob("articles/tmp/*"); // get all file names
+            foreach($photos as $value){ // iterate files
+                if(is_file($value))
+                    if(substr(basename($value),0,6) == $request->pic_hash)
+                        rename ($value , 'articles/'. $id.'/'.basename($value));
+            }
+
             $article->updateArticle($request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$request->lang,$id);
             return back()->with('success','Článok aktualizovaný');
         }
+    }
+
+    public function attachemnt_delete($id){
+        $attachment= DB::select("SELECT * from article_attachment where id=?",[$id]);
+        if(file_exists($attachment[0]->link))
+            unlink($attachment[0]->link);
+        DB::delete("DELETE from article_attachment where id=?", [$id]);
+        return back()->with('success', 'Príloha úspešne vymazaná');
     }
 
 
@@ -147,6 +205,12 @@ class ArticlesController extends Controller
         $articles->deleteArticle($id);
         $photos= glob("articles/$id/*"); // get all file names
         foreach($photos as $value){ // iterate files
+            if(is_file($value))
+                unlink($value);
+        }
+
+        $attachments= glob("articles/$id/attachments/*"); // get all file names
+        foreach($attachments as $value){ // iterate files
             if(is_file($value))
                 unlink($value);
         }
@@ -168,6 +232,9 @@ class ArticlesController extends Controller
         }
         if (is_dir("articles/$id/galery")) {
             rmdir("articles/$id/galery");
+        }
+        if (is_dir("articles/$id/attachments")) {
+            rmdir("articles/$id/attachments");
         }
         if (is_dir("articles/$id")) {
             rmdir("articles/$id");
@@ -282,8 +349,6 @@ class ArticlesController extends Controller
         foreach ($articles_selected as $key => $value) {
             $tmp_array[$value->selected_article]= $value; 
         }
-
-
 
         return view('Admin.Articles.selected',['articles' => $articles, 'articles_selected' => $tmp_array]);
     }

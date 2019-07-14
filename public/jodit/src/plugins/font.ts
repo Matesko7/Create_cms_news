@@ -57,7 +57,8 @@ Config.prototype.controls.font = <ControlType>{
         "Impact,Charcoal,sans-serif": "Impact",
         "Tahoma,Geneva,sans-serif": "Tahoma",
         "'Times New Roman',Times,serif": "Times New Roman",
-        "Verdana,Geneva,sans-serif": "Verdana"
+        "Verdana,Geneva,sans-serif": "Verdana",
+		"'Segoe UI semilight',sans-serif": "Segoe semilight"
     },
 
     template : (editor: Jodit, key: string, value: string) => {

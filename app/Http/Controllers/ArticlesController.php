@@ -96,7 +96,10 @@ class ArticlesController extends Controller
         $categories_all=Category::where('id','!=',1)->get();
         $tags_all= $article_tmp->getAllTags();
        
-        return view('clanok_detail',['article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all,'comments' => $comments]);
+        $attachments= DB::select("SELECT * FROM article_attachment where article_id=$id");
+        $gallery= DB::select("SELECT * FROM article_image A LEFT JOIN  images B on A.image_id=B.id where A.article_id=$id");
+
+        return view('clanok_detail',['article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all,'comments' => $comments,'attachments' => $attachments,'gallery' => $gallery]);
     }
 
     private function makeSafe($file) {

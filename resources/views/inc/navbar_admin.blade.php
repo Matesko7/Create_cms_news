@@ -54,6 +54,8 @@
                     <a class="dropdown-item" href="{{asset('admin/comments')}}">{{ __('Komenty') }}</a>
 
                     <a class="dropdown-item" href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
+
+                    <a class="dropdown-item" href="{{asset('admin/carousel')}}">{{ __('Carousel') }}</a>
                     
                     @endif
                     

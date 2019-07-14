@@ -46,6 +46,8 @@
                     <a class="dropdown-item" href="{{asset('admin/comments')}}">{{ __('Komenty') }}</a>
 
                     <a class="dropdown-item" href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
+
+                    <a class="dropdown-item" href="{{asset('admin/carousel')}}">{{ __('Carousel') }}</a>
                     
                     @endif
                     
@@ -58,6 +60,9 @@
                         @csrf
                     </form>
                 </div>
+                <a href="{{asset('admin_part')}}" class="col-lg" id="admin">
+                        <p class="nav-item">{{ __('Admin') }}</p>
+                    </a>
             @else
                  <a href="{{asset('login')}}" class="col-lg">
                 <p class="nav-item">PRIHLÁSENIE</p>

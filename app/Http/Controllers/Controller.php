@@ -34,6 +34,7 @@ class Controller extends BaseController
 
         //vybrané články
         $selected = DB::select("SELECT articles.*, users.name as author FROM articles LEFT JOIN users on articles.user_id=users.id WHERE selected_article !=0 order by selected_article limit 6");
+
         
         return view('index', ['map' => $map, 'news' => $news, 'selected_articles' => $selected]);
     }

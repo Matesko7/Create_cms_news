@@ -15,6 +15,7 @@ class GalleryController extends Controller
         
         $path = $root;
 
+        $hash= $_REQUEST['pic_hash'];
         if (!file_exists('articles/'.$_REQUEST['id_article'])) {
             mkdir('articles/'.$_REQUEST['id_article'], 0777, true);
         }
@@ -35,7 +36,7 @@ class GalleryController extends Controller
         //Here 'images' is options.uploader.filesVariableName
         if (isset($_FILES['files'])) {
             $tmp_name = $_FILES['files']['tmp_name'];
-            if (move_uploaded_file($tmp_name[0],$file= $base.$this->makeSafe($_FILES['files']['name'][0]))) {
+            if (move_uploaded_file($tmp_name[0],$file= $base.$this->makeSafe($hash."_".$_FILES['files']['name'][0]))) {
                 $info = pathinfo($file);
                 // check whether the file extension is included in the whitelist
                 if (isset($config['white_extensions']) and count($config['white_extensions'])) {
@@ -51,7 +52,7 @@ class GalleryController extends Controller
                         $result->messages='File type in black list';
                     }
                 }
-                $result->messages = 'File '.$_FILES['files']['name'][0].' was upload';
+                $result->messages = 'File '.$hash."_".$_FILES['files']['name'][0].' was upload';
                 $result->files = $base.basename($file);
                 } else {
                     $result->error = 5;

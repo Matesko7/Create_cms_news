@@ -60,6 +60,9 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         //Article changes
         Route::post('admin/article/{id?}', 'Admin\ArticlesController@save')->where('id', '[0-9]+');
 
+        //Articles attachment delete
+        Route::get('admin/attachment/delete/{id}', 'Admin\ArticlesController@attachemnt_delete')->where('id', '[0-9]+');
+
         //GALERY FOLDER
 
         Route::post('admin/connector', 'Admin\GalleryController@items');
@@ -105,6 +108,8 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
             Route::post('admin/selectedarticles', 'Admin\ArticlesController@selectedArticlesSave');
             //Edit comments per Article
 
+            //CAROUSEL
+            Route::get('admin/carousel', 'Admin\CarouselController@index');
 
             //Menu
             Route::get('admin/menu', 'Admin\MenuController@index');

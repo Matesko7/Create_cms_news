@@ -139,7 +139,23 @@
         </div>
         <img id="holder" style="margin-top:15px;max-height:100px;">
         <button  id='image_insert' style="display:none" class="btn btn-primary" type="button">Vlož</button>
+        <br><br>
+        <h2>Prílohy<span style="font-size:10px">Maximalna veľkosť prílohy je 50MB</span></h2>
+        <div id="attachments" style="margin-bottom:5px;">
+
+            @foreach($attachments as $attachment)
+                Príloha: <a href="{{asset($attachment->link)}}" target="_blank">{{$attachment->link}}</a> Názov: {{$attachment->attach_name}} <a href="{{asset('admin/attachment/delete/'.$attachment->id)}}"><button type="button" class="btn btn-danger" style="color:white;padding:2px;"> Vymazať</button></a><br><br>     
+            @endforeach
+
+            @if(!$attachments)
+            Príloha: <input type="file" name="attachment[0]" id="attachment[0]" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*">Názov:<input type="text" style="min-width:200px;" name="name_attachment[0]" id="name_attachment[0]"><br><br>
+            @endif
+            
+            
         </div>
+        <button id="add_attachment" type="button" class="btn" style="padding: 1px;">Pridať ďalšiu &nbsp<i class="fas fa-plus"></i> </button>
+        </div>
+        <br>
                         <div class="form-group">
                             <div class="col-md-11">
                                 <div class="text-center">
@@ -239,11 +255,21 @@
     @endforeach
     {{ Form::hidden('user_id',$article[0]->user_id) }}
     {{ Form::hidden('lang',$lang) }}
+    {{ Form::hidden('pic_hash', $pic_hash)}}
     </form>
 </div>
 
 
 <script>
+var attachment_num={{count($attachments)+1}};
+if( attachment_num < 2) attachment_num=2;
+$('#add_attachment').click(function(){
+    $('#attachments').append("Príloha:  <input type='file' name='attachment["+attachment_num+"]' id='attachment["+attachment_num+"]' accept='application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*'>Názov:<input type='text' style='min-width:200px;' name='name_attachment["+attachment_num+"]' id='name_attachment["+attachment_num+"]'><br><br>");
+    attachment_num++;
+});
+
+
+
 $('#holder').on('load', function () {
  $('#image_insert').show();
 });
@@ -261,9 +287,7 @@ $("#image_insert").click(function(){
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
             format: 'json',
-            data: {
-                id_article: {{$article[0]->id}}
-            },
+            data: {'id_article': 'tmp','pic_hash': '{{ $pic_hash }}' },
             isSuccess: function (resp) {
                 z = "{{asset('/')}}" + resp.files;
                 editor.selection.insertImage(z);
