@@ -1,3 +1,12 @@
+<style>
+.message {
+    margin: auto;
+    text-align: center;
+    margin-top: 20px;
+    }
+
+</style>
+
 @if(count($errors)>0)
 @foreach($errors->all() as $error)
 <div class="alert alert-danger col-md-6 message">

@@ -51,8 +51,6 @@
 
 
 </style>
-
-<div class="container">
 <br>
 <ul class="nav nav-tabs">
   <li><a style="@if($lang=='sk')background-color:#C9D2E0 @endif" href="{{asset("admin/article/sk/".$article[0]->id)}}">SK</a></li>
@@ -115,6 +113,7 @@
                                 OBSAH
                                 <textarea name="editor" id="editor"></textarea>
                                 <br>
+                                <!--GALERY ------------------->
                                 <h2>Galéria</h2>
                                 <div id="1" class="flex-container">
                                 @if(count($galery))
@@ -139,23 +138,48 @@
         </div>
         <img id="holder" style="margin-top:15px;max-height:100px;">
         <button  id='image_insert' style="display:none" class="btn btn-primary" type="button">Vlož</button>
-        <br><br>
+        <hr><br>
+        <!--ATTACHMENTS ------------------->
         <h2>Prílohy<span style="font-size:10px">Maximalna veľkosť prílohy je 50MB</span></h2>
         <div id="attachments" style="margin-bottom:5px;">
 
             @foreach($attachments as $attachment)
-                Príloha: <a href="{{asset($attachment->link)}}" target="_blank">{{$attachment->link}}</a> Názov: {{$attachment->attach_name}} <a href="{{asset('admin/attachment/delete/'.$attachment->id)}}"><button type="button" class="btn btn-danger" style="color:white;padding:2px;"> Vymazať</button></a><br><br>     
+                <div id="attachment_{{$attachment->id}}">
+                Príloha: <a href="{{asset($attachment->link)}}" target="_blank">{{$attachment->link}}</a> Názov: {{$attachment->attach_name}}<button type="button" class="btn btn-danger" onclick="deleteAttachment({{$attachment->id}})" style="color:white;padding:2px;"> Vymazať</button><br>
+                </div>     
             @endforeach
 
             @if(!$attachments)
             Príloha: <input type="file" name="attachment[0]" id="attachment[0]" accept="application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*">Názov:<input type="text" style="min-width:200px;" name="name_attachment[0]" id="name_attachment[0]"><br><br>
             @endif
-            
-            
+            </div>            
+            <button id="add_attachment" type="button" class="btn" style="padding: 1px;">Pridať ďalšiu &nbsp<i class="fas fa-plus"></i> </button>
+        
+
         </div>
-        <button id="add_attachment" type="button" class="btn" style="padding: 1px;">Pridať ďalšiu &nbsp<i class="fas fa-plus"></i> </button>
-        </div>
-        <br>
+        <br><hr>
+        <!--RELATED ARTICLES ------------------->
+        <h2>Príbuzné články</h2>
+        <div id="related_articles" style="margin-bottom:5px;">
+        <ul id="list_related_articles">
+        @foreach($related_articles as $key => $r_article)
+            <li id="{{$r_article->id}}">{{$r_article->title}}&nbsp&nbsp<button type="button" class="btn btn-danger" style="color:white;padding:2px;" onclick="deleteRelatedArticle({{$r_article->id}})">Vymazať</button></a></li>
+        @endforeach
+        </ul>
+        Pridať nový<br>
+        <div style="width:50%;float:left" >
+            <select  name="new_related_article" id="new_related_article" class="form-control" onmousedown="if(this.options.length>6){this.size=6;}"  onchange='this.size=0;' onblur="this.size=0;">
+                <option value="0" selected>-Vyberte článok-</option>
+                @foreach($articles as $a_article)
+                    <option  value="{{$a_article->id}}" >{{substr($a_article->title,0,70)}}</option>                    
+                @endforeach
+            </select>
+        </div>&nbsp&nbsp
+        <button class='btn btn-primary' type="button" id="related_article_insert"> vlož</button>    
+        </div>  
+        <br><br>      
+        <br><hr>
+        <!--------COVER PHOTO ------------------->
                         <div class="form-group">
                             <div class="col-md-11">
                                 <div class="text-center">
@@ -257,15 +281,26 @@
     {{ Form::hidden('lang',$lang) }}
     {{ Form::hidden('pic_hash', $pic_hash)}}
     </form>
-</div>
 
 
 <script>
+var new_related_article = true;
+
 var attachment_num={{count($attachments)+1}};
 if( attachment_num < 2) attachment_num=2;
 $('#add_attachment').click(function(){
     $('#attachments').append("Príloha:  <input type='file' name='attachment["+attachment_num+"]' id='attachment["+attachment_num+"]' accept='application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint,text/plain, application/pdf, image/*'>Názov:<input type='text' style='min-width:200px;' name='name_attachment["+attachment_num+"]' id='name_attachment["+attachment_num+"]'><br><br>");
     attachment_num++;
+});
+
+$('#add_related_article').click(function(){
+    if(new_related_article){
+    $('#related_articles').append("<br>Pridať nový<br><div style='width:50%;float:left'><select class='form-control' onmousedown='if(this.options.length>6){this.size=6;}' onchange='this.size=0;' onblur='this.size=0;'><option value='0' selected>-Vyberte článok-</option>@foreach($articles as $a_article)<option  value='{{$a_article->id}}' >{{substr($a_article->title,0,70)}}</option>@endforeach</select></div>&nbsp&nbsp<button class='btn btn-primary'> vlož</button>");
+    new_related_article = false;
+    }
+    else{
+        alert('Riadok na pridanie nového príbuzneho članku už je vytvorený');
+    }
 });
 
 
@@ -276,6 +311,22 @@ $('#holder').on('load', function () {
 
 $("#image_insert").click(function(){
     Ajax_add_photo_to_gallery();
+});
+
+function deleteRelatedArticle(id){
+    Ajax_delete_related_article(id);
+};
+function deleteAttachment(id){
+    Ajax_delete_attachment(id);
+};
+
+
+
+$("#related_article_insert").click(function(){
+    var id = $("#new_related_article").val();
+    if( id == 0)
+        return alert('Nezvolili ste žiadny článok');
+    Ajax_add_related_article(id);
 });
 
     var editor = new Jodit('#editor', {
@@ -459,6 +510,45 @@ $("#image_insert").click(function(){
         });
     }
 
+    function Ajax_add_related_article(id) {
+        $.ajax({
+            url: '{{asset("/saveRelatedArticle")}}',
+            data: {'related_article': id, 'article_id': {{$article[0]->id}} },
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'POST',
+            success: function (article) {
+                $("#list_related_articles").append("<li id="+article[0]['id']+">"+article[0]['title']+"&nbsp&nbsp<button type='button' class='btn btn-danger' style='color:white;padding:2px;' onclick='deleteRelatedArticle("+article[0]['id']+")'>Vymazať</button></a></li>");
+            }
+        });
+    }
+
+    function Ajax_delete_related_article(id) {
+        $.ajax({
+            url: '{{asset("/deleteRelatedArcticle")}}'+"/"+id  ,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'GET',
+            success: function (article) {
+                $("#list_related_articles").find("#"+id).remove();
+            }
+        });
+    }
+
+    function Ajax_delete_attachment(id) {
+        $.ajax({
+            url: '{{asset("/admin/attachment/delete")}}'+"/"+id  ,
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            type: 'GET',
+            success: function (article) {
+                $("#attachment_"+id).remove();
+            }
+        });
+    }
     
     function Ajax_image_edit(action, id){
         $.ajax({

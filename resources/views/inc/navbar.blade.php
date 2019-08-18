@@ -12,61 +12,46 @@
             @endforeach
 
             @if (App::isLocale('sk'))
-                <a href="{{asset('setlocale/en')}}" class="col-lg" id="locale">
-                    <p class="nav-item">EN</p>
-                </a>
-	        @else
-                <a href="{{asset('setlocale/sk')}}" class="col-lg" id="locale">
-                    <p class="nav-item">SK</p>
-                </a>
+            <a href="{{asset('setlocale/en')}}" class="col-lg" id="locale">
+                <p class="nav-item">EN</p>
+            </a>
+            @else
+            <a href="{{asset('setlocale/sk')}}" class="col-lg" id="locale">
+                <p class="nav-item">SK</p>
+            </a>
             @endif
 
             @if(Auth::check())
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false" v-pre>
-                    {{ Auth::user()->name }} <span class="caret"></span>
+            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false" v-pre>
+                {{ Auth::user()->name }} <span class="caret"></span>
+            </a>
+
+            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="user_info">
+                <a class="dropdown-item" href="{{ route('userProfile') }}">
+                    {{ __('PROFIL') }}
                 </a>
 
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="user_info">
-                    <a class="dropdown-item" href="{{ route('userProfile') }}">
-                        {{ __('PROFIL') }}
-                    </a>
+                @if( Auth::user()->hasAnyRole(['admin','editor']))
+                <a class="dropdown-item" href="{{asset('admin/articles')}}">{{ __('Články') }}</a>
+                @endif
 
-                    @if( Auth::user()->hasAnyRole(['admin','editor']))
-                    <a class="dropdown-item" href="{{asset('admin/articles')}}">{{ __('Články') }}</a>
-                    @endif
-
-                    @if( Auth::user()->hasrole('admin') )
-                    <a class="dropdown-item" href="{{asset('admin/users')}}">{{ __('Uživatelia') }}</a>
-
-                    <a class="dropdown-item" href="{{asset('admin/categories')}}">{{ __('Kategórie') }}</a>
-
-                    <a class="dropdown-item" href="{{asset('admin/menu')}}">{{ __('Menu') }}</a>
-
-                    <a class="dropdown-item" href="{{asset('admin/comments')}}">{{ __('Komenty') }}</a>
-
-                    <a class="dropdown-item" href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
-
-                    <a class="dropdown-item" href="{{asset('admin/carousel')}}">{{ __('Carousel') }}</a>
-                    
-                    @endif
-                    
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
+                <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
                      document.getElementById('logout-form').submit();">
-                        {{ __('ODHLÁSENIE') }}
-                    </a>
-                    
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
-                <a href="{{asset('admin_part')}}" class="col-lg" id="admin">
-                        <p class="nav-item">{{ __('Admin') }}</p>
-                    </a>
-            @else
-                 <a href="{{asset('login')}}" class="col-lg">
-                <p class="nav-item">PRIHLÁSENIE</p>
+                    {{ __('ODHLÁSENIE') }}
                 </a>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+            </div>
+            <a href="{{asset('admin/articles')}}" target="_blank" class="col-lg" id="admin">
+                <p class="nav-item">{{ __('Admin') }}</p>
+            </a>
+            @else
+            <a href="{{asset('login')}}" class="col-lg">
+                <p class="nav-item">PRIHLÁSENIE</p>
+            </a>
             @endif
         </div>
         <a href="mailto:ba.bobova@gmail.com" class="col-lg">
@@ -107,17 +92,18 @@
             <a href="#" class=" ml-2"><i class="fab fa-youtube"></i></a>
         </div>
     </div>
-    
+
     @if(Route::current()->getName() == 'index')
     <div class="jumbotron jumbotron-fluid">
-      <div class="row justify-content-center">
-        <img src="{{asset('/grafika/grafika/star-slider.png')}}" alt="" class="star mr-4">
-        <h3 class="welcome-text">Vitajte na bobovej dráhe</h3>
-        <img src="{{asset('/grafika/grafika/star-slider.png')}}" alt="" class="star ml-4">
-      </div>
-      <h1 class="main-heading">Adrenalínová<br>zábava pre<br>všetkých</h1>
-      <button type="button" class="btn btn-info show-more">Viac o ponuke</button>
-      @endif
-</div>
+        <div class="row justify-content-center">
+            <img src="{{asset('/grafika/grafika/star-slider.png')}}" alt="" class="star mr-4">
+            <h3 class="welcome-text">Vitajte na bobovej dráhe</h3>
+            <img src="{{asset('/grafika/grafika/star-slider.png')}}" alt="" class="star ml-4">
+        </div>
+        <h1 class="main-heading">Adrenalínová<br>zábava pre<br>všetkých</h1>
+        <button type="button" class="btn btn-info show-more">Viac o ponuke</button>
+    </div>
+    @endif
+    
 
 </header>

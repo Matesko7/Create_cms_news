@@ -1,6 +1,3 @@
-@extends('layout.app')
-
-@section('content')
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" href="{{asset('grafika/css/style.css')}}">
@@ -21,9 +18,9 @@
             </nav>
             <h2 class="post-heading heading">
               @if(App::isLocale('en'))
-                    {{$article[0]->title_en}}
+                    {{$components_content['article']['article'][0]->title_en}}
                 @else
-                    {{$article[0]->title}}
+                    {{$components_content['article']['article'][0]->title}}
                 @endif
             </h2>
           </div>
@@ -35,63 +32,63 @@
       <div class="container post-wrap">
         <div class="row">
           <div class="col-lg-8 main-content">
-          @if($editor)
+          @if($components_content['article']['editor'])
           <h4>
-              <a target="_blank" href="{{asset('admin/article/sk/'.$article[0]->id)}}">
+              <a target="_blank" href="{{asset('admin/article/sk/'.$components_content['article']['article'][0]->id)}}">
                 EDIT<i title="upraviť" class="fas fa-pencil-alt pen"></i>
               </a>
           </h4>
           @endif
             <div class="main-item">
-            @if($article[0]->photo)
-              <img src="{{asset($article[0]->photo)}}" alt="cover photo" class="post-body-img">
+            @if($components_content['article']['article'][0]->photo)
+              <img src="{{asset($components_content['article']['article'][0]->photo)}}" alt="cover photo" class="post-body-img">
             @else
                 <img src="{{asset('articles/cover.png')}}"  alt="cover article photo" class="post-body-img">
             @endif
               <div class="post">
                 <div class="row">
-                  <h6 class="post-meta text"><i class="fas fa-pencil-alt"></i> {{$article[0]->user_name}}</h6>
-                  <h6 class="post-meta text"><i class="far fa-calendar-alt"></i> {{date("d.m.y",strtotime($article[0]->created_at))}}</h6>
+                  <h6 class="post-meta text"><i class="fas fa-pencil-alt"></i> {{$components_content['article']['article'][0]->user_name}}</h6>
+                  <h6 class="post-meta text"><i class="far fa-calendar-alt"></i> {{date("d.m.y",strtotime($components_content['article']['article'][0]->created_at))}}</h6>
                   <h6 class="post-meta text"><i class="fas fa-comments"></i> {{trans('basics.comments')}}</h6>
-                  <h6 class="post-meta text"><i class="fas fa-list"></i><a href="{{asset('/clanky')}}/{{$article[0]->category_id}}/0">
+                  <h6 class="post-meta text"><i class="fas fa-list"></i><a href="{{asset('/clanky')}}/{{$components_content['article']['article'][0]->category_id}}/0">
                   @if(App::isLocale('en'))
-                    {{$article[0]->cat_name_en}}
+                    {{$components_content['article']['article'][0]->cat_name_en}}
                   @else
-                    {{$article[0]->cat_name}}
+                    {{$components_content['article']['article'][0]->cat_name}}
                   @endif 
                   </a></h6>
                 </div>
                 <h2 class="post-item-heading">@if(App::isLocale('en'))
-                    {{$article[0]->title_en}}
+                    {{$components_content['article']['article'][0]->title_en}}
                 @else
-                    {{$article[0]->title}}
+                    {{$components_content['article']['article'][0]->title}}
                 @endif</h2>
                 <h5>
                 @if(App::isLocale('en'))
-                        {{$article[0]->perex_en}}
+                        {{$components_content['article']['article'][0]->perex_en}}
                     @else
-                        {{$article[0]->perex}}
+                        {{$components_content['article']['article'][0]->perex}}
                     @endif
                 </h5>
                 @if(App::isLocale('en'))
-                  <?php echo(nl2br($article[0]->plot_en))?>
+                  <?php echo(nl2br($components_content['article']['article'][0]->plot_en))?>
                 @else
-                  <?php echo(nl2br($article[0]->plot))?>
+                  <?php echo(nl2br($components_content['article']['article'][0]->plot))?>
                 @endif
-                @if($attachments)
+                @if($components_content['article']['attachments'])
                 <h6>Prílohy:</h6>
-                @foreach($attachments as $attachment)
+                @foreach($components_content['article']['attachments'] as $attachment)
                   <a href="{{asset($attachment->link)}}" target="_blank">
                   @if($attachment->attach_name){{$attachment->attach_name}}@else príloha @endif</a><br>
                 @endforeach
                 @endif
-                @if(count($gallery))
+                @if(count($components_content['article']['gallery']))
                   @include('inc.galeria')
                 @endif
-                @if($related_articles)
+                @if($components_content['article']['related_articles'])
                 <br><br>
                 <h6>Súvisiace články:</h6>
-                @foreach($related_articles as $r_article)
+                @foreach($components_content['article']['related_articles'] as $r_article)
                   <a href="{{asset('clanok/'.$r_article->id)}}" target="_blank">{{$r_article->title}}</a><br>
                 @endforeach
                 @endif
@@ -100,7 +97,7 @@
               <div class="row post-tags">
                 <div class="col-sm col-lg d-flex flex-row align-items-center tags-row">
                   <h6 class="tags-title">Tags: </h6>
-                  @foreach($tags as $tag) 
+                  @foreach($components_content['article']['tags'] as $tag) 
                     @if($tag != '') 
                   <div class="col-sm col-lg d-flex align-items-center justify-content-center px-1 py-1">
                   <a href="{{asset('/clanky')}}/0/{{$tag}}" class="tag">
@@ -138,7 +135,7 @@
               @if(Auth::check())
                 <div id="user_add_comment" class="comment add-comment">
                   <h2 class="comments-heading heading">Pridať komentár</h2>
-                  <form action="{{asset('article/addcoment/'.$article[0]->id)}}" method="post">@csrf
+                  <form action="{{asset('article/addcoment/'.$components_content['article']['article'][0]->id)}}" method="post">@csrf
                     <!--<div class="row">
                       <div class="col-md pr-2">
                         <input type="text" name="name" placeholder="{{Auth::user()->name}}" class="add-comment-input" value="" ><br>
@@ -164,8 +161,8 @@
                   <h2 class="comments-heading" style="text-align:center;color:red">Pre vkladanie komentárov sa musíte prihlásiť</h2>
                 @endif
                 <br><br>
-                <h2 class="comments-heading heading">Komentáre: {{count($comments)}}</h2>
-                @foreach($comments as $comment)
+                <h2 class="comments-heading heading">Komentáre: {{count($components_content['article']['comments'])}}</h2>
+                @foreach($components_content['article']['comments'] as $comment)
                 <div class="row comment media-query-special">
                   <div class="col-md-12 col-lg-3 media-query-special">
                     <div class="user-picture" style="background-image: url('{{asset('users/'.$comment->user_id.'/'.$comment->user_id.'.jpg')}}');background-postion:center;background-size: cover;background-repeat: no-repeat"></div>
@@ -180,8 +177,8 @@
                         <p class="comment-content">{{$comment->comment}}</p>
                       </div>
                       <div class="row" id="reply_to_{{$comment->id}}" style="display: none">
-                        <form action="{{asset('article/reply_comment/'.$article[0]->id.'/'.$comment->id)}}" method="post">@csrf
-                          <input type="comment" name="comment_reply" placeholder="odpoved na komentár" class="add-comment-input" style="padding:0.5rem">
+                        <form action="{{asset('article/reply_comment/'.$components_content['article']['article'][0]->id.'/'.$comment->id)}}" method="post">@csrf
+                          <textarea type="comment" name="comment_reply" cols="50"  rows="4" placeholder="odpoved na komentár" class="add-comment-input" style="padding:0.5rem;"></textarea>
                           <button  class="reply">Odoslať</button>
                         </form>  
                       </div>
@@ -233,7 +230,7 @@
               <div class="categories">
                 <h4 class="categories-heading heading">Kategórie</h4>
                 <ul>
-                @foreach($categories_all as $value)
+                @foreach($components_content['article']['categories_all'] as $value)
                 <a href="{{asset('/clanky')}}/{{$value->id}}/0"> <li class="category">{{$value->name}}</li></a>  
                 @endforeach
                 </ul>
@@ -262,7 +259,7 @@
               <div class="tags">
                 <h4 class="tags-heading heading">Tagy</h4>
                 <div class="row mb-2">
-                @foreach($tags_all as $value)
+                @foreach($components_content['article']['tags_all'] as $value)
                 <div class="col-sm col-lg d-flex align-items-center justify-content-center px-1 py-1">
                     <a href="{{asset('/clanky')}}/0/{{$value}}" class="tag">
                       <h6 class="tag-name text">{{$value}}</h6>
@@ -282,5 +279,3 @@ function comment_reply(e){
   $("#reply_to_"+e.value).show();
 }
 </script>
-
-@endsection

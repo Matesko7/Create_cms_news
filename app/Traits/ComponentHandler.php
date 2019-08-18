@@ -1,17 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
-
-use Illuminate\Http\Request;
+namespace App\Traits;
 use App\Article;
 use App\Category;
 use App\Comment;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
-class ArticlesController extends Controller
+
+trait ComponentHandler
 {
-    public function index($category=false,$tag=false){        
+
+    public function Articles($category=false,$tag=false){        
         $article= new Article;
         $category_param=false;
         $tag_param=false;
@@ -30,7 +30,7 @@ class ArticlesController extends Controller
             $articles=$article->getAllwAuthorandGroup(3,date("Y-m-d H:i:s"),$category_param,$tag_param);
         }
         else if($category_param)
-            $articles=$article->x(3,date("Y-m-d H:i:s"),$category_param);
+            $articles=$article->getAllwAuthorandGroup(3,date("Y-m-d H:i:s"),$category_param);
         else if($tag_param)
             $articles=$article->getAllwAuthorandGroup(3,date("Y-m-d H:i:s"),false,$tag_param);
         else{
@@ -53,16 +53,16 @@ class ArticlesController extends Controller
             }
         }
 
-        return view('clanky',['articles' => $articles,'categories' => $categories, 'tags' => $tags, 'category' => $category_param, 'tag' =>$tag_param]);
+        return array('articles' => $articles,'categories' => $categories, 'tags' => $tags, 'category' => $category_param, 'tag' =>$tag_param);
     }
 
-    public function article($id){
+    public function Article($id){
         $article_tmp= new Article;
         $comments_tmp= new Comment;
         $article=$article_tmp->getArticlewAuthorandGroup($id);
         if($article[0]->audience==2){
             if(!isset(Auth::user()->email) || !Auth::user()->verified)
-                return back()->with('warning','Tento článok je len pre prihlasených použivateľov. Ak si ho chcete prečítať prosim prihláste sa');
+                return array('warning' => 'Tento článok je len pre prihlasených použivateľov. Ak si ho chcete prečítať prosim prihláste sa');
         }
 
         $article[0]->photo=false;
@@ -73,13 +73,9 @@ class ArticlesController extends Controller
                 $article[0]->photo=$photo;
         }
 
-        //$comments= json_decode(json_encode($comments_tmp->getAllComentswUserByArcticleId($id),true));
         $comments= $comments_tmp->getAllComentswUserByArcticleId($id);
-        //$comments['child']= array();
-        //print_r($comments);
-        
-        $tmp_comments_reply=$comments_tmp->getAllRepliesComentswUserByArcticleId($id);
 
+        $tmp_comments_reply=$comments_tmp->getAllRepliesComentswUserByArcticleId($id);
 
         foreach ($comments as $key1 => $comment) {
             $tmp= array();
@@ -87,8 +83,6 @@ class ArticlesController extends Controller
                 if($comment->id == $comment_reply->parent_id){
                     $tmp2= array('userId' => $comment_reply->user_id,'userName' => $comment_reply->user_name,'created_at' => $comment_reply->created_at,'plot' => $comment_reply->comment);
                     array_push($tmp,$tmp2);
-                    //$comments[$key]= $tmp;
-                    //array_push($comments[2],$tmp);
                 }
             }
             $comments[$key1]->child = $tmp;
@@ -112,13 +106,34 @@ class ArticlesController extends Controller
         if(Auth::check() && Auth::user()->hasRole('admin'))
                 $editor= true;
 
-
-        return view('clanok_detail',['article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all,'comments' => $comments,'attachments' => $attachments,'gallery' => $gallery,'related_articles' => $related_articles, 'editor' => $editor]);
+        return array('article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all,'comments' => $comments,'attachments' => $attachments,'gallery' => $gallery,'related_articles' => $related_articles, 'editor' => $editor);
     }
 
     private function makeSafe($file) {
         $file = rtrim($file, '.');
         $regex = ['#(\.){2,}#', '#[^A-Za-z0-9\.\_\- ]#', '#^\.#'];
         return trim(preg_replace($regex, '', $file));
+    }
+
+    public function map(){
+        $config = array();
+        $config['center'] = '48.1834461513518, 17.099425792694092';
+        $config['zoom'] = '14';
+
+        $marker = array();
+        $marker['position'] = '48.1834461513518, 17.099425792694092';
+        $marker['infowindow_content'] = "<img style='margin:10px;height:75px;' src=".asset('grafika/grafika/na_boboch.png')."><p><b>Bratislavská bobová dráha</b></p><p>Cesta na Kamzík<br>831 01 Nové Mesto</p><p><span>email: ba.bobova@gmail.com <br>tel: +421 918 683 202</span></p>";
+
+        \GMaps::add_marker($marker);
+        \GMaps::initialize($config);
+        return $map = \GMaps::create_map();
+    }
+
+    public function News(){
+        return DB::select("SELECT articles.*, users.name as author FROM articles LEFT JOIN users on articles.user_id=users.id order by created_at limit 6");
+    }
+
+    public function Top_articles(){
+       return DB::select("SELECT articles.*, users.name as author FROM articles LEFT JOIN users on articles.user_id=users.id WHERE selected_article !=0 order by selected_article limit 6");
     }
 }

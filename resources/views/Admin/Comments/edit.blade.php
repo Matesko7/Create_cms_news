@@ -2,7 +2,6 @@
 
 @section('content')
 
-<div class="container">
 <h3 style="text-align:center">KOMENTÁRE</h3><hr style="border-top: 1px solid red;">
 @foreach($comments as $comment)
 <div style="margin-left:50px;padding:1rem" class="row comment media-query-special">
@@ -29,5 +28,4 @@
 @endforeach
 {{ $comments->links() }}
 <br>
-</div>
 @endsection

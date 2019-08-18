@@ -1,108 +1,66 @@
-<nav class="container navbar navbar-main fixed-top navbar-expand-lg navbar-km-consult bg-white fixed-top" data-toggle="affix" style="padding: 10px 125px 10px 125px">
+<div class="sidenav">
+
+    @if( Auth::user()->hasAnyRole(['admin','editor']))
+        <a href="{{asset('admin/articles')}}">{{ __('Články') }}</a>
+    @endif
     
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul id="navigation" class="navbar-nav ml-auto">
-            @foreach($menulist as $menu)
-                @if(!count($menu['child']))
-                <li class="nav-item">
-                    <a id="{{ __($menu['id']) }}" class="nav-link" href="{{asset($menu['link'])}}">{{ __($menu['label']) }}</a>
-                </li>
-                @else
-                <li class="nav-item dropdown">
-                    <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                        aria-haspopup="true" aria-expanded="false" v-pre>
-                        {{ __($menu['label']) }} <span class="caret"></span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                    @foreach($menu['child'] as $children)
-                        <a class="dropdown-item" href="{{asset($children['link'])}}">
-                            {{ __($children['label']) }}
-                        </a>
-                    @endforeach
-                    </div>
-                    </li>
-                @endif
-            @endforeach
+    @if( Auth::user()->hasrole('admin') )
+      <a  href="{{asset('admin/users')}}">{{ __('Uživatelia') }}</a>
 
-            @if(Auth::check())
-            <li class="nav-item dropdown">
-                <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                    aria-haspopup="true" aria-expanded="false" v-pre>
-                    {{ Auth::user()->name }} <span class="caret"></span>
-                </a>
+      <a  href="{{asset('admin/categories')}}">{{ __('Kategórie') }}</a>
 
-                <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown" id="user_info">
-                    <a class="dropdown-item" href="{{ route('userProfile') }}">
-                        {{ __('PROFIL') }}
-                    </a>
+      <a  href="{{asset('admin/menu')}}">{{ __('Menu') }}</a>
 
-                    @if( Auth::user()->hasAnyRole(['admin','editor']))
-                    <a class="dropdown-item" href="{{asset('admin/articles')}}">{{ __('Články') }}</a>
-                    @endif
+      <a  href="{{asset('admin/comments')}}">{{ __('Komenty') }}</a>
 
-                    @if( Auth::user()->hasrole('admin') )
-                    <a class="dropdown-item" href="{{asset('admin/users')}}">{{ __('Uživatelia') }}</a>
+      <a  href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
 
-                    <a class="dropdown-item" href="{{asset('admin/categories')}}">{{ __('Kategórie') }}</a>
+      <a  href="{{asset('admin/carousel')}}">{{ __('Carousel') }}</a>
+      
+      <a  href="{{asset('admin/components')}}">{{ __('Komponenty') }}</a>
 
-                    <a class="dropdown-item" href="{{asset('admin/menu')}}">{{ __('Menu') }}</a>
+      <a  href="{{asset('admin/pages')}}">{{ __('Stránky') }}</a>
 
-                    <a class="dropdown-item" href="{{asset('admin/comments')}}">{{ __('Komenty') }}</a>
+      <a  href="{{asset('#')}}">{{ __('Statické texty') }}</a>                    
+    @endif
 
-                    <a class="dropdown-item" href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
-
-                    <a class="dropdown-item" href="{{asset('admin/carousel')}}">{{ __('Carousel') }}</a>
+    <span style="position:fixed; bottom: 5px;">
+      
+    <a  href="{{ route('logout') }}" onclick="event.preventDefault();
+      document.getElementById('logout-form').submit();">
+       <i class="fas fa-sign-out-alt"></i> {{ __('ODHLÁSENIE') }}
+    </a>
                     
-                    @endif
-                    
-                    <a class="dropdown-item" href="{{ route('logout') }}" onclick="event.preventDefault();
-                     document.getElementById('logout-form').submit();">
-                        {{ __('ODHLÁSENIE') }}
-                    </a>
-                    
-                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                        @csrf
-                    </form>
-                </div>
-            </li>
-            @else
-            <li class="nav-item">
-                <a class="nav-link" href="{{asset('login')}}">PRIHLÁSENIE</a>
-            </li>
-            @endif
-        </ul>
-    </div>
-</nav>
-
-<div class="container text-center" style="margin-top:20px; ">
-    @include('inc.messages')
+    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+        @csrf
+    </form>
+    </span>
+  <!-- DROP DOWN MENU
+      <button class="dropdown-btn">Dropdown 
+    <i class="fa fa-caret-down"></i>
+  </button>
+  <div class="dropdown-container">
+    <a href="#">Link 1</a>
+    <a href="#">Link 2</a>
+    <a href="#">Link 3</a>
+  </div>
+  -->
 </div>
-<script>
-    $(window).scroll(function () {
-        /* affix after scrolling 100px */
-        if ($(document).scrollTop() > 100) {
-            $('.navbar-main').addClass('affix');
-            $('.navbar-brand img').attr('src', "{{asset('images/logo-scroll.png')}}"); //change src
-        } else {
-            $('.navbar-main').removeClass('affix');
-            $('.navbar-brand img').attr('src', "{{asset('images/logo.png')}}"); //change src
-        }
-    });
 
-    $(function(){
-        $('a').each(function(){
-            if ($(this).prop('href') == window.location.href) {
-                $(this).addClass('active'); 
-                $(this).parents('li').addClass('active');
-            }
-			if (window.location.href=="http://ipolak.nws.company/nws_paralaxcms/public/") {
-                $('#uvod').addClass('active'); 
-                $('#uvod').parents('li').addClass('active');
-            }
-        });
-    });
+<script>
+/* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+var dropdown = document.getElementsByClassName("dropdown-btn");
+var i;
+
+for (i = 0; i < dropdown.length; i++) {
+  dropdown[i].addEventListener("click", function() {
+  this.classList.toggle("active");
+  var dropdownContent = this.nextElementSibling;
+  if (dropdownContent.style.display === "block") {
+  dropdownContent.style.display = "none";
+  } else {
+  dropdownContent.style.display = "block";
+  }
+  });
+}
 </script>

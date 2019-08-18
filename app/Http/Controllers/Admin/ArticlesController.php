@@ -55,8 +55,13 @@ class ArticlesController extends Controller
 
             $attachments= DB::select("SELECT * from article_attachment WHERE article_id=? ORDER BY id desc",[$id]);
             
+            $related_articles= DB::select("SELECT A.*,B.title from aritcle_related A  LEFT JOIN articles B on A.related_article_id=B.id WHERE A.article_id=? ORDER BY id desc",[$id]);
 
-            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang, 'pic_hash' => $hash, 'attachments' => $attachments]);
+
+            $all_articles= DB::select("SELECT id,title from articles");
+            
+
+            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang, 'pic_hash' => $hash, 'attachments' => $attachments, 'related_articles' => $related_articles, 'articles' => $all_articles]);
         }
         else{
             $photos= glob("articles/tmp/cover/*"); // get all file names
@@ -249,7 +254,18 @@ class ArticlesController extends Controller
 
             $tmp= explode("/",$request->src); 
             $image_name= end($tmp);
-            $from='photos/'.Auth::user()->id.'/'.$image_name;
+            
+            $from="";
+            $tmp= explode("/",$request->src); 
+            foreach ($tmp as $key => $value) {
+                if($key > 2){
+                    if(count($tmp)-1 === $key)
+                        $from = $from.$value;
+                    else
+                        $from = $from.$value."/";
+                }
+            }
+            
             $to= 'articles/'.$request->article_id.'/galery/'.$image_name;
 
             $image= Image::create([
@@ -269,6 +285,18 @@ class ArticlesController extends Controller
 
             return $image->id;
     }
+
+    public function newRelatedArcticle(Request $request){
+        DB::insert("INSERT INTO aritcle_related (related_article_id,article_id) VALUES ($request->related_article, $request->article_id)");
+        $id= DB::getPdo()->lastInsertId();  
+        return DB::select("SELECT A.id id ,B.title title from aritcle_related A LEFT JOIN articles B on A.related_article_id=B.id where A.id=$id");
+    }
+
+    public function deleteRelatedArcticle($id){
+        DB::delete("DELETE from aritcle_related where id=$id");
+        
+    }
+
 
     public function editImage(Request $request){
         Auth::user()->authorizeRoles('admin','editor');

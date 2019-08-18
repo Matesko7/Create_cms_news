@@ -109,7 +109,7 @@
           @foreach($selected_articles as $selected_article)        
             <div class="slide-woman d-flex justify-content-center flex-column">
               <p class="slide-text text" style="height:100%">
-                <a href="{{asset('clanok/'.$new->id)}}">{{$selected_article->title}}</a>
+                <a href="{{asset('clanok/'.$selected_article->id)}}">{{$selected_article->title}}</a>
               </p>
               <div class="row profile align-items-end">
                 <div class="col d-flex justify-content-end align-self-start">

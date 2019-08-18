@@ -1,7 +1,6 @@
 @extends('layout.app_admin')
 
 @section('content')
-<div class="container">
     {{ Form::open(array('url' => isset($category) ? asset("admin/category/".$category->id): asset('admin/category') ,'files' => true)) }}
         <div style="padding:50px;" class="row">
             <!-- edit form column -->
@@ -49,7 +48,6 @@
                 </div>
                 <button id="new_cat_save" name="new_cat_save" class="btn btn-info show-more">Uložiť</button>
     {{ Form::close() }}
-</div>
 </div>
 </div>
 

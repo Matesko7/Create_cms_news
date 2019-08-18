@@ -2,7 +2,6 @@
 
 @section('content')
 
-<div class="container">
 <h1>Vybrané články</h1>
 {{ Form::open(array('url' => asset("admin/selectedarticles")))}}
 <div style="margin:50px;">
@@ -38,5 +37,4 @@
 {{ Form::close() }}
 </div>
 <br>
-</div>
 @endsection 

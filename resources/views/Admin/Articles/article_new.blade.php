@@ -34,7 +34,6 @@
     border-bottom-color: transparent
 }
 </style>
-<div class="container">
 <br>
 <ul class="nav nav-tabs">
   <li><a style="@if($lang=='sk')background-color:#C9D2E0 @endif" href="{{asset('admin/article/sk')}}">SK</a></li>
@@ -91,6 +90,9 @@
                             <br><br>
                             <h2>Prílohy</h2>
                             Na vloženie prílohy najprv uložte článok
+                            <br><br>
+                            <h2>Súvisiace články</h2>
+                            Najprv uložte článok
                             <br>
                         </div>
 
@@ -170,7 +172,6 @@
     </div>
     {{ Form::hidden('pic_hash', $pic_hash)}}
     </form>
-</div>
 
 <script>
 

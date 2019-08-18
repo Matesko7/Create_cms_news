@@ -1,7 +1,3 @@
-@extends('layout.app')
-
-@section('content')
-
 <head>
 
   <link rel="stylesheet" href="{{asset('grafika/css/blog-post.css')}}">
@@ -20,8 +16,6 @@
         background-color: #ffae00;
         border-radius: 25px;
     }
-
-
 
 </style>
 
@@ -49,8 +43,8 @@
                     <span>{{trans('basics.cat_filter')}}</span>
                     <select  onchange="categorychange()" id="category" name="category" type="text" style="width:60%;display:inline" class="form-control">
                         <option value='0' >--Kategória--</option>
-                        @foreach($categories as $value)
-                            @if($value->id == $category)
+                        @foreach($components_content['articles']['categories'] as $value)
+                            @if($value->id == $components_content['articles']['category'])
                                 <option value={{$value->id}} selected>{{$value->name}}</option>
                             @else
                                 <option value={{$value->id}}>{{$value->name}}</option>
@@ -63,8 +57,8 @@
                     <span>{{trans('basics.tag_filter')}}</span>
                     <select  onchange="tagchange()" id="tag" name="tag" type="text" placeholder="Porsche" style="width:60%;display:inline" class="form-control">
                         <option value='0' >--Tag--</option>
-                        @foreach($tags as $value)
-                            @if($value == $tag)
+                        @foreach($components_content['articles']['tags'] as $value)
+                            @if($value == $components_content['articles']['tag'])
                                 <option value='{{$value}}' selected>{{$value}}</option>
                             @else
                                 <option value='{{$value}}'>{{$value}}</option>
@@ -73,12 +67,14 @@
                     </select>    
                 </div>
     </div>     
-    <!-- Grid -->
-    <div style=" width: 50%;margin: 0 auto;" class="w3-row">           
+  
+    </div>
+ <!-- Grid -->
+ <div style=" width: 50%;margin: 0 auto;" class="w3-row">           
         <!-- Blog entries -->
         <div style="margssin-left:17%" class="w3-col">
             
-           @foreach($articles as $article) 
+           @foreach($components_content['articles']['articles'] as $article) 
             <!-- Blog entry -->
             <div class="w3-card-12 w3-margin w3-white">
                 @if($article->photo)
@@ -143,14 +139,16 @@
           @endforeach
         </div>
     </div>
-    {{ $articles->links() }}
+    <div class="pagination pagination-centered" style="justify-content: center;">
+    {{ $components_content['articles']['articles']->links() }}
+    </div>
     <br>
 </div>
 
 <script>
 function categorychange(){
     var url=''
-    var z='{{$tag}}';
+    var z="{{$components_content['articles']['tag']}}";
     if(z !=""){
        url="{{asset('/clanky')}}"+"/"+$("#category").val()+"/"+z;
     }
@@ -162,7 +160,7 @@ function categorychange(){
 
 function tagchange(){
     var url=''
-    var z='{{$category}}';
+    var z="{{$components_content['articles']['category']}}";
     if(z !=""){
        url="{{asset('/clanky')}}"+"/"+z+"/"+$("#tag").val();
     }
@@ -172,6 +170,3 @@ function tagchange(){
     window.location= url;
 }
 </script>
-
-
-@endsection
