@@ -8,6 +8,7 @@ use App\Component;
 use App\Component_detail;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use URL;
 
 class ComponentsController extends Controller
 {
@@ -15,8 +16,7 @@ class ComponentsController extends Controller
     public function index(){
         $components=Component_detail::leftJoin('components', function($join){
             $join->on('component_details.id_component','=','components.id');
-        })->where('parent_id', null)
-        ->select('components.name as type','component_details.name','component_details.id')->paginate(15);
+        })->select('components.name as type','component_details.name','component_details.id')->paginate(15);
 
         return view('Admin/Components/index')->with(['components' => $components]);
     }
@@ -49,14 +49,50 @@ class ComponentsController extends Controller
             $gallery= DB::select("SELECT * FROM component_details_gallery WHERE id_component_detail = $id ORDER BY image_order");
             return view('Admin/Components/edit_galery')->with(['gallery' => $gallery, 'component' => $component]);
         }
+        if($component[0]->id_component  == $enum_components['about']){
+            $component_content= DB::select("SELECT * FROM component_details_about WHERE id_component_detail = $id");
+            return view('Admin/Components/edit_about')->with(['content' => $component_content, 'component' => $component]);
+        }
         
-        return 123;
+        return back()->with('warning', 'Tento komponent sa nedá editovať');
     }
 
-    public function delete(){
-        return 3;
+    public function delete($id){
+        $id_component= Component_detail::where('id',$id)->select('id_component')->get()[0]->id_component;
+        if($id_component == 3){
+            $files= glob("about_component/$id/*"); // get all file names
+            foreach($files as $file){ // iterate files
+            if(is_file($file))
+                unlink($file);
+            }   
+            if (is_dir("about_component/$id")) {
+                rmdir("about_component/$id");
+            }
+            DB::delete("DELETE FROM component_details_about WHERE id_component_detail=$id");
+        }else if($id_component == 7){
+            $files= glob("gallery_component/$id/*"); // get all file names
+            foreach($files as $file){ // iterate files
+            if(is_file($file))
+                unlink($file);
+            }   
+            if (is_dir("gallery_component/$id")) {
+                rmdir("gallery_component/$id");
+            }
+            DB::delete("DELETE FROM component_details_gallery WHERE id_component_detail=$id");
+        }
+        
+        Component_detail::where('id',$id)->delete();
+        
+
+        return back()->with('success', 'Komponent úspešne zmazaný');
     }
 
+    public function rename(Request $request){
+        $response= array("status" => "", "msg" => "" );
+        if(!Component_detail::where('id',$request->component_id)->update(['name' => $request->new_name]))
+            $response['msg']=  "Niečo sa pokazilo :/";
+        return $response;
+    }
 
     public function newImageToGallery(Request $request){
         
@@ -68,21 +104,12 @@ class ComponentsController extends Controller
             mkdir('gallery_component/'.$request->component_id, 0777, true);
         }
 
-        $from="";
+        $from=str_replace(URL::to('/').'/','',$request->src);
         $tmp= explode("/",$request->src); 
-        foreach ($tmp as $key => $value) {
-            if($key > 2){
-                if(count($tmp)-1 === $key)
-                    $from = $from.$value;
-                else
-                    $from = $from.$value."/";
-            }
-        }
-        
         $image_name= end($tmp);
         $to= 'gallery_component/'.$request->component_id.'/'.$image_name;
 
-        
+
         $order= DB::select("SELECT max(image_order) AS poradie FROM component_details_gallery WHERE id_component_detail=$request->component_id")[0]->poradie;
 
         if(!$order) 
@@ -166,4 +193,45 @@ class ComponentsController extends Controller
             return $gallery; 
         }
     }
+
+    public function about(Request $request, $id){
+        if (!file_exists('about_component')) {
+            mkdir('about_component', 0777, true);
+        }
+
+        if (!file_exists('about_component/'.$id)) {
+            mkdir('about_component/'.$id, 0777, true);
+        }
+
+        $link= false;
+        if($file = $request->file('file')){
+            if(isset($file)){
+                $path_parts = pathinfo($_FILES["file"]["name"]);
+                $path = "about_component/".$id;
+                $name = '1.' . $path_parts['extension'];
+                $file->move($path,$name);
+                $link = $path."/".$name;
+            }
+        }
+
+        if(DB::select('SELECT * FROM component_details_about WHERE id_component_detail= ?',[$id])){
+            $link=  $link ? $link : DB::select('SELECT * FROM component_details_about WHERE id_component_detail= ?',[$id])[0]->link; 
+            DB::update('UPDATE component_details_about SET title= :title, text= :text, link= :link WHERE id_component_detail =:id',[
+                "id" => $id,
+                "title" => $request->title,
+                "text" => $request->text,
+                "link" => $link
+            ]);      
+        }else{
+            $link=  $link ? $link : "" ;
+            DB::insert("INSERT INTO  component_details_about (id_component_detail,title,text, link)  VALUES (:id,:title,:text,:link)", [
+                "id" => $id, 
+                "title" => $request->title,
+                "text" => $request->text,
+                "link" => $link
+            ]);   
+        }
+        return redirect('/admin/components/edit/'.$id)->with('success', "Komponent úspešne uložený");
+    }
+
 }

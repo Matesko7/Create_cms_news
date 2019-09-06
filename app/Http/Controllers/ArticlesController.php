@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class ArticlesController extends Controller
 {
-    public function index($category=false,$tag=false){        
+    public function index($category=false,$tag=false){       
         $article= new Article;
         $category_param=false;
         $tag_param=false;

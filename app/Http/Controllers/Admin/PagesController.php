@@ -8,22 +8,26 @@ use App\Component;
 use App\Page;
 use App\Page_component;
 use Illuminate\Support\Facades\DB;
+use App\Component_detail;
 
 class PagesController extends Controller
 {
     public function edit($id = null){
         $menu_items= DB::select("SELECT * FROM admin_menu_items");
+        $components_about = Component_detail::where('id_component',3)->get();
+        $components_gallery = Component_detail::where('id_component',7)->get();
+        
         if(!$id){
-            return view('Admin/Pages/index')->with(["components" => Component::all(),"pages" => Page::all(),"menu_items" => $menu_items,"id" => null]);
+            return view('Admin/Pages/index')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery, "pages" => Page::all(),"menu_items" => $menu_items,"id" => null]);
         }
         else{
             if(! Page::find($id))
                 return redirect('/admin/pages');
             
             $page_name= Page::where('id', $id)->get()[0]->name;
-            $page_components= DB::table('page_components')->where('page_id', $id)->join('components', 'page_components.component_id','components.id')->orderBy('page_components.component_order') -> get();
-        
-            return view('Admin/Pages/index')->with(["components" => Component::all(),"pages" => Page::all(),"page_name" => $page_name,"page_components" => $page_components,"menu_items" => $menu_items,"id" => $id]);
+            $page_components= DB::table('page_components')->where('page_id', $id)->join('components', 'page_components.component_id','components.id')->Leftjoin('component_details', 'page_components.component_detail_id','component_details.id')->select('page_components.id','components.name','component_details.name AS name2' )->orderBy('page_components.component_order')->get();
+
+            return view('Admin/Pages/index')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery,"pages" => Page::all(),"page_name" => $page_name,"page_components" => $page_components,"menu_items" => $menu_items,"id" => $id]);
         }
     }
 
@@ -44,6 +48,8 @@ class PagesController extends Controller
     }
     
     public function addMenuItemToPage($id_page, $id_menuItem){
+        if( Page::where('menu_item_id',$id_menuItem)->first())
+            return redirect('/admin/pages')->with('error', 'Jedna položka v menu( link) može byť priradená iba jednej stránke');
         Page::where('id',$id_page)->update(['menu_item_id' => $id_menuItem]);
         return redirect('/admin/pages')->with('success', 'Stránka bola úspešne priradená');
     }
@@ -61,8 +67,11 @@ class PagesController extends Controller
         }
 
         $order= Page_component::where('page_id', $request->page_id)->max('component_order');
-        if(DB::insert("INSERT INTO page_components (component_id,page_id,component_order) VALUES ('$request->component_id','$request->page_id',$order+1)"))
+        if($request->component_detail_id == "") $request->component_detail_id = 'null';
+        if(DB::insert("INSERT INTO page_components (component_id,component_detail_id,page_id,component_order) VALUES ($request->component_id,$request->component_detail_id,'$request->page_id',$order+1)")){
             $response['status']= 'success';
+            $response['msg']=  DB::getPdo()->lastInsertId();
+        }
         
         return $response;
     }
@@ -72,13 +81,13 @@ class PagesController extends Controller
         $response= array("status" => "error", "msg" => "" );
         
         //kontrola ci dany komponent na danej stranke existuje
-        if( ! Page_component::where('page_id',$request->page_id)->where('component_id',$request->component_id)->first()){
+        if( ! Page_component::where('page_id',$request->page_id)->where('id',$request->component_id)->first()){
             $response['status']= 'error';
             $response['msg']= 'Tento komponent na stránke neexistuje';
             return $response;
         }
 
-        if( Page_component::where('page_id',$request->page_id)->where('component_id',$request->component_id)->delete())
+        if( Page_component::where('page_id',$request->page_id)->where('id',$request->component_id)->delete())
             $response['status']= 'success';
 
         $page_components = Page_component::where('page_id',$request->page_id)->orderBy('component_order')->get();
@@ -99,7 +108,7 @@ class PagesController extends Controller
 
         foreach ($tmp as $key => $value) {
             $tmp2 =  explode("=",$value );
-            Page_component::where('component_id', $tmp2[1])->update(['component_order' => ($key+1)]);
+            Page_component::where('id', $tmp2[1])->update(['component_order' => ($key+1)]);
         }
 
         return $response;

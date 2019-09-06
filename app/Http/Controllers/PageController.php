@@ -7,7 +7,7 @@ use Route;
 use App\Traits\ComponentHandler;
 use App\Page;
 use App\Page_component;
-
+use Illuminate\Support\Facades\DB;
 
 class PageController extends Controller
 {
@@ -30,21 +30,23 @@ class PageController extends Controller
             "article" => '' //9
         );
 
+
         $page_components = array();
         $menu_item_id= Route::current()->getName();
-
-        if($menu_item_id === "article_single"){
+        
+        if( strpos($menu_item_id,'article_single') !== false ){
             $components_content['article']= $this->Article($param1);
             $page_components[0]= array('component_id' => '9') ;
-            return view('master')->with(['components_content' => $components_content, 'components' => $page_components]);
+            $route_to_articles=explode("|",$menu_item_id)[1];
+            return view('master')->with(['components_content' => $components_content, 'components' => $page_components, 'route_to_article' => $route_to_articles]);
         }
 
         //ZIADNY CONTTENT
-        if( ! Page::where('menu_item_id', $menu_item_id)->first() )
-            return view('master')->with(['components' => null]);
+        if( ! Page::where('menu_item_id', $menu_item_id)->first())
+            return view('master')->with(['components' => array()]);
 
         $page_id = Page::where('menu_item_id', $menu_item_id)->get()[0]->id;
-        $page_components= Page_component::select('component_id')->where('page_id', $page_id)->orderBy('component_order')->get();
+        $page_components= Page_component::select('component_id','component_detail_id')->where('page_id', $page_id)->orderBy('component_order')->get();
 
         foreach ($page_components as $key => $value) {
             
@@ -55,7 +57,7 @@ class PageController extends Controller
                 $components_content['introduction']= "";
             }
             if($value->component_id == $enum_components['about']){
-                $components_content['about']= '';
+                $components_content['about']= DB::select("SELECT * FROM `component_details_about` WHERE id_component_detail = $value->component_detail_id");;
             }
             if($value->component_id == $enum_components['news']){
                 $components_content['news']= $this->News();
@@ -67,14 +69,16 @@ class PageController extends Controller
                 $components_content['map']= $this->Map();
             }
             if($value->component_id == $enum_components['gallery']){
-                $components_content['gallery']= "";
+                $components_content['gallery']= DB::select("SELECT * FROM `component_details_gallery` WHERE id_component_detail = $value->component_detail_id ORDER BY image_order");
             }
             if($value->component_id == $enum_components['articles']){
                 $components_content['articles']= $this->Articles($param1,$param2);
+                if(isset($components_content['articles']['error']))
+                    return redirect( route( Route::currentRouteName() ))->with('warning', $components_content['articles']['error']);
             }
         }
 
-       //print_r($this->Article_index());
+       //print_r($this->Article_index());   
 
         /*echo('linka: '. Request::path());
         echo('<br>menu_item_id: '. $menu_item_id );
@@ -82,6 +86,8 @@ class PageController extends Controller
         print_r('page_components: '. $page_components );
         return;
         */
+
+        
         return view('master')->with(['components_content' => $components_content, 'components' => $page_components]);
     }
 }

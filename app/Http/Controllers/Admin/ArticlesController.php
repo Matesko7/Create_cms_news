@@ -10,6 +10,7 @@ use App\User;
 use App\Image;
 use Illuminate\Support\Facades\DB;
 use Auth;
+use URL;
 
 class ArticlesController extends Controller
 {
@@ -255,17 +256,8 @@ class ArticlesController extends Controller
             $tmp= explode("/",$request->src); 
             $image_name= end($tmp);
             
-            $from="";
-            $tmp= explode("/",$request->src); 
-            foreach ($tmp as $key => $value) {
-                if($key > 2){
-                    if(count($tmp)-1 === $key)
-                        $from = $from.$value;
-                    else
-                        $from = $from.$value."/";
-                }
-            }
-            
+            $from=str_replace(URL::to('/').'/','',$request->src);
+
             $to= 'articles/'.$request->article_id.'/galery/'.$image_name;
 
             $image= Image::create([

@@ -64,7 +64,7 @@
     </div>
 </div>
 <div class="text-center">
-<form action="/admin/pages/new" method="post">
+<form action="{{asset('/admin/pages/new')}}" method="post">
 @csrf 
   Vytvoriť novú stránku: <input type="text" name="page_name" id="page_name" >
   <button type="submit" id="newPage" class="btn btn-primary">Uložiť</button>
@@ -84,18 +84,23 @@
             <select class="custom-select" id="insertComponents">
                 <option value="0" selected>Výber...</option>
                 @foreach($components as $component)
-                    <option value="{{$component->id}}">{{$component->name}}</option>    
+                <option value="{{$component->id}}">{{$component->name}}</option>    
                 @endforeach
             </select>
         </div>
         <div class="text-center">
             <button type="button" id="insert" class="btn btn-primary">Vybrať</button>
         </div>
+        <div class="input-group mx-auto my-3" style="width:60%;display:none" id="components_detail"></div>
+        <div class="text-center" style="display:none" id="button_components_detail">
+            <button type="button" id="insert_component_detail" class="btn btn-secondary">Vložiť</button>
+        </div>
     </div>
+
     <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
         <ul id="sortable" style="border: 1px solid;">
             @foreach($page_components as $component)
-                <li id="component_{{$component->id}}" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{$component->name}}<button type="button" class="btn btn-danger  btn-sm float-right" id="delete_{{$component->id}}">Vymazať</button></li>
+                <li id="component_{{$component->id}}" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{$component->name}} @if($component->name2)<small style="color:#0e0d3d"> - {{$component->name2}}</small>@endif<button type="button" class="btn btn-danger  btn-sm float-right" id="delete_{{$component->id}}">Vymazať</button></li>
             @endforeach
         </ul>
     </div>
@@ -160,13 +165,54 @@
         $("#choosePageButton").attr("href", "{{asset('admin/pages')}}" +'/'+$("#choosePage").val() );
     });
 
+    $('#insertComponents').on('change', function() {
+         $("#insertComponentDetailExact").remove();
+         $("#insertComponentDetailExact_text").remove();
+         $("#button_components_detail").hide();
+    });
+
     //PRIDANIE KOMPONENTU NA STRANKU
     $("#insert").click(function(){
         if($("#insertComponents").val() == 0)
             return alert('Nebola zvolená žiadna možnosť');
-        
+
+        if($("#insertComponents").val() == 3 || $("#insertComponents").val() == 7)
+            return componentDetail($("#insertComponents").val());
+
         ajax_newComponentToPage($("#insertComponents").val());
     });
+
+    //PRIDANIE PRESNEHO KOMPONENTU NA STRANKU
+    $("#insert_component_detail").click(function(){
+        if($("#insertComponentDetailExact").val() == 0)
+            return alert('Nebola zvolená žiadna možnosť');
+        
+        ajax_newComponentToPage($("#insertComponents").val(),$("#insertComponentDetailExact").val());
+    });
+
+    function componentDetail(component_id){
+        if( (component_id == 3 && {{sizeof($components_about)}} == 0) || (component_id == 7 && {{sizeof($components_gallery)}} == 0) )
+            return alert("Pre daný typ komponentu neexistujú žiadne jeho varianty. Prejdite do sekcie komponenty a daný variant pre tento typ komponentu vytvorte.");
+
+        $("#components_detail").show();
+        $("#button_components_detail").show();
+        plot= "<div class='input-group-prepend' id='insertComponentDetailExact_text'><label class='input-group-text' style='height: 38px;'>Konkrétny</label></div>";
+
+        plot+="<select class='custom-select' id='insertComponentDetailExact'><option value='0' selected>Výber...</option>"
+            if(component_id == 3){
+                @foreach($components_about as $component)
+                plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
+                @endforeach    
+            }
+            if(component_id == 7){
+                @foreach($components_gallery as $component)
+                plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
+                @endforeach    
+            }
+        plot+= "</select>"
+        $("#components_detail").append(plot);
+        
+    }
 
     //VYMAZANIE KOMPONENTU ZO STRANKY
     $("#sortable").on('click', 'li > button' ,function(){
@@ -198,10 +244,10 @@
         window.location.href = "{{asset('admin/pages/addMenuItemToPage/')}}" +"/" + page_id + "/" + menuItem_id;
     }
 
-    function ajax_newComponentToPage(component_id){
+    function ajax_newComponentToPage(component_id, component_detail_id=null){
         $.ajax({
             url: '{{asset("admin/pages/saveNewComponent")}}',
-            data: {'page_id': "{{$id}}", 'component_id': component_id},
+            data: {'page_id': "{{$id}}", 'component_id': component_id, 'component_detail_id': component_detail_id},
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             },
@@ -211,7 +257,11 @@
                     return alert(res['msg'])
                 }
 
-                var new_component = "<li id='component_"+$("#insertComponents").val()+"' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+$("#insertComponents option:selected").text()+"<button type='button' class='btn btn-danger  btn-sm float-right' id='delete_"+$("#insertComponents").val()+"'>Vymazať</button></li>";
+                var new_component = "<li id='component_"+res['msg']+"' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+$("#insertComponents option:selected").text();
+                if($("#insertComponentDetailExact option:selected").text() != "")
+                    new_component += "<small style='color:#0e0d3d'> - "+$("#insertComponentDetailExact option:selected").text()+"</small>";
+                
+                new_component += "<button type='button' class='btn btn-danger  btn-sm float-right' id='delete_"+res['msg']+"'>Vymazať</button></li>";
 
                 $("#sortable").append(new_component);
             }

@@ -23,22 +23,15 @@
           <div class="row justify-content-center">
             <div class="col-lg text-col">
               <h5 class="about-us-title title">Viac o nás</h5>
-              <h2 class="about-us-heading heading">Letná prevádzka a prevádzkový predpis</h2>
+              <h2 class="about-us-heading heading">{{$components_content['about'][0]->title}}</h2>
               <img src="grafika/grafika/line.png" draggable="false" alt="" class="mb-3 mt-2">
-              <p class="about-us-text text">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Nobis alias in
-                labore. Excepturi totam beatae praesentium dolorum itaque, neque illo, possimus ut obcaecati officia
-                suscipit reiciendis voluptate cum quis unde soluta nulla? In optio, unde, blanditiis pariatur nulla fuga
-                corrupti, veritatis officia minima voluptates odio aliquid illum reprehenderit necessitatibus. Velit
-                placeat dicta asperiores dolore iure est neque aut doloremque, architecto laborum harum provident
-                perspiciatis impedit magni dolorem non. Obcaecati, itaque harum, dignissimos cumque at unde consequatur
-                voluptates error excepturi eligendi rem enim tenetur eaque consequuntur dolorum cum voluptate quos
-                officiis assumenda veritatis? Pariatur fugiat reiciendis eius dolor veritatis quibusdam id?</p>
+              <p class="about-us-text text">{{$components_content['about'][0]->text}}</p>
               <button type="button" class="btn btn-info show-more">Viac info</button>
             </div>
             <div class="col-lg row image-col justify-content-center align-items-center">
               <img
-                src="https://images.newscientist.com/wp-content/uploads/2018/12/18114037/gettyimages-758305393-1-800x533.jpg"
-                alt="">
+                src="{{$components_content['about'][0]->link}}"
+                alt="obrazok">
               <div class="row align-items-center badge">
                 <h6 class="badge-text">5 jázd<br><span class="badge-text-diff">12€</span></h6>
               </div>

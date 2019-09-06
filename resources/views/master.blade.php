@@ -1,37 +1,33 @@
-<?php
-    // echo($components_content['map']['html']);
-    // exit;
-?>
 @extends('layout.app')
 @section('content')
-    @if($components)
+    @if(count($components))
         @foreach($components as $component)    
             @if($component['component_id'] == 1)
-                @include('components.Carousel')
+                @include('Components.Carousel')
             @endif  
             @if($component['component_id'] == 2)
-                @include('components.Introduction')
+                @include('Components.Introduction')
             @endif  
             @if($component['component_id'] == 3)
-                @include('components.About')
+                @include('Components.About')
             @endif
             @if($component['component_id'] == 4)
-                @include('components.News')
+                @include('Components.News')
             @endif
             @if($component['component_id'] == 5)
-                @include('components.Top_articles')
+                @include('Components.Top_articles')
             @endif
             @if($component['component_id'] == 6)
-                @include('components.Map')
+                @include('Components.Map')
             @endif
             @if($component['component_id'] == 7)
-                @include('components.Gallery')
+                @include('Components.Gallery')
             @endif
             @if($component['component_id'] == 8)
-                @include('components.Articles')
+                @include('Components.Articles')
             @endif
             @if($component['component_id'] == 9)
-                @include('components.Article')
+                @include('Components.Article')
             @endif
         @endforeach
     @else

@@ -1,5 +1,4 @@
 <head>
-
   <link rel="stylesheet" href="{{asset('grafika/css/blog-post.css')}}">
 </head>
 <style>
@@ -92,7 +91,7 @@
                     {{$article->title}}
                 @endif
                     </b></h3>
-                    <h5><a href="{{asset('/clanky')}}/{{$article->category_id}}/0">
+                    <h5><a href="{{route (Route::currentRouteName()) }}/filter/{{$article->category_id}}/0">
                     @if(App::isLocale('en'))
                         {{$article->cat_name_en}}
                     @else
@@ -108,7 +107,7 @@
                      <span class="tag" style="float:right">
                      @foreach(explode("|", $article->tags) as $tag)
                      @if($tag != "" )
-                     <a href="{{asset('/clanky')}}/0/{{$tag}}" class="tag-article">
+                     <a href="{{ asset(route (Route::currentRouteName()) ) }}/filter/0/{{$tag}}" class="tag-article">
                         <h6 style="display:inline;padding: 5px;" class="tag-name text">#{{$tag}}</h6>
                     </a>&nbsp
                     @endif
@@ -147,25 +146,34 @@
 
 <script>
 function categorychange(){
-    var url=''
-    var z="{{$components_content['articles']['tag']}}";
+    var url='';
+    var z="";
+    @if(isset( $components_content['articles']['tag'] ) && $components_content['articles']['tag'] != "" )
+        z= "{{$components_content['articles']['tag']}}";
+    @endif
+
     if(z !=""){
-       url="{{asset('/clanky')}}"+"/"+$("#category").val()+"/"+z;
+       url="{{ asset( route( Route::currentRouteName() ) ) }}"+"/filter/"+$("#category").val()+"/"+z;
     }
     else{ 
-        url="{{asset('/clanky')}}"+"/"+$("#category").val()+"/0";
+        url="{{ asset( route( Route::currentRouteName() ) ) }}"+"/filter/"+$("#category").val()+"/0";
     }
     window.location= url;
 }
 
+
 function tagchange(){
-    var url=''
-    var z="{{$components_content['articles']['category']}}";
+    var url='';
+    var z="";
+    @if(isset($components_content['articles']['category']) && $components_content['articles']['category'] != "" )
+        z="{{$components_content['articles']['category']}}";
+    @endif
+
     if(z !=""){
-       url="{{asset('/clanky')}}"+"/"+z+"/"+$("#tag").val();
+       url="{{ asset(route(Route::currentRouteName())) }}"+"/filter/"+z+"/"+$("#tag").val();
     }
     else{ 
-        url="{{asset('/clanky')}}"+"/0/"+$("#tag").val();
+        url="{{ asset(route(Route::currentRouteName())) }}"+"/filter/0/"+$("#tag").val();
     }
     window.location= url;
 }

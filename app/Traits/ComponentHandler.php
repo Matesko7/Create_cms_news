@@ -38,7 +38,7 @@ trait ComponentHandler
         }
 
         if(!count($articles)){
-            return redirect(asset('/clanky'))->with('warning','Danému filtru nevyhovujú žiadne články');
+            return array('error' => 'Danému filtru nevyhovujú žiadne články');
         }
         
         $categories=Category::where('id','!=',1)->get();
@@ -136,4 +136,16 @@ trait ComponentHandler
     public function Top_articles(){
        return DB::select("SELECT articles.*, users.name as author FROM articles LEFT JOIN users on articles.user_id=users.id WHERE selected_article !=0 order by selected_article limit 6");
     }
+
+    function recursiveRemove($dir) {
+        $structure = glob(rtrim($dir, "/").'/*');
+        if (is_array($structure)) {
+            foreach($structure as $file) {
+                if (is_dir($file)) recursiveRemove($file);
+                elseif (is_file($file)) unlink($file);
+            }
+        }
+        rmdir($dir);
+    }
+        
 }

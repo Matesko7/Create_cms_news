@@ -14,37 +14,34 @@ use App\Page_component;
 */
 
 //ROUTES CREATED BY ADMIN
-
-if(App::isLocale('sk'))
-$menu_id = DB::select("SELECT id FROM admin_menus WHERE selected_sk = 1")[0]->id;
-else
-$menu_id = DB::select("SELECT id FROM admin_menus WHERE selected_en =1")[0]->id;
-
-$routes = DB::select("SELECT * FROM admin_menu_items WHERE menu = $menu_id");
-
-foreach ($routes as $key => $route) {
-    $special = false;
-    if(Page::where('menu_item_id', $route->id)->first()){
-        $page_id = Page::where('menu_item_id', $route->id)->get()[0]->id;
-        $page_components= Page_component::select('component_id')->where('page_id', $page_id)->orderBy('component_order')->get();
-        foreach ($page_components as $key => $value) {
-            //8 = KOPONENT CLANKY
-            if($value->component_id == 8){
-                Route::get($route->link.'/{category?}/{tag?}','PageController@handle')->name($route->id);
-                Route::get('/clanok/{id}','PageController@handle')->name('article_single'); 
-                $special= true;
-            }
-        }
-    }
-
-    if(!$special)
-        Route::get($route->link,'PageController@handle')->name($route->id);        
+$menu_id=false;
+if(App::isLocale('sk')){
+    if(DB::select("SELECT id FROM admin_menus WHERE selected_sk = 1"))
+        $menu_id = DB::select("SELECT id FROM admin_menus WHERE selected_sk = 1")[0]->id;
+} else{
+    if(DB::select("SELECT id FROM admin_menus WHERE selected_en =1"))
+        $menu_id = DB::select("SELECT id FROM admin_menus WHERE selected_en =1")[0]->id;
 }
 
+if($menu_id){
+    $routes = DB::select("SELECT * FROM admin_menu_items WHERE menu = $menu_id");
 
-Route::get('/test','Controller@test')->name('test');
-
-
+    foreach ($routes as $key => $route) {
+        if(Page::where('menu_item_id', $route->id)->first()){
+            $page_id = Page::where('menu_item_id', $route->id)->get()[0]->id;
+            $page_components= Page_component::select('component_id')->where('page_id', $page_id)->orderBy('component_order')->get();
+            foreach ($page_components as $key => $value) {
+                //8 = KOPONENT CLANKY
+                if($value->component_id == 8){
+                    if($route->link == "/") $route->link="";
+                    Route::get($route->link.'/filter/{category?}/{tag?}','PageController@handle')->name($route->id);
+                    Route::get('/clanok/{id}','PageController@handle')->name('article_single|'.$route->id); 
+                }
+            }
+        }
+        Route::get($route->link,'PageController@handle')->name($route->id);
+    }
+}
 
 
 //Route::get('/','Controller@index')->name('index');
@@ -138,6 +135,10 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         Route::get('admin/components/edit/{id}', 'Admin\ComponentsController@edit')->where('id', '[0-9]+');
         Route::get('admin/components/delete/{id}', 'Admin\ComponentsController@delete')->where('id', '[0-9]+');
         Route::post('admin/component/{id?}', 'Admin\ComponentsController@save')->where('id', '[0-9]+');
+        Route::post('admin/component_rename', 'Admin\ComponentsController@rename')->where('id', '[0-9]+');
+
+        //COMPONENT ABOUT EDIT
+        Route::post('admin/component/edit/about/{id?}', 'Admin\ComponentsController@about')->where('id', '[0-9]+');
 
     });  
 

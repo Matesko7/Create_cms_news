@@ -164,10 +164,10 @@ function tagchange(){
     var url=''
     var z='{{$category}}';
     if(z !=""){
-       url="{{asset('/clanky')}}"+"/"+z+"/"+$("#tag").val();
+       url="{{ asset(Request::url() )}}"+"/filter/"+z+"/"+$("#tag").val();
     }
     else{ 
-        url="{{asset('/clanky')}}"+"/0/"+$("#tag").val();
+        url="{{ asset(Request::url() )}}"+"/filter/0/"+$("#tag").val();
     }
     window.location= url;
 }

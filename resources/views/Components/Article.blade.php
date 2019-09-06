@@ -50,7 +50,7 @@
                   <h6 class="post-meta text"><i class="fas fa-pencil-alt"></i> {{$components_content['article']['article'][0]->user_name}}</h6>
                   <h6 class="post-meta text"><i class="far fa-calendar-alt"></i> {{date("d.m.y",strtotime($components_content['article']['article'][0]->created_at))}}</h6>
                   <h6 class="post-meta text"><i class="fas fa-comments"></i> {{trans('basics.comments')}}</h6>
-                  <h6 class="post-meta text"><i class="fas fa-list"></i><a href="{{asset('/clanky')}}/{{$components_content['article']['article'][0]->category_id}}/0">
+                  <h6 class="post-meta text"><i class="fas fa-list"></i><a href="{{ asset( route($route_to_article) ) }}/filter/{{$components_content['article']['article'][0]->category_id}}/0">
                   @if(App::isLocale('en'))
                     {{$components_content['article']['article'][0]->cat_name_en}}
                   @else
@@ -100,7 +100,7 @@
                   @foreach($components_content['article']['tags'] as $tag) 
                     @if($tag != '') 
                   <div class="col-sm col-lg d-flex align-items-center justify-content-center px-1 py-1">
-                  <a href="{{asset('/clanky')}}/0/{{$tag}}" class="tag">
+                  <a href="{{ asset(route ($route_to_article) ) }}/filter/0/{{$tag}}" class="tag">
                       <h6 class="tag-name text">{{$tag}}</h6>
                     </a>
                   </div>

@@ -89,7 +89,6 @@ body {
 @include('inc.messages')
 <div class="main">
 @yield('content')
-<div>
-
+</div>
 </body>
 </html> 

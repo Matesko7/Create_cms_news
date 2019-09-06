@@ -60,15 +60,19 @@
   @endif
 </head>
 <?php 
-      if(App::isLocale('sk'))
-        $tmp = DB::select("select name from admin_menus where selected_sk=1")[0]->name;
-      else
-        $tmp = DB::select("select name from admin_menus where selected_en=1")[0]->name;
+      $tmp=false;
+      if(App::isLocale('sk')){
+        if(DB::select("select name from admin_menus where selected_sk=1"))
+          $tmp = DB::select("select name from admin_menus where selected_sk=1")[0]->name;
+      } 
+      else{
+        if(DB::select("select name from admin_menus where selected_en=1"))
+          $tmp = DB::select("select name from admin_menus where selected_en=1")[0]->name;
+      }
 
-        if($tmp)
-          $menu_items = Harimayco\Menu\Facades\Menu::getByName($tmp);
-        else
-          $menu_items = Harimayco\Menu\Facades\Menu::getByName("Default");
+      $menu_items = []; 
+      if($tmp)
+        $menu_items = Harimayco\Menu\Facades\Menu::getByName($tmp);
 ?>
 
 <body>

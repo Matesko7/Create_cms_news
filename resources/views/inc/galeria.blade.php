@@ -138,7 +138,7 @@ img.hover-shadow {
 
 <h2 style="text-align:center">Galéria</h2>
 <div class="row">
-    @foreach($gallery as $key=>$picture)  
+    @foreach($components_content['article']['gallery'] as $key=>$picture)  
         <div class="column">
             <img src="{{asset($picture->link)}}" style="width:100%" onclick="openModal();currentSlide({{($key+1)}})" class="hover-shadow cursor">
         </div>
@@ -149,9 +149,9 @@ img.hover-shadow {
   <span class="close cursor" onclick="closeModal()">&times;</span>
   <div class="modal-content">
 
-  @foreach($gallery as $key=>$picture)  
+  @foreach($components_content['article']['gallery'] as $key=>$picture)  
     <div class="mySlides">
-      <div class="numbertext">{{$key+1}} / {{count($gallery)}}</div>
+      <div class="numbertext">{{$key+1}} / {{count($components_content['article']['gallery'])}}</div>
       <img src="{{asset($picture->link)}}" style="width:100%">
     </div>
     @endforeach
@@ -160,7 +160,7 @@ img.hover-shadow {
     <a class="next" onclick="plusSlides(1)">&#10095;</a>
 
     <div class="row">
-    @foreach($gallery as $key=>$picture) 
+    @foreach($components_content['article']['gallery'] as $key=>$picture) 
     <div class="column" style="padding:0px;">
       <img class="demo cursor" src="{{asset($picture->link)}}" style="width:100%" onclick="currentSlide({{($key+1)}})">
     </div>
