@@ -14,7 +14,8 @@ return [
         "map" => "6",
         "gallery" => "7",
         "articles" => "8",
-        "article" => "9"
+        "article" => "9",
+        "newsletter" => "10"
     ],
-	"enum_componentsName" =>["db","carousel","introduction","about","news","top_articles","map","galery","articles","article"],
+	"enum_componentsName" =>["db","carousel","introduction","about","news","top_articles","map","galery","articles","article","newsletter"],
 ];

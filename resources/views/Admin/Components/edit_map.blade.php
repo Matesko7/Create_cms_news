@@ -2,11 +2,15 @@
 
 @section('content')
 <div class="m-5">
-<form action="{{asset('admin/component/edit/about/'.$component[0]->id)}}" enctype="multipart/form-data" method="POST">
+<form action="{{asset('admin/component/edit/map/'.$component[0]->id)}}" enctype="multipart/form-data" method="POST">
 @csrf
   <div class="form-group">
-    <label >Nadpis</label>
-    <input value="{{$content ? $content[0]->title: ''}}" type="text" class="form-control" name="title" id="title" placeholder="Letná prevádzka a prevádzkový predpis">
+    <label >latitude</label>
+    <input value="{{$content ? $content[0]->latitude: ''}}" type="text" class="form-control" name="latitude" id="latitude" placeholder="48.1834461513518">
+  </div>
+  <div class="form-group">
+    <label >longitude</label>
+    <input value="{{$content ? $content[0]->longitude: ''}}" type="text" class="form-control" name="longitude" id="longitude" placeholder="17.099425792694092">
   </div>
   <div class="form-group">
     <label>Text</label>

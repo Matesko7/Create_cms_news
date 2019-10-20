@@ -78,10 +78,25 @@
                                     </select>
                                 </div>
                             </div>
-                            <div style="text-align:right" class="col-md-8">
+                            <div class="col-md-4"><label>Viditeľnosť( Rola):</label>
+                                <div style="display:inline-block" class="ui-select">
+                                    <select name="audienceRole" id="audienceRole" class="form-control">
+                                        <option value="{{null}}" >každý</option>
+                                        @foreach($roles as $role)
+                                            @if($article[0]->audience_role_id === $role->id)
+                                                <option value="{{$role->id}}" selected>{{$role->name}}</option>
+                                            @else
+                                                <option value="{{$role->id}}">{{$role->name}}</option>
+                                            @endif
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="text-align:right" class="col-md-4">
                                 <label>Publikovať:</label>
                                 <input style="font-weight: bold;width:150px" type="text" name="dateArticle"
-                                    id="dateArticle" value="{{date('m/d/Y',strtotime($article[0]->created_at)+3600)}}"
+                                    
+                                    id="dateArticle" value="{{date('d.m.Y',strtotime($article[0]->created_at)+3600)}}"
                                     readonly>
                                 <a id="showcalendar" href="#">upraviť</a>
                                 <div class="hidden" style="display:none" id="choosedate">
@@ -92,9 +107,26 @@
                                 </div>
                             </div>
                         </div>
+                        <center>Meta tagy
+                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Description" content="</label>
+                                <div style="display:inline-block" class="ui-select">
+                                    <input id="metaTag1" name="metaTag1" type="text" placeholder="About"
+                                    value="{{$article[0]->meta_tag_Description}}" class="form-control title-article">
+                                </div>
+                                "/&#62;
+                            </div>
+                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Keywords" content="</label>
+                                <div style="display:inline-block" class="ui-select">
+                                    <input id="metaTag2" name="metaTag2" type="text" placeholder="Earth"
+                                    value="{{$article[0]->meta_tag_Keyword}}" class="form-control title-article">
+                                </div>
+                                "/&#62;
+                            </div>
+                        </center>    
 
                         <div class="form-group">
                             <div class="col-md-12">
+                                Názov:
                                 <input id="title" name="title" type="text" placeholder="Názov článku"
                                     value="@if($lang=='en'){{$article[0]->title_en}}@else{{$article[0]->title}}@endif" class="form-control title-article">
                             </div>
@@ -103,6 +135,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12">
+                                Perex:
                                 <input id="perex" name="perex" type="text" placeholder="Perex článku"
                                     value="@if($lang=='en'){{$article[0]->perex_en}}@else{{$article[0]->perex}}@endif" class="form-control title-article">
                             </div>
@@ -390,7 +423,9 @@ $("#related_article_insert").click(function(){
 
     $("#dateconfirm").click(function () {
         if ($("#datepicker").val() != '') {
-            $("#dateArticle").val($("#datepicker").val());
+            var tmp= ($("#datepicker").val()).split("/");
+            var date=tmp[1]+"."+tmp[0]+"."+tmp[2];
+            $("#dateArticle").val(date);
             $("#choosedate").hide();
             $("#showcalendar").show();
         }

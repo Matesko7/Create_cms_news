@@ -3,6 +3,7 @@
     margin: auto;
     text-align: center;
     margin-top: 20px;
+    z-index: 2;
     }
 
 </style>

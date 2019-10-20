@@ -154,7 +154,7 @@ function deleteitem(id) {
 }
 
 function deletemenu() {
-	var r = confirm("Do you want to delete this menu ?");
+	var r = confirm("Naozaj si prajete zmazať toto menu?");
 	if (r == true) {
 		$.ajax({
 			dataType : "json",

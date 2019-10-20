@@ -92,9 +92,9 @@
             <a href="#" class=" ml-2"><i class="fab fa-youtube"></i></a>
         </div>
     </div>
-
-    @if(Route::current()->getName() == 'index')
-    <div class="jumbotron jumbotron-fluid">
+    
+    <!-- @if(Request::is('/')) -->
+    <!-- <div class="jumbotron jumbotron-fluid">
         <div class="row justify-content-center">
             <img src="{{asset('/grafika/grafika/star-slider.png')}}" alt="" class="star mr-4">
             <h3 class="welcome-text">Vitajte na bobovej dráhe</h3>
@@ -102,8 +102,8 @@
         </div>
         <h1 class="main-heading">Adrenalínová<br>zábava pre<br>všetkých</h1>
         <button type="button" class="btn btn-info show-more">Viac o ponuke</button>
-    </div>
-    @endif
+    </div> -->
+    <!-- @endif -->
     
 
 </header>

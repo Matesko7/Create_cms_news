@@ -38,6 +38,8 @@ class ArticlesController extends Controller
         $category= new Category;
         $categories= $category->getAll();
         $article_photo=false;
+        $roles= DB::select("SELECT * from roles");
+
         if($id!=null){
             $article_category=$article->getCategoryByArticleId($id);
             if(!$article_category)
@@ -50,8 +52,8 @@ class ArticlesController extends Controller
             foreach($photos as $value){ // iterate files
                 if(is_file($value))
                     $article_photo=$value;
-            }  
-
+            }
+            
             $galery= DB::select("SELECT * from article_image RIGHT JOIN images ON article_image.image_id=images.id WHERE article_image.article_id=? ORDER BY order_image",[$id]);
 
             $attachments= DB::select("SELECT * from article_attachment WHERE article_id=? ORDER BY id desc",[$id]);
@@ -61,8 +63,7 @@ class ArticlesController extends Controller
 
             $all_articles= DB::select("SELECT id,title from articles");
             
-
-            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang, 'pic_hash' => $hash, 'attachments' => $attachments, 'related_articles' => $related_articles, 'articles' => $all_articles]);
+            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang, 'pic_hash' => $hash, 'attachments' => $attachments, 'related_articles' => $related_articles, 'articles' => $all_articles, 'roles' => $roles]);
         }
         else{
             $photos= glob("articles/tmp/cover/*"); // get all file names
@@ -70,7 +71,7 @@ class ArticlesController extends Controller
                 if(is_file($value))
                     unlink($value);
             }
-            return view('Admin/Articles/article_new',['categories' => $categories,'article_photo' => $article_photo, 'lang' => $lang, 'pic_hash' => $hash]);
+            return view('Admin/Articles/article_new',['categories' => $categories,'article_photo' => $article_photo, 'lang' => $lang, 'pic_hash' => $hash, 'roles' => $roles]);
         }
     }
 
@@ -108,18 +109,17 @@ class ArticlesController extends Controller
         if($request->dateArticle=="okamžite")
             $request->dateArticle=date("Y-m-d H:i:s");
         else{
-            $tmp=explode("/",$request->dateArticle);
-            $request->dateArticle=$tmp[2].'-'.$tmp[0].'-'.$tmp[1].' 00:00:00' ;
+            $tmp=explode(".",$request->dateArticle);
+            $request->dateArticle=$tmp[2].'-'.$tmp[1].'-'.$tmp[0].' 00:00:00' ;
         } 
 
- 
         if($id==null){
             $plot=str_replace(array("\n","\r","&#9;"),array("","",""),$request->editor);
-            $id_new_article=$article->updateArticle($request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,Auth::user()->id,$request->dateArticle,$request->lang);
+            $id_new_article=$article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,Auth::user()->id,$request->dateArticle,$request->lang);
 
             $plot=str_replace(array("\n","\r","&#9;","/articles/tmp/"),array("","","","/articles/".$id_new_article."/"),$request->editor);
 
-            $article->updateArticle($request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,Auth::user()->id,$request->dateArticle,$request->lang,$id_new_article);
+            $article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,Auth::user()->id,$request->dateArticle,$request->lang,$id_new_article);
 
             //ulozenie nahrateho suboru
             $file = $request->file('file');
@@ -192,7 +192,7 @@ class ArticlesController extends Controller
                         rename ($value , 'articles/'. $id.'/'.basename($value));
             }
 
-            $article->updateArticle($request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->user_id,$request->dateArticle,$request->lang,$id);
+            $article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,$request->user_id,$request->dateArticle,$request->lang,$id);
             return back()->with('success','Článok aktualizovaný');
         }
     }

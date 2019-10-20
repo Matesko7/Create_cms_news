@@ -37,6 +37,10 @@ class Article extends Model
         return DB::select("SELECT category_id FROM articles LEFT JOIN categories ON articles.category_id=categories.id WHERE articles.id=:id",['id' => $id]);
     }
 
+    public function getAudienceRoleByArticleId($id){
+        return DB::select("SELECT audience_role FROM articles LEFT JOIN roles ON articles.audience_role=roles.id WHERE articles.id=:id",['id' => $id]);
+    }
+
     public function getAllwAuthorandGroup($paginate=15,$date='2030-01-01 00:00:00',$category=false,$tag=false){
 
         if($category && $tag){
@@ -100,6 +104,24 @@ class Article extends Model
         //DB::select("SELECT *,categories.name as cat_name,users.name as user_name FROM articles LEFT JOIN categories ON articles.category_id=categories.id LEFT JOIN users ON articles.user_id=users.id");
     }
 
+    public function getAllwAuthorandGroupPerUser($userId,$paginate=15){
+
+        $result= $this::leftJoin('categories', function($join){
+            $join->on('articles.category_id','=','categories.id');
+        })
+        ->leftJoin('users', function($join2){
+            $join2->on('articles.user_id','=','users.id');
+        })
+        ->leftJoin('comments', function($join3){
+            $join3->on('articles.id','=','comments.id');
+        })
+        ->select('categories.name as cat_name','categories.name_en as cat_name_en', 'users.name as user_name', 'articles.*')
+        ->where('articles.user_id',$userId)
+        ->orderBy('articles.created_at', 'desc')
+        ->paginate($paginate);
+        return $result;
+    }
+
     public function getCountCommentsPerArticle(){
         /*return $this::leftJoin('comments', function($join){
             $join->on('comments.article_id','=','articles.id');
@@ -137,30 +159,36 @@ class Article extends Model
         ->get();
     }
 
-    public function updateArticle($title,$perex,$plot,$tags,$category,$audience,$user_id,$dateArticle,$lang,$id=null){
+    public function updateArticle($meta_tag_desc,$meta_tag_keyw,$title,$perex,$plot,$tags,$category,$audience,$audince_role_id,$user_id,$dateArticle,$lang,$id=null){
         if($id==null){
             if($lang=='en'){
-                DB::insert("INSERT INTO `articles` (`plot_en`, `title_en`, `category_id`, `perex_en`, `user_id`, `tags`, `audience`,`created_at`,`updated_at`) VALUES (:plot,:title,:category,:perex,:user,:tags,:audience,:created,:updated)",[
+                DB::insert("INSERT INTO `articles` (`plot_en`, `title_en`, `category_id`, `perex_en`, `user_id`, `tags`, `audience`, `audience_role_id`, `meta_tag_Description`,`meta_tag_Keyword`,`created_at`,`updated_at`) VALUES (:plot,:title,:category,:perex,:user,:tags,:audience,:audienceRoleId,:metaTagDesc,:metaTagKeyw,:created,:updated)",[
                     'plot' => $plot,
                     'title' => $title,
                     'category' => $category,
                     'perex' => $perex,
                     'tags' => $tags,
                     'audience' => $audience,
+                    'audienceRoleId' => $audince_role_id,
+                    'metaTagDesc' => $meta_tag_desc,
+                    'metaTagKeyw' => $meta_tag_keyw,
                     'user' => $user_id,
                     'created' => $dateArticle,
                     'updated' => date("Y-m-d H:i:s")
                     ]);
             }
             else{
-                DB::insert("INSERT INTO `articles` (`plot`, `title`, `category_id`, `perex`, `user_id`, `tags`, `audience`,`created_at`,`updated_at`) VALUES (:plot,:title,:category,:perex,:user,:tags,:audience,:created,:updated)",[
+                DB::insert("INSERT INTO `articles` (`plot`, `title`, `category_id`, `perex`, `user_id`, `tags`, `audience`, `audience_role_id`, `meta_tag_Description`,`meta_tag_Keyword`,`created_at`,`updated_at`) VALUES (:plot,:title,:category,:perex,:user,:tags,:audience,:audienceRoleId,:metaTagDesc,:metaTagKeyw,:created,:updated)",[
                     'plot' => $plot,
                     'title' => $title,
                     'category' => $category,
                     'perex' => $perex,
+                    'user' => $user_id,
                     'tags' => $tags,
                     'audience' => $audience,
-                    'user' => $user_id,
+                    'audienceRoleId' => $audince_role_id,
+                    'metaTagDesc' => $meta_tag_desc,
+                    'metaTagKeyw' => $meta_tag_keyw,
                     'created' => $dateArticle,
                     'updated' => date("Y-m-d H:i:s")
                     ]);
@@ -169,26 +197,32 @@ class Article extends Model
         }
         else{
             if($lang=='en'){
-                DB::update("UPDATE `articles` SET `plot_en`=:plot,`title_en`=:title,`category_id`=:category,`perex_en`=:perex,`tags`=:tags,`audience`=:audience,`user_id`=:user,`created_at`=:created WHERE id=:id",[
+                DB::update("UPDATE `articles` SET `plot_en`=:plot,`title_en`=:title,`category_id`=:category,`perex_en`=:perex,`tags`=:tags,`audience`=:audience,`audience_role_id`=:audienceRoleId,`meta_tag_Description`=:metaTagDesc,`meta_tag_Keyword`=:metaTagKeyw,`user_id`=:user,`created_at`=:created WHERE id=:id",[
                     'plot' => $plot,
                     'title' => $title,
                     'category' => $category,
                     'perex' => $perex,
                     'tags' => $tags,
                     'audience' => $audience,
+                    'audienceRoleId' => $audince_role_id,
+                    'metaTagDesc' => $meta_tag_desc,
+                    'metaTagKeyw' => $meta_tag_keyw,
                     'user' => $user_id,
                     'id' => $id,
                     'created' => $dateArticle
                 ]);
             }
             else{
-                DB::update("UPDATE `articles` SET `plot`=:plot,`title`=:title,`category_id`=:category,`perex`=:perex,`tags`=:tags,`audience`=:audience,`user_id`=:user,`created_at`=:created WHERE id=:id",[
+                DB::update("UPDATE `articles` SET `plot`=:plot,`title`=:title,`category_id`=:category,`perex`=:perex,`tags`=:tags,`audience`=:audience,`audience_role_id`=:audienceRoleId,`meta_tag_Description`=:metaTagDesc,`meta_tag_Keyword`=:metaTagKeyw,`user_id`=:user,`created_at`=:created WHERE id=:id",[
                     'plot' => $plot,
                     'title' => $title,
                     'category' => $category,
                     'perex' => $perex,
                     'tags' => $tags,
                     'audience' => $audience,
+                    'audienceRoleId' => $audince_role_id,
+                    'metaTagDesc' => $meta_tag_desc,
+                    'metaTagKeyw' => $meta_tag_keyw,
                     'user' => $user_id,
                     'id' => $id,
                     'created' => $dateArticle

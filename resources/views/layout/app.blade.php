@@ -41,22 +41,38 @@
   <script src="{{asset('grafika/js/carousel.js')}}"></script>
   <script src="{{asset('grafika/js/scroll.js')}}"></script>
 
-  @if(isset($article[0]->title))
-    <title>@if(App::isLocale('en')){{$article[0]->title_en}}@else{{$article[0]->title}}@endif</title>
-    <meta name="description" content="@if(App::isLocale('en')){{$article[0]->perex_en}}@else{{$article[0]->perex}}@endif">
-    <meta name="og:title" property="og:title" content="@if(App::isLocale('en')){{$article[0]->title_en}}@else{{$article[0]->title}}@endif">
-    <meta property="og:title" content="@if(App::isLocale('en'))
-                    {{$article[0]->title_en}}
-                @else
-                    {{$article[0]->title}}
-                @endif" />
-  <meta property="og:type" content="article" />
-  <meta property="og:url" content="{{Request::url()}}" />
-  @if($article[0]->photo)
-    <meta property="og:image" content="{{asset($article[0]->photo)}}" />
-  @endif
+  <?php
+        $title="";
+        $desc_tag="";
+        $keyw_tag="";
+        $tmp = DB::select("select value from general_options where type_id=5");
+        if($tmp)
+          $title=$tmp[0]->value;
+        $meta_tags = DB::select("select value from general_options where type_id=4");
+        foreach($meta_tags as $meta_tag){
+          if( strtoupper(explode("||", $meta_tag->value)[1]) != "DESCRIPTION" && strtoupper(explode("||", $meta_tag->value)[1]) != "KEYWORDS" )
+            echo( "<meta ".explode("||", $meta_tag->value)[0]."='".explode("||", $meta_tag->value)[1]."' content='".explode("||", $meta_tag->value)[2]."' />");
+          else{
+            if( strtoupper(explode("||", $meta_tag->value)[1]) == "DESCRIPTION" )
+              $desc_tag= "<meta ".explode("||", $meta_tag->value)[0]."='".explode("||", $meta_tag->value)[1]."' content='".explode("||", $meta_tag->value)[2]."' />";
+            if( strtoupper(explode("||", $meta_tag->value)[1]) == "KEYWORDS" )
+              $keyw_tag= "<meta ".explode("||", $meta_tag->value)[0]."='".explode("||", $meta_tag->value)[1]."' content='".explode("||", $meta_tag->value)[2]."' />";  
+          }
+        }
+  ?>
+
+  @if( strpos(Route::current()->getName(),'article_single') !== false)
+    <title>{{$title}} - @if(App::isLocale('en')){{$components_content['article']['article'][0]->title_en}}@else{{$components_content['article']['article'][0]->title}}@endif</title>
+    @if($components_content['article']['article'][0]->meta_tag_Description)
+      <meta  name="Description" content="{{$components_content['article']['article'][0]->meta_tag_Description}}" />
+    @endif  
+    @if($components_content['article']['article'][0]->meta_tag_Keyword)
+      <meta  name="Keywords" content="{{$components_content['article']['article'][0]->meta_tag_Keyword}}" />
+    @endif
   @else
-    <title>Bobová dráha</title>
+    <title>{{$title}}</title>
+    {!! $desc_tag !!}
+    {!! $keyw_tag !!}
   @endif
 </head>
 <?php 

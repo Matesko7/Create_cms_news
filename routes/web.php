@@ -68,6 +68,14 @@ Route::get('/setlocale/{locale}', function ($locale) {
     return redirect()->back();
 });
 
+//SITEMAP
+Route::get('sitemap', 'SitemapController@articles');
+
+//USER
+Route::get('user/{id}', 'PageController@handle')->name('user');
+
+//NEWSLETTER
+Route::get('newsletter_registration', 'Admin\NewsletterController@save');
 
 Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], function () {      
     
@@ -114,8 +122,12 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
 
         //Ajax image to Article gallery
         Route::post('saveImagetoGalery', 'Admin\ArticlesController@newImageToGalery');
+        
         //Ajax image to component gallery
         Route::post('saveImagetoComponentGalery', 'Admin\ComponentsController@newImageToGallery');
+        
+        //Ajax image to component CAROUSEL
+        Route::post('saveImagetoComponentCarousel', 'Admin\ComponentsController@newImageToCarousel');
 
         //Ajax related article ADD
         Route::post('saveRelatedArticle', 'Admin\ArticlesController@newRelatedArcticle');
@@ -126,8 +138,12 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
 
         //images in article left/right/delete
         Route::post('editGalery','Admin\ArticlesController@editImage');
+        
         //images in component gallery
         Route::post('editComponentGalery','Admin\ComponentsController@editImage');
+        
+        //images in component CAROUSEL
+        Route::post('editComponentCarousel','Admin\ComponentsController@editImageInCarousel');
 
         //COMPONENTS
         Route::get('admin/components', 'Admin\ComponentsController@index');
@@ -139,6 +155,12 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
 
         //COMPONENT ABOUT EDIT
         Route::post('admin/component/edit/about/{id?}', 'Admin\ComponentsController@about')->where('id', '[0-9]+');
+
+        //COMPONENT MAP EDIT
+        Route::post('admin/component/edit/map/{id?}', 'Admin\ComponentsController@map')->where('id', '[0-9]+');
+        
+        //COMPONENT ARTICLES EDIT
+        Route::post('admin/component/edit/articles/{id?}', 'Admin\ComponentsController@articles')->where('id', '[0-9]+');
 
     });  
 
@@ -162,14 +184,16 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         Route::get('admin/comments/article/{article_id}', 'Admin\CommentsController@commentsPerArticle')->where('article_id', '[0-9]+');
         Route::get('admin/comment/deny/{comment_id}', 'Admin\CommentsController@commentDeny')->where('coment_id', '[0-9]+');
         Route::get('admin/comment/approve/{comment_id}', 'Admin\CommentsController@commentApprove')->where('coment_id', '[0-9]+');
-            
+
         //Selected articles
         Route::get('admin/selectedarticles', 'Admin\ArticlesController@selectedArticles');
         Route::post('admin/selectedarticles', 'Admin\ArticlesController@selectedArticlesSave');
     
-
-        //CAROUSEL
-        Route::get('admin/carousel', 'Admin\CarouselController@index');
+        //GENERAL OPTIONS
+        Route::get('admin/options', 'Admin\OptionsController@index');
+        Route::get('admin/option/{id?}', 'Admin\OptionsController@edit')->where('id', '[0-9]+');
+        Route::get('admin/deleteoption/{id}', 'Admin\OptionsController@delete')->where('id', '[0-9]+');
+        Route::post('admin/option/{id?}', 'Admin\OptionsController@save')->where('id', '[0-9]+');
         
         //PAGES
         Route::post('admin/pages/saveNewComponent',  'Admin\PagesController@saveComponent');
@@ -179,6 +203,9 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         Route::get('admin/pages/addMenuItemToPage/{id_page}/{id_menuItem}', 'Admin\PagesController@addMenuItemToPage');
         Route::get('admin/pages/{id?}', 'Admin\PagesController@edit');
         Route::post('admin/pages/{id}',  'Admin\PagesController@save');
+
+        //NEWSLETTER
+        Route::get('admin/newsletter', 'Admin\NewsletterController@index');
         
 
         //Menu

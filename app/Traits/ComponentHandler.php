@@ -4,6 +4,8 @@ namespace App\Traits;
 use App\Article;
 use App\Category;
 use App\Comment;
+use App\Role;
+use App\User;
 use Auth;
 use Illuminate\Support\Facades\DB;
 
@@ -56,13 +58,58 @@ trait ComponentHandler
         return array('articles' => $articles,'categories' => $categories, 'tags' => $tags, 'category' => $category_param, 'tag' =>$tag_param);
     }
 
+    public function ArticlesPerUser($id){        
+        $category_param=false;
+        $tag_param=false;
+        if( !$user= User::where('id',$id)->first()){
+            return array('warning' => 'Hladaný uživateľ neexistuje');
+        }
+        
+        $article= new Article;
+        $articles=$article->getAllwAuthorandGroupPerUser($id);
+        $categories=Category::where('id','!=',1)->get();
+        $tags= $article->getAllTags();
+
+        if($articles){
+            foreach ($articles as $key => $value) {
+                $articles[$key]->photo=false;
+                $photos= glob("articles/$value->id/cover/*"); // get all file names
+                foreach($photos as $photo){ // iterate files
+                    if(is_file($photo))
+                        $articles[$key]->photo=$photo;
+                }
+            }
+        }
+
+        $user->photo=false;
+        $photo= glob("users/$id/*"); // get all file names
+        foreach($photo as $value){ // iterate files
+            if(is_file($value))
+                $user->photo=$value;
+        }  
+
+        return array('articles' => $articles,'categories' => $categories, 'tags' => $tags, 'category' => $category_param, 'tag' =>$tag_param, 'user' => $user);
+    }
+
     public function Article($id){
         $article_tmp= new Article;
         $comments_tmp= new Comment;
-        $article=$article_tmp->getArticlewAuthorandGroup($id);
+        $article= $article_tmp->getArticlewAuthorandGroup($id);
+        if( empty($article[0]))
+            return array('warning' => 'Tento článok neexistuje');
         if($article[0]->audience==2){
-            if(!isset(Auth::user()->email) || !Auth::user()->verified)
+            if(!isset(Auth::user()->email) || !Auth::user()->email_verified_at)
                 return array('warning' => 'Tento článok je len pre prihlasených použivateľov. Ak si ho chcete prečítať prosim prihláste sa');
+        }
+
+        if($article[0]->audience_role_id){
+            if(!isset(Auth::user()->email) || !Auth::user()->email_verified_at)
+                return array('warning' => 'Tento článok je len pre prihlasených použivateľov. Ak si ho chcete prečítať prosim prihláste sa');
+            $role= new Role;
+            $role_id=$role->getRoleByUserID(Auth::user()->id)[0]->role_id;
+            $article_audience_role= Role::where('id',$article[0]->audience_role_id)->get()[0];
+            if( $article[0]->audience_role_id != $role_id && $role_id != 2)
+                return array('warning' => 'Tento článok je len pre uživateľov s rolou '.$article_audience_role['name']);
         }
 
         $article[0]->photo=false;
@@ -115,14 +162,16 @@ trait ComponentHandler
         return trim(preg_replace($regex, '', $file));
     }
 
-    public function map(){
+    public function map($latitude,$longitude,$text,$link){
         $config = array();
-        $config['center'] = '48.1834461513518, 17.099425792694092';
+        $config['center'] = $latitude.','.$longitude;
         $config['zoom'] = '14';
 
         $marker = array();
-        $marker['position'] = '48.1834461513518, 17.099425792694092';
-        $marker['infowindow_content'] = "<img style='margin:10px;height:75px;' src=".asset('grafika/grafika/na_boboch.png')."><p><b>Bratislavská bobová dráha</b></p><p>Cesta na Kamzík<br>831 01 Nové Mesto</p><p><span>email: ba.bobova@gmail.com <br>tel: +421 918 683 202</span></p>";
+        $marker['position'] = $latitude.','.$longitude;
+        $text = str_replace("\n", "<br />", $text);
+        $text = trim(preg_replace('/\s+/', ' ', $text));
+        $marker['infowindow_content'] = "<img style='margin:10px;height:75px;' src='".asset($link)."'><p>$text</p>";
 
         \GMaps::add_marker($marker);
         \GMaps::initialize($config);

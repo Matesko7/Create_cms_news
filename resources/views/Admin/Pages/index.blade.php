@@ -176,7 +176,7 @@
         if($("#insertComponents").val() == 0)
             return alert('Nebola zvolená žiadna možnosť');
 
-        if($("#insertComponents").val() == 3 || $("#insertComponents").val() == 7)
+        if($("#insertComponents").val() == 3 || $("#insertComponents").val() == 7 || $("#insertComponents").val() == 6  || $("#insertComponents").val() == 8 || $("#insertComponents").val() == 1)
             return componentDetail($("#insertComponents").val());
 
         ajax_newComponentToPage($("#insertComponents").val());
@@ -187,11 +187,14 @@
         if($("#insertComponentDetailExact").val() == 0)
             return alert('Nebola zvolená žiadna možnosť');
         
+        if($("#insertComponentDetailExact").val() == "X")
+            return ajax_newComponentToPage($("#insertComponents").val());
+        
         ajax_newComponentToPage($("#insertComponents").val(),$("#insertComponentDetailExact").val());
     });
 
     function componentDetail(component_id){
-        if( (component_id == 3 && {{sizeof($components_about)}} == 0) || (component_id == 7 && {{sizeof($components_gallery)}} == 0) )
+        if( (component_id == 3 && {{sizeof($components_about)}} == 0) || (component_id == 7 && {{sizeof($components_gallery)}} == 0) || (component_id == 6 && {{sizeof($components_map)}} == 0) || (component_id == 1 && {{sizeof($components_carousel)}} == 0))
             return alert("Pre daný typ komponentu neexistujú žiadne jeho varianty. Prejdite do sekcie komponenty a daný variant pre tento typ komponentu vytvorte.");
 
         $("#components_detail").show();
@@ -199,8 +202,18 @@
         plot= "<div class='input-group-prepend' id='insertComponentDetailExact_text'><label class='input-group-text' style='height: 38px;'>Konkrétny</label></div>";
 
         plot+="<select class='custom-select' id='insertComponentDetailExact'><option value='0' selected>Výber...</option>"
+            if(component_id == 1){
+                @foreach($components_carousel as $component)
+                plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
+                @endforeach    
+            }
             if(component_id == 3){
                 @foreach($components_about as $component)
+                plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
+                @endforeach    
+            }
+            if(component_id == 6){
+                @foreach($components_map as $component)
                 plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
                 @endforeach    
             }
@@ -208,6 +221,14 @@
                 @foreach($components_gallery as $component)
                 plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
                 @endforeach    
+            }
+            if(component_id == 8){
+                plot+= "<option value='X'>Všetky kategórie</option>"
+                @if(!empty($components_articles))    
+                    @foreach($components_articles as $component)
+                    plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
+                    @endforeach
+                @endif    
             }
         plot+= "</select>"
         $("#components_detail").append(plot);

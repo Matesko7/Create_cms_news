@@ -57,6 +57,8 @@ class ArticlesController extends Controller
     }
 
     public function article($id){
+        echo(123);
+        return;
         $article_tmp= new Article;
         $comments_tmp= new Comment;
         $article=$article_tmp->getArticlewAuthorandGroup($id);
@@ -64,6 +66,11 @@ class ArticlesController extends Controller
             if(!isset(Auth::user()->email) || !Auth::user()->verified)
                 return back()->with('warning','Tento článok je len pre prihlasených použivateľov. Ak si ho chcete prečítať prosim prihláste sa');
         }
+        if($article[0]->audience_role_id){
+            if(Auth::user()->email || !Auth::user()->verified)
+                return back()->with('warning','Tento článok je len pre prihlasených použivateľov. Ak si ho chcete prečítať prosim prihláste sa');
+        }
+
 
         $article[0]->photo=false;
         $tags=explode("|",$article[0]->tags);

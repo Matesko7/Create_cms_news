@@ -46,7 +46,7 @@
                     <fieldset>
 
                         <div class="form-group" style="margin-bottom:20px;display:flex">
-                            <div class="col-md-4"><label>Dostupnosť:</label>
+                            <div class="col-md-4"><label>Viditeľnosť:</label>
                                 <div style="display:inline-block" class="ui-select">
                                     <select name="audience" id="audience" class="form-control">
                                         <option value="1">Verejné</option selected>
@@ -54,7 +54,17 @@
                                     </select>
                                 </div>
                             </div>
-                            <div style="text-align:right" class="col-md-8">
+                            <div class="col-md-4"><label>Viditeľnosť( Rola):</label>
+                                <div style="display:inline-block" class="ui-select">
+                                    <select name="audienceRole" id="audienceRole" class="form-control">
+                                        <option value="0">každý</option>
+                                        @foreach($roles as $role)
+                                            <option value="{{$role->id}}">{{$role->name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            <div style="text-align:right" class="col-md-4">
                                 <label>Publikovať:</label>
                                 <input style="font-weight: bold;width:150px" type="text" name="dateArticle" id="dateArticle"
                                     value="okamžite" readonly>
@@ -66,15 +76,34 @@
                                 </div>
                             </div>
                         </div>
+                        <center>Meta tagy
+                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Description" content="</label>
+                                <div style="display:inline-block" class="ui-select">
+                                    <input id="metaTag1" name="metaTag1" type="text" placeholder="About"
+                                    value="" class="form-control title-article">
+                                </div>
+                                "/&#62;
+                            </div>
+                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Keywords" content="</label>
+                                <div style="display:inline-block" class="ui-select">
+                                    <input id="metaTag2" name="metaTag2" type="text" placeholder="Earth"
+                                    value="" class="form-control title-article">
+                                </div>
+                                "/&#62;
+                            </div>
+                        </center>    
+
 
                         <div class="form-group">
                             <div class="col-md-12">
+                            Názov:
                                 <input id="title" name="title" type="text" placeholder="Title" value="" class="form-control title-article">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <div class="col-md-12">
+                            Perex:
                                 <input id="perex" name="perex" type="text" placeholder="Perex" value="" class="form-control title-article">
                             </div>
                         </div>
@@ -222,7 +251,9 @@ var editor=new Jodit('#editor', {
 
     $("#dateconfirm").click(function () {
         if ($("#datepicker").val() != '') {
-            $("#dateArticle").val($("#datepicker").val());
+            var tmp= ($("#datepicker").val()).split("/");
+            var date=tmp[1]+"."+tmp[0]+"."+tmp[2];
+            $("#dateArticle").val(date);
             $("#choosedate").hide();
             $("#showcalendar").show();
         }

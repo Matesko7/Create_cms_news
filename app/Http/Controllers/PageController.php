@@ -27,18 +27,33 @@ class PageController extends Controller
             "map" => '', //6
             "gallery" => '', //7
             "articles" => '', //8
-            "article" => '' //9
+            "newsletter" => '', //9
+            "article" => '', //single_article
         );
 
 
         $page_components = array();
         $menu_item_id= Route::current()->getName();
         
+        
         if( strpos($menu_item_id,'article_single') !== false ){
             $components_content['article']= $this->Article($param1);
-            $page_components[0]= array('component_id' => '9') ;
+
+            if(isset($components_content['article']['warning']))
+                return redirect('/')->with("warning", $components_content['article']['warning']);
+
+            $page_components[0]= array('component_id' => 'single_article') ;
             $route_to_articles=explode("|",$menu_item_id)[1];
             return view('master')->with(['components_content' => $components_content, 'components' => $page_components, 'route_to_article' => $route_to_articles]);
+        }
+
+        if( $menu_item_id === "user" ){
+            $components_content['articles']= $this->ArticlesPerUser($param1);
+            if(isset($components_content['articles']['warning']))
+                return redirect('/')->with("warning", $components_content['articles']['warning']);
+            
+            $page_components[0]= array('component_id' => 'user') ;
+            return view('master')->with(['components_content' => $components_content, 'components' => $page_components]);
         }
 
         //ZIADNY CONTTENT
@@ -51,13 +66,13 @@ class PageController extends Controller
         foreach ($page_components as $key => $value) {
             
             if($value->component_id == $enum_components['carousel']){
-                $components_content['carousel']= "";
+                $components_content['carousel']= DB::select("SELECT * FROM `component_details_carousel` WHERE id_component_detail = $value->component_detail_id ORDER BY image_order");
             }
             if($value->component_id == $enum_components['introduction']){
                 $components_content['introduction']= "";
             }
             if($value->component_id == $enum_components['about']){
-                $components_content['about']= DB::select("SELECT * FROM `component_details_about` WHERE id_component_detail = $value->component_detail_id");;
+                $components_content['about']= DB::select("SELECT * FROM `component_details_about` WHERE id_component_detail = $value->component_detail_id");
             }
             if($value->component_id == $enum_components['news']){
                 $components_content['news']= $this->News();
@@ -66,15 +81,28 @@ class PageController extends Controller
                 $components_content['top_articles']= $this->Top_articles();
             }
             if($value->component_id == $enum_components['map']){
-                $components_content['map']= $this->Map();
+                $map_detail = DB::select("SELECT * FROM `component_details_map` WHERE id_component_detail = $value->component_detail_id")[0];
+                $components_content['map']= $this->Map($map_detail->latitude,$map_detail->longitude,$map_detail->text,$map_detail->link);
             }
             if($value->component_id == $enum_components['gallery']){
                 $components_content['gallery']= DB::select("SELECT * FROM `component_details_gallery` WHERE id_component_detail = $value->component_detail_id ORDER BY image_order");
             }
             if($value->component_id == $enum_components['articles']){
+                if($value->component_detail_id){
+                    $articles_detail = DB::select("SELECT * FROM `component_details_articles` WHERE id_component_detail = $value->component_detail_id")[0];
+                    $param1= $articles_detail->category_id;
+                }
                 $components_content['articles']= $this->Articles($param1,$param2);
+
+                if($value->component_detail_id && isset($components_content['articles']['error'])){
+                    $components_content['articles']= "";
+                }
+                
                 if(isset($components_content['articles']['error']))
                     return redirect( route( Route::currentRouteName() ))->with('warning', $components_content['articles']['error']);
+            }
+            if($value->component_id == $enum_components['newsletter']){
+                $components_content['newsletter']= "";
             }
         }
 

@@ -47,7 +47,7 @@
             @endif
               <div class="post">
                 <div class="row">
-                  <h6 class="post-meta text"><i class="fas fa-pencil-alt"></i> {{$components_content['article']['article'][0]->user_name}}</h6>
+                  <h6 class="post-meta text"><i class="fas fa-pencil-alt"></i> <a href="{{asset('user/'.$components_content['article']['article'][0]->user_id)}}">{{$components_content['article']['article'][0]->user_name}}</a></h6>
                   <h6 class="post-meta text"><i class="far fa-calendar-alt"></i> {{date("d.m.y",strtotime($components_content['article']['article'][0]->created_at))}}</h6>
                   <h6 class="post-meta text"><i class="fas fa-comments"></i> {{trans('basics.comments')}}</h6>
                   <h6 class="post-meta text"><i class="fas fa-list"></i><a href="{{ asset( route($route_to_article) ) }}/filter/{{$components_content['article']['article'][0]->category_id}}/0">

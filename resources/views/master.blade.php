@@ -24,10 +24,18 @@
                 @include('Components.Gallery')
             @endif
             @if($component['component_id'] == 8)
-                @include('Components.Articles')
+                @if($components_content['articles'])
+                    @include('Components.Articles')
+                @endif
             @endif
             @if($component['component_id'] == 9)
+                @include('Components.Newsletter')
+            @endif
+            @if($component['component_id'] == "single_article")
                 @include('Components.Article')
+            @endif
+            @if($component['component_id'] == "user")
+                @include('Components.ArticlesPerUser')
             @endif
         @endforeach
     @else

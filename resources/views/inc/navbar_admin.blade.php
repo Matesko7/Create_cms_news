@@ -1,27 +1,31 @@
 <div class="sidenav">
 
-    @if( Auth::user()->hasAnyRole(['admin','editor']))
-        <a href="{{asset('admin/articles')}}">{{ __('Články') }}</a>
-    @endif
+
     
-    @if( Auth::user()->hasrole('admin') )
-      <a  href="{{asset('admin/users')}}">{{ __('Uživatelia') }}</a>
+    
+    @if( Auth::user()->hasAnyRole(['admin','editor']))
+      @if( Auth::user()->hasrole('admin') )
+          <a  href="{{asset('admin/users')}}">{{ __('Použivatelia') }}</a>
 
-      <a  href="{{asset('admin/categories')}}">{{ __('Kategórie') }}</a>
+          <a  href="{{asset('admin/categories')}}">{{ __('Kategórie') }}</a>
 
-      <a  href="{{asset('admin/menu')}}">{{ __('Menu') }}</a>
+          <a  href="{{asset('admin/menu')}}">{{ __('Menu') }}</a>
 
-      <a  href="{{asset('admin/comments')}}">{{ __('Komenty') }}</a>
+          <a  href="{{asset('admin/comments')}}">{{ __('Komentáre') }}</a>
 
-      <a  href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
+          <a  href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
+          
+          <a  href="{{asset('admin/components')}}">{{ __('Komponenty') }}</a>
 
-      <a  href="{{asset('admin/carousel')}}">{{ __('Carousel') }}</a>
-      
-      <a  href="{{asset('admin/components')}}">{{ __('Komponenty') }}</a>
+          <a  href="{{asset('admin/pages')}}">{{ __('Stránky') }}</a>
 
-      <a  href="{{asset('admin/pages')}}">{{ __('Stránky') }}</a>
+          <a  href="{{asset('admin/options')}}">{{ __('Všeobecné nastavenia') }}</a>
+          
+          <a  href="{{asset('admin/newsletter')}}">{{ __('Newsletter') }}</a>
 
-      <a  href="{{asset('#')}}">{{ __('Statické texty') }}</a>                    
+          <a  href="{{asset('sitemap')}}" target="_blank">{{ __('SiteMap') }}</a>
+        @endif
+      <a href="{{asset('admin/articles')}}">{{ __('Články') }}</a>
     @endif
 
     <span style="position:fixed; bottom: 5px;">
