@@ -29,6 +29,7 @@ class PageController extends Controller
             "articles" => '', //8
             "newsletter" => '', //9
             "article" => '', //single_article
+            "voting" => '', //11
         );
 
 
@@ -103,6 +104,11 @@ class PageController extends Controller
             }
             if($value->component_id == $enum_components['newsletter']){
                 $components_content['newsletter']= "";
+            }
+            if($value->component_id == $enum_components['voting']){
+                $components_content['voting']= DB::select("SELECT * FROM `component_details_voting` WHERE id_component_detail = $value->component_detail_id");
+                if($components_content['voting'])
+                    $components_content['voting']['options']= DB::select("SELECT * FROM `voting_options` WHERE id_question =".$components_content['voting'][0]->id." ORDER BY option_order");
             }
         }
 

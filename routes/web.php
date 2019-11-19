@@ -77,6 +77,9 @@ Route::get('user/{id}', 'PageController@handle')->name('user');
 //NEWSLETTER
 Route::get('newsletter_registration', 'Admin\NewsletterController@save');
 
+//NEWSLETTER
+Route::get('voting', 'Admin\VotingController@saveVote');
+
 Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], function () {      
     
     Route::get('profile', 'Admin\AdminController@index')->name('userProfile');
@@ -206,6 +209,17 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
 
         //NEWSLETTER
         Route::get('admin/newsletter', 'Admin\NewsletterController@index');
+        Route::get('admin/deleteSubscriber/{id}', 'Admin\NewsletterController@deleteSubscriber')->where('id', '[0-9]+');
+        Route::get('admin/email/{id?}', 'Admin\NewsletterController@email');
+        Route::post('admin/email/{id?}', 'Admin\NewsletterController@saveEmail');
+        Route::get('admin/deleteEmail/{id}', 'Admin\NewsletterController@deleteEmail')->where('id', '[0-9]+');
+        Route::get('admin/sendEmail/{id}', 'Admin\NewsletterController@sendEmail')->where('id', '[0-9]+');
+
+        //VOTING
+        Route::post('admin/voting/saveNewOption',  'Admin\VotingController@saveOption');
+        Route::post('admin/voting/deleteOption',  'Admin\VotingController@deleteOption');
+        Route::post('admin/voting/changeOrderOfOptions',  'Admin\VotingController@changeOrderOfOptions');
+        Route::post('admin/voting/saveNewQuestion/{id}',  'Admin\VotingController@saveQuestion')->where('id', '[0-9]+');
         
 
         //Menu

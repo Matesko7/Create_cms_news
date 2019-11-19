@@ -38,7 +38,7 @@ class ComponentsController extends Controller
         $component->name = $request->name;
         $component->id_component = $request->component_type;
         $component->save();
-        
+
         return redirect('/admin/components')->with('success', 'Nový komponent úspešne pridaný');
         }
     }
@@ -66,6 +66,14 @@ class ComponentsController extends Controller
             $component_content= DB::select("SELECT * FROM component_details_articles WHERE id_component_detail = $id");
             $categories = Category::all();
             return view('Admin/Components/edit_articles')->with(['content' => $component_content, 'component' => $component, 'categories' => $categories]);
+        }
+        if($component[0]->id_component  == $enum_components['voting']){
+            $component_content= DB::select("SELECT * FROM component_details_voting WHERE id_component_detail = $id");
+            if($component_content){
+                $component_content['options']= DB::select("SELECT * FROM voting_options WHERE id_question=".$component_content[0]->id." ORDER BY option_order");
+                $component_content['votes']=DB::select("SELECT SUM(votes_number) as votes_all FROM `voting_options` WHERE id_question=".$component_content[0]->id);
+            }
+            return view('Admin/Components/edit_voting')->with(['content' => $component_content, 'component' => $component]);
         }
         
         return back()->with('warning', 'Tento komponent sa nedá editovať');

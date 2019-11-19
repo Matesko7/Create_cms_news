@@ -100,7 +100,7 @@
     <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
         <ul id="sortable" style="border: 1px solid;">
             @foreach($page_components as $component)
-                <li id="component_{{$component->id}}" class="ui-state-default"><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{$component->name}} @if($component->name2)<small style="color:#0e0d3d"> - {{$component->name2}}</small>@endif<button type="button" class="btn btn-danger  btn-sm float-right" id="delete_{{$component->id}}">Vymazať</button></li>
+                <li id="component_{{$component->id}}" class="ui-state-default" ><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{$component->name}} @if($component->name2)<br /><small style="color:#0e0d3d;font-size: 60%;">{{$component->name2}} </small>@endif<button type="button" class="btn btn-danger  btn-sm float-right" id="delete_{{$component->id}}">Vymazať</button></li>
             @endforeach
         </ul>
     </div>
@@ -176,7 +176,7 @@
         if($("#insertComponents").val() == 0)
             return alert('Nebola zvolená žiadna možnosť');
 
-        if($("#insertComponents").val() == 3 || $("#insertComponents").val() == 7 || $("#insertComponents").val() == 6  || $("#insertComponents").val() == 8 || $("#insertComponents").val() == 1)
+        if($("#insertComponents").val() == 3 || $("#insertComponents").val() == 7 || $("#insertComponents").val() == 6  || $("#insertComponents").val() == 8 || $("#insertComponents").val() == 1  || $("#insertComponents").val() == 11 )
             return componentDetail($("#insertComponents").val());
 
         ajax_newComponentToPage($("#insertComponents").val());
@@ -194,7 +194,7 @@
     });
 
     function componentDetail(component_id){
-        if( (component_id == 3 && {{sizeof($components_about)}} == 0) || (component_id == 7 && {{sizeof($components_gallery)}} == 0) || (component_id == 6 && {{sizeof($components_map)}} == 0) || (component_id == 1 && {{sizeof($components_carousel)}} == 0))
+        if( (component_id == 3 && {{sizeof($components_about)}} == 0) || (component_id == 7 && {{sizeof($components_gallery)}} == 0) || (component_id == 6 && {{sizeof($components_map)}} == 0) || (component_id == 1 && {{sizeof($components_carousel)}} == 0) || (component_id == 11 && {{sizeof($components_voting)}} == 0) )
             return alert("Pre daný typ komponentu neexistujú žiadne jeho varianty. Prejdite do sekcie komponenty a daný variant pre tento typ komponentu vytvorte.");
 
         $("#components_detail").show();
@@ -230,6 +230,11 @@
                     @endforeach
                 @endif    
             }
+            if(component_id == 11){
+                @foreach($components_voting as $component)
+                plot+= "<option value="+{{$component->id}}+">"+"{{$component->name}}"+"</option>"    
+                @endforeach    
+            }
         plot+= "</select>"
         $("#components_detail").append(plot);
         
@@ -238,7 +243,6 @@
     //VYMAZANIE KOMPONENTU ZO STRANKY
     $("#sortable").on('click', 'li > button' ,function(){
         var id= this.id.split("_")[1];
-
         ajax_deleteComponentFromPage(id);
     });
     
@@ -280,7 +284,7 @@
 
                 var new_component = "<li id='component_"+res['msg']+"' class='ui-state-default'><span class='ui-icon ui-icon-arrowthick-2-n-s'></span>"+$("#insertComponents option:selected").text();
                 if($("#insertComponentDetailExact option:selected").text() != "")
-                    new_component += "<small style='color:#0e0d3d'> - "+$("#insertComponentDetailExact option:selected").text()+"</small>";
+                    new_component += "<br><small style='color:#0e0d3d;font-size: 60%;'>"+$("#insertComponentDetailExact option:selected").text()+"</small>";
                 
                 new_component += "<button type='button' class='btn btn-danger  btn-sm float-right' id='delete_"+res['msg']+"'>Vymazať</button></li>";
 

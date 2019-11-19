@@ -19,9 +19,10 @@ class PagesController extends Controller
         $components_map = Component_detail::where('id_component',6)->get();
         $components_articles = Component_detail::where('id_component',8)->get();
         $components_carousel = Component_detail::where('id_component',1)->get();
+        $components_voting = Component_detail::where('id_component',11)->get();
         
         if(!$id){
-            return view('Admin/Pages/index')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery,"components_map"=>$components_map, "components_carousel"=>$components_carousel, "pages" => Page::all(),"menu_items" => $menu_items,"id" => null]);
+            return view('Admin/Pages/index')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery,"components_map"=>$components_map, "components_carousel"=>$components_carousel, "components_voting"=>$components_voting, "pages" => Page::all(),"menu_items" => $menu_items,"id" => null]);
         }
         else{
             if(! Page::find($id))
@@ -30,7 +31,7 @@ class PagesController extends Controller
             $page_name= Page::where('id', $id)->get()[0]->name;
             $page_components= DB::table('page_components')->where('page_id', $id)->join('components', 'page_components.component_id','components.id')->Leftjoin('component_details', 'page_components.component_detail_id','component_details.id')->select('page_components.id','components.name','component_details.name AS name2' )->orderBy('page_components.component_order')->get();
 
-            return view('Admin/Pages/index')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery,"components_map"=>$components_map, "components_carousel"=>$components_carousel, "pages" => Page::all(),"page_name" => $page_name,"page_components" => $page_components,"components_articles" => $components_articles,"menu_items" => $menu_items,"id" => $id]);
+            return view('Admin/Pages/index')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery,"components_map"=>$components_map, "components_carousel"=>$components_carousel, "components_voting"=>$components_voting, "pages" => Page::all(),"page_name" => $page_name,"page_components" => $page_components,"components_articles" => $components_articles,"menu_items" => $menu_items,"id" => $id]);
         }
     }
 

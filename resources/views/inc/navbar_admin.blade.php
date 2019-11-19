@@ -22,7 +22,7 @@
           <a  href="{{asset('admin/options')}}">{{ __('Všeobecné nastavenia') }}</a>
           
           <a  href="{{asset('admin/newsletter')}}">{{ __('Newsletter') }}</a>
-
+          
           <a  href="{{asset('sitemap')}}" target="_blank">{{ __('SiteMap') }}</a>
         @endif
       <a href="{{asset('admin/articles')}}">{{ __('Články') }}</a>

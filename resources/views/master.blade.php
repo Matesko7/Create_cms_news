@@ -31,6 +31,9 @@
             @if($component['component_id'] == 9)
                 @include('Components.Newsletter')
             @endif
+            @if($component['component_id'] == 11)
+                @include('Components.Voting')
+            @endif
             @if($component['component_id'] == "single_article")
                 @include('Components.Article')
             @endif
