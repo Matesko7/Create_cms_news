@@ -14,6 +14,7 @@ return [
     */
 
     'failed' => 'Nepsrávne prihlasovacie údaje',
+    'blocked' => 'Váš účet bol zablokovaný',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

@@ -1,0 +1,7 @@
+{
+  "i18n-ally.localesPaths": [
+    "resources/lang",
+    "public/jodit/src/langs",
+    "public/css/js/plugins/jquery-ui/i18n"
+  ]
+}

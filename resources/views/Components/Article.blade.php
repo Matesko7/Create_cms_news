@@ -132,7 +132,9 @@
             </div>
             <div class="main-item">
               <div class="comments">
-              @if(Auth::check())
+              @if($components_content['article']['article'][0]->allowComment == 0)
+                <h3>Komentovanie pre tento článok nie je povolené</h3>
+              @elseif(Auth::check())
                 <div id="user_add_comment" class="comment add-comment">
                   <h2 class="comments-heading heading">Pridať komentár</h2>
                   <form action="{{asset('article/addcoment/'.$components_content['article']['article'][0]->id)}}" method="post">@csrf
@@ -161,57 +163,59 @@
                   <h2 class="comments-heading" style="text-align:center;color:red">Pre vkladanie komentárov sa musíte prihlásiť</h2>
                 @endif
                 <br><br>
-                <h2 class="comments-heading heading">Komentáre: {{count($components_content['article']['comments'])}}</h2>
-                @foreach($components_content['article']['comments'] as $comment)
-                <div class="row comment media-query-special">
-                  <div class="col-md-12 col-lg-3 media-query-special">
-                    <div class="user-picture" style="background-image: url('{{asset('users/'.$comment->user_id.'/'.$comment->user_id.'.jpg')}}');background-postion:center;background-size: cover;background-repeat: no-repeat"></div>
-                  </div>
-                  <div class="col-md-12 col-lg d-flex flex-row media-query-special">
-                    <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
-                      <div class="row flex-column justify-content-between">
-                        <h6 class="user-name">{{$comment->user_name}}</h4>
-                          <h6 class="date">{{date("d.m.Y H:i:s", strtotime($comment->created_at)+3600)}}</h5>
-                      </div>
-                      <div class="row">
-                        <p class="comment-content">{{$comment->comment}}</p>
-                      </div>
-                      <div class="row" id="reply_to_{{$comment->id}}" style="display: none">
-                        <form action="{{asset('article/reply_comment/'.$components_content['article']['article'][0]->id.'/'.$comment->id)}}" method="post">@csrf
-                          <textarea type="comment" name="comment_reply" cols="50"  rows="4" placeholder="odpoved na komentár" class="add-comment-input" style="padding:0.5rem;"></textarea>
-                          <button  class="reply">Odoslať</button>
-                        </form>  
-                      </div>
-                    </div>
-                    <div class="col-md col-lg-2 d-flex flex-row align-items-start normal">
-                      <button onclick="comment_reply(this)" value="{{$comment->id}}" class="reply normal">Odpoveď</button>
-                    </div>
-                  </div>
-                  <div class="col-md col-lg-2 d-flex flex-row align-items-start special" id="small-disp">
-                    <button onclick="comment_reply(this)" value="{{$comment->id}}" class="reply">Odpoveď</button>
-                  </div>
-                </div>
-                @if($comment->child)
-                  @foreach($comment->child as $reply)
-                    <div style="margin-left:50px;padding:1rem" class="row comment media-query-special">
+                @if($components_content['article']['article'][0]->allowComment == 1)
+                    <h2 class="comments-heading heading">Komentáre: {{count($components_content['article']['comments'])}}</h2>
+                    @foreach($components_content['article']['comments'] as $comment)
+                    <div class="row comment media-query-special">
                     <div class="col-md-12 col-lg-3 media-query-special">
-                      <div class="user-picture" style="background-image: url('{{asset('users/'.$reply['userId'].'/'.$reply['userId'].'.jpg')}}');background-postion:center;background-size: cover;background-repeat: no-repeat"></div>
+                        <div class="user-picture" style="background-image: url('{{asset('users/'.$comment->user_id.'/'.$comment->user_id.'.jpg')}}');background-postion:center;background-size: cover;background-repeat: no-repeat"></div>
                     </div>
                     <div class="col-md-12 col-lg d-flex flex-row media-query-special">
-                      <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
+                        <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
                         <div class="row flex-column justify-content-between">
-                          <h6 class="user-name">{{$reply['userName']}}</h4>
-                            <h6 class="date">{{date("d.m.Y H:i:s", strtotime($reply['created_at'])+3600)}}</h5>
+                            <h6 class="user-name">{{$comment->user_name}}</h4>
+                            <h6 class="date">{{date("d.m.Y H:i:s", strtotime($comment->created_at)+3600)}}</h5>
                         </div>
                         <div class="row">
-                          <p class="comment-content">{{$reply['plot']}}</p>
+                            <p class="comment-content">{{$comment->comment}}</p>
                         </div>
-                      </div>
+                        <div class="row" id="reply_to_{{$comment->id}}" style="display: none">
+                            <form action="{{asset('article/reply_comment/'.$components_content['article']['article'][0]->id.'/'.$comment->id)}}" method="post">@csrf
+                            <textarea type="comment" name="comment_reply" cols="50"  rows="4" placeholder="odpoved na komentár" class="add-comment-input" style="padding:0.5rem;"></textarea>
+                            <button  class="reply">Odoslať</button>
+                            </form>  
+                        </div>
+                        </div>
+                        <div class="col-md col-lg-2 d-flex flex-row align-items-start normal">
+                        <button onclick="comment_reply(this)" value="{{$comment->id}}" class="reply normal">Odpoveď</button>
+                        </div>
                     </div>
-                  </div>
-                  @endforeach
+                    <div class="col-md col-lg-2 d-flex flex-row align-items-start special" id="small-disp">
+                        <button onclick="comment_reply(this)" value="{{$comment->id}}" class="reply">Odpoveď</button>
+                    </div>
+                    </div>
+                    @if($comment->child)
+                        @foreach($comment->child as $reply)
+                            <div style="margin-left:50px;padding:1rem" class="row comment media-query-special">
+                            <div class="col-md-12 col-lg-3 media-query-special">
+                            <div class="user-picture" style="background-image: url('{{asset('users/'.$reply['userId'].'/'.$reply['userId'].'.jpg')}}');background-postion:center;background-size: cover;background-repeat: no-repeat"></div>
+                            </div>
+                            <div class="col-md-12 col-lg d-flex flex-row media-query-special">
+                            <div class="col-md col-lg-10 d-flex flex-column justify-content-between">
+                                <div class="row flex-column justify-content-between">
+                                <h6 class="user-name">{{$reply['userName']}}</h4>
+                                    <h6 class="date">{{date("d.m.Y H:i:s", strtotime($reply['created_at'])+3600)}}</h5>
+                                </div>
+                                <div class="row">
+                                <p class="comment-content">{{$reply['plot']}}</p>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        @endforeach
+                    @endif
+                    @endforeach
                 @endif
-                @endforeach
               </div>
             </div>
           </div>

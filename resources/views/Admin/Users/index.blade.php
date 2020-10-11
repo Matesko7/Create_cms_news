@@ -55,11 +55,14 @@
                     </div>
                 </div>
                 <div class="form-group">
+                  <div class="col-lg-8">
+                    <a href="{{asset('/user/changepassword/'.Auth::user()->id)}}">Zmena hesla</a>
+                  </div>
+                </div>
+                <div class="form-group">
                     <label class="col-md-3 control-label"></label>
                     <div class="col-md-8">
                         <input type="submit" class="btn btn-info show-more" value="Uložiť zmeny">
-                        <span></span>
-                        <input type="reset" class="btn btn-default" value="Zruš">
                     </div>
                 </div>
     </form>

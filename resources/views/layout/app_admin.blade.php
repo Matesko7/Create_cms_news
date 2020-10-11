@@ -12,6 +12,7 @@
 <script type="text/javascript" lang="javascript" charset="UTF-8" 
     src="{{asset('js/popper.min.js')}}"></script>
 <title>Admin</title>
+
 <style>
 body {
   font-family: "Lato", sans-serif;

@@ -108,21 +108,40 @@
                             </div>
                         </div>
                         <center>Meta tagy
-                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Description" content="</label>
-                                <div style="display:inline-block" class="ui-select">
-                                    <input id="metaTag1" name="metaTag1" type="text" placeholder="About"
-                                    value="{{$article[0]->meta_tag_Description}}" class="form-control title-article">
+                            <button id="add_metaTag" type="button" class="btn" style="padding: 1px; float: right">Pridať ďalši meta tag<i class="fas fa-plus"></i> </button>
+                            <div id="metaTags">
+                                <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Description" content=</label>
+                                    <div style="display:inline-block" class="ui-select">
+                                        <input id="metaTag1" name="metaTag1" type="text" placeholder="About"
+                                        value="{{$article[0]->meta_tag_Description}}" class="form-control title-article">
+                                    </div>
+                                    /&#62;
                                 </div>
-                                "/&#62;
-                            </div>
-                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Keywords" content="</label>
-                                <div style="display:inline-block" class="ui-select">
-                                    <input id="metaTag2" name="metaTag2" type="text" placeholder="Earth"
-                                    value="{{$article[0]->meta_tag_Keyword}}" class="form-control title-article">
+                                <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Keywords" content=</label>
+                                    <div style="display:inline-block" class="ui-select">
+                                        <input id="metaTag2" name="metaTag2" type="text" placeholder="Earth"
+                                        value="{{$article[0]->meta_tag_Keyword}}" class="form-control title-article">
+                                    </div>
+                                    /&#62;
                                 </div>
-                                "/&#62;
+                                @if(isset($extra_tags))
+                                @foreach($extra_tags as $tag)
+                                    <div class='col-md-12 col-sm-12 p-2'>
+                                        <label>&#60; meta name=</label>
+                                        <div style='display:inline-block' class='ui-select'>
+                                            <input id="additionalMetaTagsName[]" name="additionalMetaTagsName[]" type='text' placeholder='og:description' class='form-control title-article' value="{{$tag->name}}">
+                                        </div> 
+                                        <label> content=</label>
+                                        <div style='display:inline-block' class='ui-select'>
+                                            <input id='additionalMetaTagsContent[]' name='additionalMetaTagsContent[]' type='text' placeholder='popis' class='form-control title-article' value="{{$tag->value}}">
+                                        </div> 
+                                        <label>/&#62</label>
+                                    </div>
+                                @endforeach
+                                @endif
                             </div>
-                        </center>    
+                        </center> 
+                        
 
                         <div class="form-group">
                             <div class="col-md-12">
@@ -145,6 +164,9 @@
                             <div class="col-md-12">
                                 OBSAH
                                 <textarea name="editor" id="editor"></textarea>
+                                <br>
+                                <label for="allowComment">Povoliť komentáre</label>
+                                <input type="checkbox" id="allowComment" name="allowComment" value="1" {{  ($article[0]->allowComment == 1 ? ' checked' : '') }}>
                                 <br>
                                 <!--GALERY ------------------->
                                 <h2>Galéria</h2>
@@ -229,7 +251,7 @@
 
                         <div class="form-group">
                             <div class="col-md-12 text-center">
-                                <button id="category_save" type="submit" class="btn btn-info show-more">Uložiť</button>
+                                <button type="submit" class="btn btn-info show-more">Uložiť</button>
                             </div>
                         </div>
                     </fieldset>
@@ -431,6 +453,9 @@ $("#related_article_insert").click(function(){
         }
     });
 
+    $("#add_metaTag").click(function () {
+        $("#metaTags").append("<div class='col-md-12 col-sm-12 p-2'>&#60; meta name=<div style='display:inline-block' class='ui-select'><input id='additionalMetaTagsName[]' name='additionalMetaTagsName[]' type='text' placeholder='og:description' class='form-control title-article'></div> content= <div style='display:inline-block' class='ui-select'><input id='additionalMetaTagsContent[]' name='additionalMetaTagsContent[]' type='text' placeholder='popis' class='form-control title-article'></div> /&#62</div>")
+    });
 
 
 

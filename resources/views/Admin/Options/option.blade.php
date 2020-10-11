@@ -19,6 +19,25 @@
                     </div>
                 </div>
 
+                <div class="form-group" id="email_newsletter" style="display:none">
+                    <label class="col-lg-3 control-label">email:</label>
+                    <div class="col-lg-8">
+                        @if(isset($option))
+                        <input class="form-control" id="email" name="email" type="text" value="{{explode('||', $option->value)[0]}}">
+                        @else
+                        <input class="form-control" id="email" name="email" type="text" placeholder="hodnota" value="">
+                        @endif
+                    </div>
+                    <label class="col-lg-3 control-label">alias:</label>
+                    <div class="col-lg-8">
+                        @if(isset($option))
+                        <input class="form-control" id="email_alias" name="email_alias" type="text" value="{{ count(explode('||', $option->value)) > 1 ?  explode('||', $option->value)[1] : $option->value}}">
+                        @else
+                        <input class="form-control" id="email_alias" name="email_alias" type="text" placeholder="alias" value="">
+                        @endif
+                    </div>
+                </div>
+
                 <div class="form-group" id="bacis_param" style="display:none">
                     <label class="col-lg-3 control-label">Hodnota parametra:</label>
                     <div class="col-lg-8">
@@ -76,6 +95,36 @@
                     </div>
                 </div> 
 
+                <div class="form-group" id="link_tags" style="display:none">
+                    <label class="col-lg-3 control-label">Hodnota parametra:</label>
+                    <div class="col-lg-12" style="display:flex">
+                        @if(isset($option) && $option->type_id==4)
+                        <div class="col-md-4"><label>rel</label>
+                            <div style="display:inline-block" class="ui-select">
+                                <input class="form-control" id="option_value" name="option_value" type="text" value="{{explode('||', $option->value)[1]}}">
+                            </div>
+                        </div>
+                        <div class="col-md-4"><label>href</label>
+                            <div style="display:inline-block" class="ui-select">
+                                <input class="form-control" id="option_value_content" name="option_value_content" type="text" value="{{explode('||', $option->value)[2]}}">
+                            </div>
+                        </div>
+                        @else
+                        <div class="col-md-4"><label>rel</label>
+                            <div style="display:inline-block" class="ui-select">
+                                <input class="form-control" id="option_value" name="option_value" type="text" value="">
+                            </div>
+                        </div>
+                        <div class="col-md-4"><label>href</label>
+                            <div style="display:inline-block" class="ui-select">
+                                <input class="form-control" id="option_value_content" name="option_value_content" type="text" value="">
+                            </div>
+                        </div>
+                        @endif
+                    </div>
+                </div> 
+
+
                 <button id="new_cat_save" name="new_cat_save" class="btn btn-info show-more">Uložiť</button>
     {{ Form::close() }}
 </div>
@@ -84,19 +133,31 @@
 <script>
 var option_id = "{{isset($option) ? $option->type_id : '' }}"
 
-if( option_id == 4)
+if( option_id == 4){
     $('#meta_tags').show();
-else{
+}else if( option_id == 6){
+    $('#email_newsletter').show();
+}else if( option_id == 8){
+    $('#link_tags').show();
+}else{
     $('#bacis_param').show();
 }
 
 function option_type_change(){
+    $('#link_tags').hide();
     $('#meta_tags').hide();
     $('#bacis_param').hide();
+    $('#email_newsletter').hide();
 
     var type_id = $('#options_type').val();
     if(type_id == 4){
         $('#meta_tags').show();
+    }
+    else if(type_id == 6){
+        $('#email_newsletter').show();
+    }
+    else if(type_id == 8){
+        $('#link_tags').show();
     }else{
         $('#bacis_param').show();
     }

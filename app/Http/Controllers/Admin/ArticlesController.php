@@ -59,11 +59,13 @@ class ArticlesController extends Controller
             $attachments= DB::select("SELECT * from article_attachment WHERE article_id=? ORDER BY id desc",[$id]);
             
             $related_articles= DB::select("SELECT A.*,B.title from aritcle_related A  LEFT JOIN articles B on A.related_article_id=B.id WHERE A.article_id=? ORDER BY id desc",[$id]);
-
+            
+            $extra_tags= DB::select("SELECT * from article_tags WHERE article_id=? ORDER BY id desc",[$id]);
 
             $all_articles= DB::select("SELECT id,title from articles");
+
             
-            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang, 'pic_hash' => $hash, 'attachments' => $attachments, 'related_articles' => $related_articles, 'articles' => $all_articles, 'roles' => $roles]);
+            return view('Admin/Articles/article_detail', ['article' => $article->getArticle($id),'categories' => $categories,'article_category' => $article_category,'tags'=> $tags,'article_photo' => $article_photo, 'galery' => $galery, 'lang' => $lang, 'pic_hash' => $hash, 'attachments' => $attachments, 'related_articles' => $related_articles, 'articles' => $all_articles, 'roles' => $roles, 'extra_tags' => $extra_tags]);
         }
         else{
             $photos= glob("articles/tmp/cover/*"); // get all file names
@@ -111,15 +113,26 @@ class ArticlesController extends Controller
         else{
             $tmp=explode(".",$request->dateArticle);
             $request->dateArticle=$tmp[2].'-'.$tmp[1].'-'.$tmp[0].' 00:00:00' ;
-        } 
+        }
+        
+        $allowComment= isset($request->allowComment) ? 1 : 0;
 
         if($id==null){
             $plot=str_replace(array("\n","\r","&#9;"),array("","",""),$request->editor);
-            $id_new_article=$article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,Auth::user()->id,$request->dateArticle,$request->lang);
+            $id_new_article=$article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,Auth::user()->id,$request->dateArticle,$request->lang,$allowComment);
 
             $plot=str_replace(array("\n","\r","&#9;","/articles/tmp/"),array("","","","/articles/".$id_new_article."/"),$request->editor);
 
-            $article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,Auth::user()->id,$request->dateArticle,$request->lang,$id_new_article);
+            $article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,Auth::user()->id,$request->dateArticle,$request->lang,$allowComment,$id_new_article);
+
+            //extra tags
+            if(isset($request->additionalMetaTagsName)){
+                foreach($request->additionalMetaTagsName as $key => $tag){ 
+                    if($tag !='' &&  $request->additionalMetaTagsContent[$key] != ''){
+                        DB::insert("INSERT INTO article_tags (article_id, name,value) VALUES (:id,:name,:value)", ['id' => $id_new_article, 'name' => $tag, 'value' => $request->additionalMetaTagsContent[$key]] );
+                    }
+                }
+            }
 
             //ulozenie nahrateho suboru
             $file = $request->file('file');
@@ -192,7 +205,17 @@ class ArticlesController extends Controller
                         rename ($value , 'articles/'. $id.'/'.basename($value));
             }
 
-            $article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,$request->user_id,$request->dateArticle,$request->lang,$id);
+            //extra tags
+            DB::delete("DELETE FROM article_tags WHERE article_id=:id", ['id' => $id]);
+            if(isset($request->additionalMetaTagsName)){
+                foreach($request->additionalMetaTagsName as $key => $tag){ 
+                    if($tag !='' &&  $request->additionalMetaTagsContent[$key] != ''){
+                        DB::insert("INSERT INTO article_tags (article_id, name,value) VALUES (:id,:name,:value)", ['id' => $id, 'name' => $tag, 'value' => $request->additionalMetaTagsContent[$key]] );
+                    }
+                }
+            }
+
+            $article->updateArticle($request->metaTag1,$request->metaTag2,$request->title,$request->perex,$plot,$tmp_tags,$request->category[count($request->category)-1],$request->audience,$request->audienceRole,$request->user_id,$request->dateArticle,$request->lang,$allowComment,$id);
             return back()->with('success','Článok aktualizovaný');
         }
     }

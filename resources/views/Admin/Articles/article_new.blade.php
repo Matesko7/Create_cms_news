@@ -57,7 +57,7 @@
                             <div class="col-md-4"><label>Viditeľnosť( Rola):</label>
                                 <div style="display:inline-block" class="ui-select">
                                     <select name="audienceRole" id="audienceRole" class="form-control">
-                                        <option value="0">každý</option>
+                                        <option value="{{null}}">každý</option>
                                         @foreach($roles as $role)
                                             <option value="{{$role->id}}">{{$role->name}}</option>
                                         @endforeach
@@ -77,19 +77,22 @@
                             </div>
                         </div>
                         <center>Meta tagy
-                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Description" content="</label>
-                                <div style="display:inline-block" class="ui-select">
-                                    <input id="metaTag1" name="metaTag1" type="text" placeholder="About"
-                                    value="" class="form-control title-article">
+                            <button id="add_metaTag" type="button" class="btn" style="padding: 1px; float: right">Pridať ďalši meta tag<i class="fas fa-plus"></i> </button>
+                            <div id="metaTags">
+                                <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Description" content="</label>
+                                    <div style="display:inline-block" class="ui-select">
+                                        <input id="metaTag1" name="metaTag1" type="text" placeholder="About"
+                                        value="" class="form-control title-article">
+                                    </div>
+                                    "/&#62;
                                 </div>
-                                "/&#62;
-                            </div>
-                            <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Keywords" content="</label>
-                                <div style="display:inline-block" class="ui-select">
-                                    <input id="metaTag2" name="metaTag2" type="text" placeholder="Earth"
-                                    value="" class="form-control title-article">
+                                <div class="col-md-12 col-sm-12 p-2"><label>&#60; meta name="Keywords" content="</label>
+                                    <div style="display:inline-block" class="ui-select">
+                                        <input id="metaTag2" name="metaTag2" type="text" placeholder="Earth"
+                                        value="" class="form-control title-article">
+                                    </div>
+                                    "/&#62;
                                 </div>
-                                "/&#62;
                             </div>
                         </center>    
 
@@ -113,6 +116,9 @@
                             <div class="col-md-12">
                             OBSAH
                             <textarea name="editor" id="editor"></textarea>
+                            <br>
+                            <label for="allowComment">Povoliť komentáre</label>
+                            <input type="checkbox" id="allowComment" name="allowComment" value="1" checked>
                             <br>
                             <h2>Galéria</h2>
                             Na vytvorenie galérie najprv uložte článok
@@ -260,6 +266,9 @@ var editor=new Jodit('#editor', {
     });
 
 
+    $("#add_metaTag").click(function () {
+        $("#metaTags").append("<div class='col-md-12 col-sm-12 p-2'>&#60; meta name=<div style='display:inline-block' class='ui-select'><input id='additionalMetaTagsName[]' name='additionalMetaTagsName[]' type='text' placeholder='og:description' class='form-control title-article'></div> content= <div style='display:inline-block' class='ui-select'><input id='additionalMetaTagsContent[]' name='additionalMetaTagsContent[]' type='text' placeholder='popis' class='form-control title-article'></div> /&#62</div>")
+    });
 
 
     var poc = 1;

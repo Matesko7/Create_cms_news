@@ -5,6 +5,7 @@
 <div class="row" style="margin-left:0px; margin-right: 0px;">
     <div class="col-sm-12" style="padding: 20px 20px 0px 20px;">
     <a href="{{asset('admin/option')}}"><div class="new-article btn">Pridať nové nastavenie &nbsp<i class="fas fa-plus"></i></div></a>
+    <a href="{{asset('clear-cache')}}" style="float:right"><button  class="btn btn-primary show-more">Vymazať cache</button></a>
         <div style="font-size: 18px; font-weight: 400;color: fff;">
             <table class="table table-striped text-center">
                 <thead>
@@ -22,6 +23,10 @@
                         <td>{{$option->name}}</th>
                         @if($option->type_id == 4)
                             <td> &#60; meta {{ explode("||", $option->value)[0]}}="{{ explode("||", $option->value)[1]}}" content="{{ explode("||", $option->value)[2]}}" /&#62; </td>
+                        @elseif($option->type_id == 8)
+                            <td> &#60; link {{ explode("||", $option->value)[0]}}="{{ explode("||", $option->value)[1]}}" href="{{ explode("||", $option->value)[2]}}" /&#62; </td>
+                        @elseif($option->type_id == 6)    
+                            <td>email: {{ explode("||", $option->value)[0]}}, alias: {{ explode("||", $option->value)[1]}}</td>
                         @else
                             <td>{{$option->value}}</td>
                         @endif

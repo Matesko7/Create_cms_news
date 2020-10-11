@@ -6,50 +6,14 @@
     <link href="{{asset('vendor/harimayco-menu/style.css')}}" rel="stylesheet">
 </head>
 <div class="container">
-<br><br>
-    <div style="display: flex;">
-        <label class="col-lg-3 control-label" style="text-align:right">Menu SK:</label>
-        <div class="col-lg-3">
-            <div class="ui-select">
-                <select name="menu_sk" id="menu_sk" class="form-control">
-                    <option value="0" selected>--Vybrať menu--</option>
-                    @foreach($menus as $menu)
-                    @if($menu->selected_sk==1)
-                    <option value="{{$menu->id}}" selected>{{$menu->name}}</option>
-                    @else
-                    <option value="{{$menu->id}}">{{$menu->name}}</option>
-                    @endif
-                    @endforeach
-                </select>
-            </div>
-        </div>
-
-        <label class="col-lg-3 control-label" style="text-align:right">Menu EN:</label>
-        <div class="col-lg-3">
-            <div class="ui-select">
-                <select name="menu_en" id="menu_en" class="form-control">
-                    <option value="0" selected>--Vybrať menu--</option>
-                    @foreach($menus as $menu)
-                    @if($menu->selected_en==1)
-                    <option value="{{$menu->id}}" selected>{{$menu->name}}</option>
-                    @else
-                    <option value="{{$menu->id}}">{{$menu->name}}</option>
-                    @endif
-                    @endforeach
-                </select>
-            </div>
-        </div>
-    </div>
-
-    <div style="text-align: center; margin-top:15px;">
-        <a id="menu_lang_save" href="{{asset('admin/menu')}}"><input type="button" class="btn btn-info" value="Uložiť zmeny"></a>
-    </div>
-
     <div style=" width: 70%;margin: 0 auto;" class="w3-row">
         {!! Menu::render() !!}
     </div>
 </div>
 
+<script>
+    var urlRedirect = '{{ asset('/admin/menu/') }}';
+</script>
 
 <script>
     var menus = {

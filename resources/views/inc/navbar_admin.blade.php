@@ -13,7 +13,7 @@
 
           <a  href="{{asset('admin/comments')}}">{{ __('Komentáre') }}</a>
 
-          <a  href="{{asset('admin/selectedarticles')}}">{{ __('Vybrané články') }}</a>
+          <a  href="{{asset('admin/selectedarticles')}}">{{ __('Aktuality (top články)') }}</a>
           
           <a  href="{{asset('admin/components')}}">{{ __('Komponenty') }}</a>
 

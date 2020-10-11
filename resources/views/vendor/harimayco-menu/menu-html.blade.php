@@ -14,19 +14,6 @@ $currentUrl = url()->current();
 					<div id="wpbody-content">
 
 						<div class="wrap">
-							
-							<div class="manage-menus">
-								<form method="get" action="{{ $currentUrl }}">
-									<label for="menu" class="selected-menu">Vyberte menu ktoré chcete editovať:</label>
-
-									{!! Menu::select('menu', $menulist) !!}
-
-									<span class="submit-btn">
-										<input type="submit" class="button-secondary" value="Vybrať">
-									</span>
-									<span class="add-new-menu-action"> alebo <a href="{{ $currentUrl }}?action=edit&menu=0">Vytvoriť nové menu</a>. </span>
-								</form>
-							</div>
 							<div id="nav-menus-frame">
 
 								@if(request()->has('menu')  && !empty(request()->input("menu")))
@@ -184,7 +171,7 @@ $currentUrl = url()->current();
 																	@endif -->
 
 																	<p class="field-move hide-if-no-js description description-wide">
-																		<label> <span>Presunúť</span> <a href="{{ $currentUrl }}" class="menus-move-up" style="display: none;">Posunúť vyšie</a> <a href="{{ $currentUrl }}" class="menus-move-down" title="Mover uno abajo" style="display: inline;">Posunúť nižšie</a> <a href="{{ $currentUrl }}" class="menus-move-left" style="display: none;"></a> <a href="{{ $currentUrl }}" class="menus-move-right" style="display: none;"></a> <a href="{{ $currentUrl }}" class="menus-move-top" style="display: none;">Posunúť na vrch</a> </label>
+																		<label> <span>Presunúť</span> <a href="{{ $currentUrl }}" class="menus-move-up" style="display: none;">Posunúť vyšie</a> <a href="{{ $currentUrl }}" class="menus-move-down" title="Mover uno abajo" style="display: inline;">Posunúť nižšie</a> <a href="{{ $currentUrl }}" class="menus-move-left" style="display: none;">Posunúť o úroven</a> <a href="{{ $currentUrl }}" class="menus-move-right" style="display: none;"></a> <a href="{{ $currentUrl }}" class="menus-move-top" style="display: none;">Posunúť na vrch</a> </label>
 																	</p>
 
 																	<div class="menu-item-actions description-wide submitbox">

@@ -13,6 +13,8 @@ use App\Page_component;
 |
 */
 
+
+
 //ROUTES CREATED BY ADMIN
 $menu_id=false;
 if(App::isLocale('sk')){
@@ -75,15 +77,26 @@ Route::get('sitemap', 'SitemapController@articles');
 Route::get('user/{id}', 'PageController@handle')->name('user');
 
 //NEWSLETTER
-Route::get('newsletter_registration', 'Admin\NewsletterController@save');
+Route::get('newsletter_registration', 'Admin\NewsletterController@saveSubscriber');
+Route::get('newsletter/unsubscribe/{id}/{hash}', 'Admin\NewsletterController@unsubscribe')->where('id', '[0-9]+');
 
-//NEWSLETTER
+
+//VOTING
 Route::get('voting', 'Admin\VotingController@saveVote');
+
+
 
 Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], function () {      
     
     Route::get('profile', 'Admin\AdminController@index')->name('userProfile');
 
+    //User want to change password
+    Route::get('user/changepassword/{id}', 'Admin\UsersController@editPassword')->where('id', '[0-9]+');
+    
+    //User change password
+    Route::post('user/changepassword/{id}', 'Admin\UsersController@changepassword')->where('id', '[0-9]+');
+
+    
     //User change personal infomation
     Route::post('user/{id}', 'Admin\UsersController@editprofile')->where('id', '[0-9]+');
 
@@ -110,7 +123,6 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         Route::get('admin/attachment/delete/{id}', 'Admin\ArticlesController@attachemnt_delete')->where('id', '[0-9]+');
 
         //GALERY FOLDER
-
         Route::post('admin/connector', 'Admin\GalleryController@items');
        
         Route::post('jodit/upload', 'Admin\GalleryController@upload');
@@ -170,8 +182,23 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
     //ADMIN
     Route::middleware(['is.Admin'])->group(function () {
             
+        //Clear cache
+        Route::get('/clear-cache', function() {
+          Artisan::call('cache:clear');
+          Artisan::call('config:clear');
+          Artisan::call('view:clear');
+          $options= DB::select("SELECT A.id,A.value,A.type_id,B.name FROM general_options as A LEFT JOIN general_options_types as B ON A.type_id =B.id");
+          return back()->with(['success' => 'Vymazanie cache prebehlo úspešne','options' => $options]);
+        });
+
         //Users
         Route::get('admin/users', 'Admin\UsersController@index');
+        Route::get('admin/user/{action}/{id}', 'Admin\UsersController@blockOrUnblock')->where('id', '[0-9]+');
+
+        //User change password
+        Route::get('admin/passwordChange/{id}', 'Admin\UsersController@AdminEditPassword')->where('id', '[0-9]+');
+        Route::post('admin/passwordChange/{id}', 'Admin\UsersController@Adminchangepassword')->where('id', '[0-9]+');
+        
         Route::get('admin/user/{id?}', 'Admin\UsersController@edit')->where('id', '[0-9]+');
         Route::get('admin/deleteuser/{id?}', 'Admin\UsersController@delete')->where('id', '[0-9]+');
 
@@ -199,21 +226,26 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         Route::post('admin/option/{id?}', 'Admin\OptionsController@save')->where('id', '[0-9]+');
         
         //PAGES
+        Route::get('admin/pages', 'Admin\PagesController@index');
+        Route::get('admin/pages/edit/{id?}', 'Admin\PagesController@edit');
+        Route::get('admin/pages/delete/{id?}', 'Admin\PagesController@deletePage');
+
         Route::post('admin/pages/saveNewComponent',  'Admin\PagesController@saveComponent');
         Route::post('admin/pages/deleteComponent',  'Admin\PagesController@deleteComponent');
         Route::post('admin/pages/changeOrderOfComponents',  'Admin\PagesController@changeOrderOfComponents');
-        Route::get('admin/pages/deletePage/{id?}', 'Admin\PagesController@deletePage');
+        
         Route::get('admin/pages/addMenuItemToPage/{id_page}/{id_menuItem}', 'Admin\PagesController@addMenuItemToPage');
-        Route::get('admin/pages/{id?}', 'Admin\PagesController@edit');
         Route::post('admin/pages/{id}',  'Admin\PagesController@save');
 
         //NEWSLETTER
         Route::get('admin/newsletter', 'Admin\NewsletterController@index');
         Route::get('admin/deleteSubscriber/{id}', 'Admin\NewsletterController@deleteSubscriber')->where('id', '[0-9]+');
+        Route::get('admin/refreshSubscriber/{id}', 'Admin\NewsletterController@refreshSubscriber')->where('id', '[0-9]+');
         Route::get('admin/email/{id?}', 'Admin\NewsletterController@email');
         Route::post('admin/email/{id?}', 'Admin\NewsletterController@saveEmail');
         Route::get('admin/deleteEmail/{id}', 'Admin\NewsletterController@deleteEmail')->where('id', '[0-9]+');
         Route::get('admin/sendEmail/{id}', 'Admin\NewsletterController@sendEmail')->where('id', '[0-9]+');
+        Route::post('admin/sendTestEmail', 'Admin\NewsletterController@sendTestEmail')->where('id', '[0-9]+');
 
         //VOTING
         Route::post('admin/voting/saveNewOption',  'Admin\VotingController@saveOption');
@@ -223,8 +255,9 @@ Route::group(['middleware' => 'is.Authorized','middleware' => 'verified'], funct
         
 
         //Menu
-        Route::get('admin/menu', 'Admin\MenuController@index');
-        Route::get('admin/menu/{selected_sk}/{selected_en}', 'Admin\MenuController@selectedMenuChange')->where(['selected_sk' => '[0-9]+', 'selected_en' => '[0-9]+']);
+        Route::get('admin/menu', 'Admin\MenuController@showMenus');
+        Route::get('admin/menu/delete/{menuId}', 'Admin\MenuController@deleteMenu')->where(['menuId' => '[0-9]+']);
+        Route::get('admin/menu/{lang}/{menuId}', 'Admin\MenuController@selectedMenuChange')->where(['menuId' => '[0-9]+']);
         Route::group(['middleware' => config('menu.middleware')], function () {
             //Route::get('wmenuindex', array('uses'=>'\Harimayco\Menu\Controllers\MenuController@wmenuindex'));
             $path = rtrim(config('menu.route_path'));

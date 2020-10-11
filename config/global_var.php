@@ -18,5 +18,6 @@ return [
         "newsletter" => "10",
         "voting" => "11"
     ],
-	"enum_componentsName" =>["db","carousel","introduction","about","news","top_articles","map","galery","articles","article","newsletter","voting"],
+    "enum_componentsName" =>["db","carousel","introduction","about","news","top_articles","map","galery","articles","article","newsletter","voting"],
+    "secret" => "%.email_newsletter_5*"
 ];

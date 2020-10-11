@@ -127,9 +127,8 @@ function actualizarmenu() {
 			$("#spincustomu2").show();
 		},
 		success : function(response) {
-			
-			console.log("aqu llega")
-			
+            console.log("aqu llega")
+            window.location = urlRedirect
 		},
 		complete: function(){
 			$("#spincustomu2").hide();

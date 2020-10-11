@@ -59,6 +59,12 @@
               $keyw_tag= "<meta ".explode("||", $meta_tag->value)[0]."='".explode("||", $meta_tag->value)[1]."' content='".explode("||", $meta_tag->value)[2]."' />";  
           }
         }
+        
+        $link_tags = DB::select("select value from general_options where type_id=8");
+        foreach($link_tags as $link_tag){
+            echo( "<link ".explode("||", $link_tag->value)[0]."='".explode("||", $link_tag->value)[1]."' href='".explode("||", $link_tag->value)[2]."' />");
+        }
+        
   ?>
 
   @if( strpos(Route::current()->getName(),'article_single') !== false)
@@ -69,6 +75,9 @@
     @if($components_content['article']['article'][0]->meta_tag_Keyword)
       <meta  name="Keywords" content="{{$components_content['article']['article'][0]->meta_tag_Keyword}}" />
     @endif
+    @foreach($components_content['article']['extra_tags'] as $tag)
+        <meta  name="{{$tag->name}}" content="{{$tag->value}}" />
+    @endforeach
   @else
     <title>{{$title}}</title>
     {!! $desc_tag !!}

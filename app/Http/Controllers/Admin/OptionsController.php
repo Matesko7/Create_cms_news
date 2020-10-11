@@ -31,15 +31,25 @@ class OptionsController extends Controller
     }
 
     public function save(Request $request,$id=null){
-        if($id==null){
+        
+        if($request->options_type == 7 and !is_numeric($request->option_value1)){
+            return back()->with('warning','Tento typ parametra môže obsahovať len číselne hodnoty');
+        }
 
+        if($id==null){
             $option = new General_option;
             if($request->options_type == 4){
                 $value= $request->meta_options_type."||". $request->option_value."||".$request->option_value_content;
             }
+            else if($request->options_type == 8){
+                $value= "rel||". $request->option_value."||".$request->option_value_content;
+            }
+            else if($request->options_type == 6){
+                $value= $request->email."||".$request->email_alias;
+            }
             else{
                 if(General_option::where('type_id',$request->options_type)->first())
-                    return back()->with('warning','Nastavenie pre tento typ môže byť len jedno');
+                    return back()->with('warning','Nastavenie pre tento typ parametra môže byť len jedno');
                 $value= $request->option_value1;
             }
 
@@ -51,6 +61,8 @@ class OptionsController extends Controller
         else{
             if($request->options_type == 4)
                 $value= $request->meta_options_type."||".$request->option_value."||".$request->option_value_content;
+            else if($request->options_type == 6)
+                $value= $request->email."||".$request->email_alias;
             else 
                 $value= $request->option_value1;
 

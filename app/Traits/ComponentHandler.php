@@ -28,15 +28,22 @@ trait ComponentHandler
             $tag_param=$this->makeSafe($tag);
         }
 
+        if(DB::select("SELECT value FROM general_options where type_id=7")){
+            $articlesPerPage= DB::select("SELECT value FROM general_options where type_id=7")[0]->value;
+        }
+        else{
+            $articlesPerPage=10;
+        }
+
         if($category_param && $tag_param){
-            $articles=$article->getAllwAuthorandGroup(3,date("Y-m-d H:i:s"),$category_param,$tag_param);
+            $articles=$article->getAllwAuthorandGroup($articlesPerPage,date("Y-m-d H:i:s"),$category_param,$tag_param);
         }
         else if($category_param)
-            $articles=$article->getAllwAuthorandGroup(3,date("Y-m-d H:i:s"),$category_param);
+            $articles=$article->getAllwAuthorandGroup($articlesPerPage,date("Y-m-d H:i:s"),$category_param);
         else if($tag_param)
-            $articles=$article->getAllwAuthorandGroup(3,date("Y-m-d H:i:s"),false,$tag_param);
+            $articles=$article->getAllwAuthorandGroup($articlesPerPage,date("Y-m-d H:i:s"),false,$tag_param);
         else{
-            $articles=$article->getAllwAuthorandGroup(3,date("Y-m-d H:i:s"));
+            $articles=$article->getAllwAuthorandGroup($articlesPerPage,date("Y-m-d H:i:s"));
         }
 
         if(!count($articles)){
@@ -138,6 +145,7 @@ trait ComponentHandler
         $tags_all= $article_tmp->getAllTags();
        
         $attachments= DB::select("SELECT * FROM article_attachment where article_id=$id");
+        $extra_tags= DB::select("SELECT * FROM article_tags where article_id=$id");
         $related_articles= DB::select("SELECT * FROM aritcle_related A LEFT JOIN articles B on A.related_article_id=B.id where A.article_id=$id");
         $gallery= DB::select("SELECT * FROM article_image A LEFT JOIN  images B on A.image_id=B.id where A.article_id=$id");
 
@@ -153,7 +161,7 @@ trait ComponentHandler
         if(Auth::check() && Auth::user()->hasRole('admin'))
                 $editor= true;
 
-        return array('article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all,'comments' => $comments,'attachments' => $attachments,'gallery' => $gallery,'related_articles' => $related_articles, 'editor' => $editor);
+        return array('article' => $article,'tags' =>$tags,'tags_all' => $tags_all, 'categories_all' => $categories_all,'comments' => $comments,'attachments' => $attachments,'gallery' => $gallery,'related_articles' => $related_articles, 'editor' => $editor , 'extra_tags' => $extra_tags);
     }
 
     private function makeSafe($file) {
