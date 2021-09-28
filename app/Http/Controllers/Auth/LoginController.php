@@ -65,7 +65,7 @@ class LoginController extends Controller
         $this->incrementLoginAttempts($request);
 
         // Customization: If client status is inactive (0) return failed_status error.
-        if ($client->blocked === 1) {
+        if ($client && $client->blocked === 1) {
             return $this->sendFailedLoginResponse($request, 'auth.blocked');
         }
         

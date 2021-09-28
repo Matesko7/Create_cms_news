@@ -9,6 +9,7 @@ use App\Page;
 use App\Page_component;
 use Illuminate\Support\Facades\DB;
 use App\Component_detail;
+use App\General_option;
 
 class PagesController extends Controller
 {
@@ -19,15 +20,15 @@ class PagesController extends Controller
         $components_articles = Component_detail::where('id_component',8)->get();
         $components_carousel = Component_detail::where('id_component',1)->get();
         $components_voting = Component_detail::where('id_component',11)->get();
+        $pageStyle = General_option::where('type_id',9)->get();
         
         if(! Page::find($id)){
             return redirect('/admin/pages');
         }
-        
         $page_name= Page::where('id', $id)->get()[0]->name;
         $page_components= DB::table('page_components')->where('page_id', $id)->join('components', 'page_components.component_id','components.id')->Leftjoin('component_details', 'page_components.component_detail_id','component_details.id')->select('page_components.id','components.name','component_details.name AS name2' )->orderBy('page_components.component_order')->get();
 
-        return view('Admin/Pages/edit')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery,"components_map"=>$components_map, "components_carousel"=>$components_carousel, "components_voting"=>$components_voting,"page_name" => $page_name,"page_components" => $page_components,"components_articles" => $components_articles,"id" => $id]);
+        return view('Admin/Pages/edit')->with(["components" => Component::all(),"components_about"=>$components_about,"components_gallery"=>$components_gallery,"components_map"=>$components_map, "components_carousel"=>$components_carousel, "components_voting"=>$components_voting,"page_name" => $page_name,"page_components" => $page_components,"components_articles" => $components_articles,"pageStyle" => $pageStyle[0]->value ,"id" => $id]);
     }
 
     public function index(){

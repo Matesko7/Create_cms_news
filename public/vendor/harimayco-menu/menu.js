@@ -13,7 +13,7 @@ function getmenus() {
 				dept = i;
 			}
 		};
-		var role = $(this).find(".edit-menu-item-role").val();
+		//var role = $(this).find(".edit-menu-item-role").val();
 		var textoiner = $(this).find(".item-edit").text();
 		var id = this.id.split("-");
 		var textoexplotado = textoiner.split("|"); 
@@ -26,7 +26,7 @@ function getmenus() {
 			id : id[2],
 			parent : padre,
 			sort : cont,
-			role_id : role
+			role_id : 1
 		})
 		cont++;
 	});
@@ -63,15 +63,15 @@ function updateitem(id = 0) {
 		var label = $("#idlabelmenu_" + id).val()
 		var clases = $("#clases_menu_" + id).val()
 		var url = $("#url_menu_" + id).val()
-		if($("#role_menu_" + id).length >0 ) {
-			 role_id = $("#role_menu_" + id).val()
-		}
+		// if($("#role_menu_" + id).length >0 ) {
+		// 	 role_id = $("#role_menu_" + id).val()
+		// }
 		
 		var data = {
 			label : label,
 			clases : clases,
 			url : url,
-			role_id : role_id,
+			role_id : 1,
 			id : id
 		}
 	}else{
@@ -81,13 +81,13 @@ function updateitem(id = 0) {
 			var label = $(this).find(".edit-menu-item-title").val();
 			var clases = $(this).find(".edit-menu-item-classes").val();
 			var url = $(this).find(".edit-menu-item-url").val();
-			var role_id = $(this).find(".edit-menu-item-role").val();
+			// var role_id = $(this).find(".edit-menu-item-role").val();
 			arr_data.push({
 				id : id,
 				label : label,
 				class : clases,
 				link : url,
-				role : role_id
+				role : 1
 			});
 		});
 

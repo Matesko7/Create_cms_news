@@ -27,6 +27,8 @@
                             <td> &#60; link {{ explode("||", $option->value)[0]}}="{{ explode("||", $option->value)[1]}}" href="{{ explode("||", $option->value)[2]}}" /&#62; </td>
                         @elseif($option->type_id == 6)    
                             <td>email: {{ explode("||", $option->value)[0]}}, alias: {{ explode("||", $option->value)[1]}}</td>
+                        @elseif($option->type_id == 9)    
+                            <td>{{$option->value == 1 ? 'Header - Center - Footer' : ($option->value == 2 ? 'Header - Center(L-M-R) - Footer' : 'Header - Center(L-R) - Footer') }}</td>
                         @else
                             <td>{{$option->value}}</td>
                         @endif

@@ -38,14 +38,20 @@ class OptionsController extends Controller
 
         if($id==null){
             $option = new General_option;
+
             if($request->options_type == 4){
-                $value= $request->meta_options_type."||". $request->option_value."||".$request->option_value_content;
+                $value= $request->meta_options_type."||". $request->option_value_meta."||".$request->option_value_content_meta;
             }
             else if($request->options_type == 8){
                 $value= "rel||". $request->option_value."||".$request->option_value_content;
             }
             else if($request->options_type == 6){
                 $value= $request->email."||".$request->email_alias;
+            }
+            else if($request->options_type == 9){
+                if(General_option::where('type_id',$request->options_type)->first())
+                    return back()->with('warning','Nastavenie pre tento typ parametra môže byť len jedno');
+                $value= $request->page_style_type;
             }
             else{
                 if(General_option::where('type_id',$request->options_type)->first())
@@ -60,11 +66,23 @@ class OptionsController extends Controller
         }
         else{
             if($request->options_type == 4)
-                $value= $request->meta_options_type."||".$request->option_value."||".$request->option_value_content;
-            else if($request->options_type == 6)
+                $value= $request->meta_options_type."||".$request->option_value_meta."||".$request->option_value_content_meta;
+            else if($request->options_type == 8){
+                $value= "rel||". $request->option_value."||".$request->option_value_content;
+            }
+            else if($request->options_type == 6){
                 $value= $request->email."||".$request->email_alias;
-            else 
+            }
+            else if($request->options_type == 9){
+                if(General_option::where('type_id',$request->options_type)->where('id', '!=', $id)->first()) 
+                    return back()->with('warning','Nastavenie pre tento typ parametra môže byť len jedno');
+                $value= $request->page_style_type;
+            }
+            else{
+                if(General_option::where('type_id',$request->options_type)->first())
+                    return back()->with('warning','Nastavenie pre tento typ parametra môže byť len jedno');
                 $value= $request->option_value1;
+            } 
 
             General_option::where('id',$id)->update(['type_id' => $request->options_type, 'value' => $value]);  
             return back()->with('success','Nastavenie aktualizované');

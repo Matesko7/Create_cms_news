@@ -6,3 +6,5 @@ CREATE TABLE article_tags ( id int NOT NULL AUTO_INCREMENT, article_id int, name
 ALTER TABLE `article_tags` CHANGE `article_id` `article_id` INT(10) NULL DEFAULT NULL;
 ALTER TABLE `article_tags` CHANGE `article_id` `article_id` INT(10) UNSIGNED NULL DEFAULT NULL;
 ALTER TABLE `article_tags` ADD CONSTRAINT `article_id_foreign_key` FOREIGN KEY (`article_id`) REFERENCES `articles`(`id`) ON DELETE CASCADE ON UPDATE RESTRICT;
+
+INSERT INTO `general_options_types` (`id`, `name`) VALUES (9, 'Šablóna stránky');

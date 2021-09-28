@@ -42,7 +42,7 @@
 
 <!----------------------------------VKLADANIE A EDITACIA KOMPONENTOV ------------------------->
 <h4 class="text-center">Názov editovanej stránky: <b>{{$page_name}}</b></h4>
-<div class="row" style="max-width:100%">
+<div class="row" style="max-width:100%; text-align: center;">
     <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
         <div class="input-group mb-3">
             <div class="input-group-prepend">
@@ -63,14 +63,80 @@
             <button type="button" id="insert_component_detail" class="btn btn-secondary">Vložiť</button>
         </div>
     </div>
+</div>
 
-    <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
-        <ul id="sortable" style="border: 1px solid;">
+
+<div style="border: 3px solid; border-radius: 5px; margin: 10px; border-color:lightskyblue">
+    <div class="row" style="max-width:100%; margin: 0px;min-height: 100px">
+        <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+            HEADER L
+        </div>
+        <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+            HEADER M
+        </div>
+        <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+            HEADER R
+        </div>
+    </div>
+    <hr style="color: lightskyblue ; border-color: lightskyblue; background-color: lightskyblue; font-size: 1px; margin: 0px" />
+    <div style="text-align: center;min-height: 100px">
+        <ul id="sortableHeader" style="border: 1px solid;margin: auto">
             @foreach($page_components as $component)
                 <li id="component_{{$component->id}}" class="ui-state-default" ><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{$component->name}} @if($component->name2)<br /><small style="color:#0e0d3d;font-size: 60%;">{{$component->name2}} </small>@endif<button type="button" class="btn btn-danger  btn-sm float-right" id="delete_{{$component->id}}">Vymazať</button></li>
             @endforeach
         </ul>
     </div>
+    <hr style="color: lightskyblue ; border-color: lightskyblue; background-color: lightskyblue;height: 3px; margin: 0px" />
+    @if($pageStyle == 1)
+        <div style="min-height: 300px;text-align: center; "> 
+            <ul id="sortable" style="border: 1px solid;margin: auto">
+                @foreach($page_components as $component)
+                    <li id="component_{{$component->id}}" class="ui-state-default" ><span class="ui-icon ui-icon-arrowthick-2-n-s"></span>{{$component->name}} @if($component->name2)<br /><small style="color:#0e0d3d;font-size: 60%;">{{$component->name2}} </small>@endif<button type="button" class="btn btn-danger  btn-sm float-right" id="delete_{{$component->id}}">Vymazať</button></li>
+                @endforeach
+            </ul>
+        </div>
+    @elseif($pageStyle == 2)
+        <div class="row" style="max-width:100%; margin: 0px;min-height: 400px">
+            <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+                CENTER L
+            </div>
+            <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+                CENTER M
+            </div>
+            <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+                CENTER R
+            </div>
+        </div>
+    @else
+        <div class="row" style="max-width:100%; margin: 0px;min-height: 400px">
+            <div class="col-6" style="text-align: center; border: 1px solid lightskyblue;">
+                CENTER L
+            </div>
+            <div class="col-6" style="text-align: center; border: 1px solid lightskyblue;">
+                CENTER M
+            </div>
+        </div>
+    @endif
+    <hr style="color: lightskyblue ; border-color: lightskyblue; background-color: lightskyblue; font-size: 1px; margin: 0px; height: 3px" />
+    <div class="row" style="max-width:100%; margin: 0px;min-height: 100px">
+        <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+            FOOTER L
+        </div>
+        <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+            FOOTER M
+        </div>
+        <div class="col-4" style="text-align: center; border: 1px solid lightskyblue;">
+            FOOTER R
+        </div>
+    </div>
+    <hr style="color: lightskyblue ; border-color: lightskyblue; background-color: lightskyblue; font-size: 1px; margin: 0px" />
+    <div style="text-align: center;min-height: 100px">
+            FOOTER
+    </div>
+    <!-- <div class="col-12 col-sm-12 col-md-12 col-lg-12 ">
+        Šablóna stránky:
+        
+    </div> -->
 </div>
 
 
@@ -170,6 +236,13 @@
     
     //ZMENA PORADIA KOMPONENTOV
     $( "#sortable" ).sortable({
+        stop: function( ) {	
+            var order = $("#sortable").sortable("serialize", {key:'id'});
+            ajax_componentOrderChange(order)
+        }
+    });
+    //ZMENA PORADIA KOMPONENTOV
+    $( "#sortableHeader" ).sortable({
         stop: function( ) {	
             var order = $("#sortable").sortable("serialize", {key:'id'});
             ajax_componentOrderChange(order)

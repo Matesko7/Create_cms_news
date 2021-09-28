@@ -12,8 +12,9 @@
                             @foreach($options as $key=>$value)
                             @if(isset($option) && $value->id == $option->type_id)
                                 <option name="option_type" value="{{$value->id}}" selected>{{$value->name}}</option>
-                            @endif
+                            @else
                                 <option name="option_type" value="{{$value->id}}">{{$value->name}}</option>
+                            @endif
                             @endforeach
                         </select>
                     </div>
@@ -66,12 +67,12 @@
                                 </select>
                             </div>
                             <div style="display:inline-block" class="ui-select">    
-                                <input class="form-control" id="option_value" name="option_value" type="text" value="{{explode('||', $option->value)[1]}}">
+                                <input class="form-control" id="option_value_meta" name="option_value_meta" type="text" value="{{explode('||', $option->value)[1]}}">
                             </div>
                         </div>
                         <div class="col-md-4"><label>Content</label>
                             <div style="display:inline-block" class="ui-select">
-                                <input class="form-control" id="option_value_content" name="option_value_content" type="text" value="{{explode('||', $option->value)[2]}}">
+                                <input class="form-control" id="option_value_content_meta" name="option_value_content_meta" type="text" value="{{explode('||', $option->value)[2]}}">
                             </div>
                         </div>
                         @else
@@ -83,12 +84,12 @@
                                 </select>
                             </div>
                             <div style="display:inline-block" class="ui-select">
-                                <input class="form-control" id="option_value" name="option_value" type="text" value="">
+                                <input class="form-control" id="option_value_meta" name="option_value_meta" type="text" value="">
                             </div>
                         </div>
                         <div class="col-md-4"><label>Content</label>
                             <div style="display:inline-block" class="ui-select">
-                                <input class="form-control" id="option_value_content" name="option_value_content" type="text" value="">
+                                <input class="form-control" id="option_value_content_meta" name="option_value_content_meta" type="text" value="">
                             </div>
                         </div>
                         @endif
@@ -98,7 +99,7 @@
                 <div class="form-group" id="link_tags" style="display:none">
                     <label class="col-lg-3 control-label">Hodnota parametra:</label>
                     <div class="col-lg-12" style="display:flex">
-                        @if(isset($option) && $option->type_id==4)
+                        @if(isset($option) && $option->type_id==8)
                         <div class="col-md-4"><label>rel</label>
                             <div style="display:inline-block" class="ui-select">
                                 <input class="form-control" id="option_value" name="option_value" type="text" value="{{explode('||', $option->value)[1]}}">
@@ -121,6 +122,17 @@
                             </div>
                         </div>
                         @endif
+                    </div>
+                </div> 
+
+                <div class="form-group" id="page_style" style="display:none">
+                    <label class="col-lg-3 control-label">Typ šablóny:</label>
+                    <div style="display:inline-block" class="ui-select">
+                        <select id="page_style_type" name="page_style_type" class="form-control">
+                                <option  value="1" {{(isset($option) && $option->type_id == 9 && $option->value == 1) ? 'selected' : ''}} >Header - Center - Footer</option>
+                                <option  value="2" {{(isset($option) && $option->type_id == 9 && $option->value == 2) ? 'selected' : ''}} >Header - Center(L-M-R) - Footer</option>
+                                <option  value="3" {{(isset($option) && $option->type_id == 9 && $option->value == 3) ? 'selected' : ''}} >Header - Center(L-R) - Footer</option>
+                        </select>
                     </div>
                 </div> 
 
@@ -139,6 +151,8 @@ if( option_id == 4){
     $('#email_newsletter').show();
 }else if( option_id == 8){
     $('#link_tags').show();
+}else if( option_id == 9){
+    $('#page_style').show();
 }else{
     $('#bacis_param').show();
 }
@@ -148,6 +162,7 @@ function option_type_change(){
     $('#meta_tags').hide();
     $('#bacis_param').hide();
     $('#email_newsletter').hide();
+    $('#page_style').hide();
 
     var type_id = $('#options_type').val();
     if(type_id == 4){
@@ -158,7 +173,11 @@ function option_type_change(){
     }
     else if(type_id == 8){
         $('#link_tags').show();
-    }else{
+    }
+    else if(type_id == 9){
+        $('#page_style').show();
+    }
+    else{
         $('#bacis_param').show();
     }
     
